@@ -1,0 +1,9 @@
+@use '@abraxas/voting-lib/style/color';
+
+.color-error {
+  color: color.$color-error;
+}
+
+.color-warning {
+  color: color.$color-warning;
+}

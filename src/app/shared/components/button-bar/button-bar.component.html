@@ -1,0 +1,29 @@
+<div class="buttons" [class.sticky]="sticky">
+  <bc-button *ngIf="hasCancelButton" (buttonClick)="cancel.emit()" [label]="'APP.CANCEL' | translate"></bc-button>
+
+  <ng-container *ngIf="!deleting && !saving; else spinner">
+    <bc-button
+      *ngIf="hasDeleteButton && !deleting"
+      color="warn"
+      [disabled]="saving"
+      (buttonClick)="deleteClick()"
+      [label]="deleteLabel | translate"
+    ></bc-button>
+
+    <bc-button
+      *ngIf="hasSaveButton"
+      [disabled]="!canSave"
+      [color]="saveColor"
+      [variant]="saveVariant"
+      (buttonClick)="save.emit()"
+      [label]="saveLabel | translate"
+    ></bc-button>
+  </ng-container>
+
+  <ng-template #spinner>
+    <div class="spinner-container">
+      <span *ngIf="savingLabel">{{ savingLabel | translate }}</span>
+      <bc-spinner></bc-spinner>
+    </div>
+  </ng-template>
+</div>

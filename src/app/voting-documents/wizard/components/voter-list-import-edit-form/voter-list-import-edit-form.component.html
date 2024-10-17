@@ -1,0 +1,10 @@
+<ng-container *ngIf="step === 1; else voterListsUpdateStep">
+  <ng-content></ng-content>
+</ng-container>
+<ng-template #voterListsUpdateStep>
+  <app-voter-lists-update-step
+    [voterLists]="voterListImport.voterLists"
+    [voterListSource]="voterListImport.source"
+    [autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit]="voterListImport.autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit"
+  ></app-voter-lists-update-step>
+</ng-template>

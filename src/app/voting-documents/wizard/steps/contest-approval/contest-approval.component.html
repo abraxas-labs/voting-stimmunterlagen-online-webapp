@@ -1,0 +1,47 @@
+<h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_CONTEST_APPROVAL.TITLE</h1>
+<ng-container *ngIf="stepInfo && stepInfo.contest">
+  <div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
+    <bc-date
+      [label]="'CONTEST.PRINTING_CENTER_SIGNUP_DEADLINE' | translate"
+      [disabled]="!canEdit"
+      [value]="printingCenterSignUpDeadlineDate"
+      (valueChange)="updatePrintingCenterSignUpDeadline($event)"
+      [required]="true"
+      [hint]="showPrintingCenterSignUpDeadlineHint ? ('CONTEST.DEADLINE_CLOSE_TO_CONTEST_DATE_HINT' | translate) : ''"
+      [error]="!validPrintingCenterSignUpDeadline"
+      [subscriptSizing]="'dynamic'"
+    ></bc-date>
+    <bc-date
+      [label]="'CONTEST.ATTACHMENT_DELIVERY_DEADLINE' | translate"
+      [disabled]="!canEdit"
+      [value]="attachmentDeliveryDeadlineDate"
+      (valueChange)="updateAttachmentDeliveryDeadline($event)"
+      [required]="true"
+      [hint]="showAttachmentDeliveryDeadlineHint ? ('CONTEST.DEADLINE_CLOSE_TO_CONTEST_DATE_HINT' | translate) : ''"
+      [error]="!validAttachmentDeliveryDeadline"
+      [subscriptSizing]="'dynamic'"
+    ></bc-date>
+    <bc-date
+      [label]="'CONTEST.GENERATE_VOTING_CARDS_DEADLINE' | translate"
+      [disabled]="!canEdit"
+      [value]="generateVotingCardsDeadlineDate"
+      (valueChange)="updateGenerateVotingCardsDeadline($event)"
+      [required]="true"
+      [hint]="showGenerateVotingCardsDeadlineHint ? ('CONTEST.DEADLINE_CLOSE_TO_CONTEST_DATE_HINT' | translate) : ''"
+      [error]="!validGenerateVotingCardsDeadline"
+      [subscriptSizing]="'dynamic'"
+    ></bc-date>
+  </div>
+  <app-wizard-sidebar
+    class="layout-right"
+    [stepInfo]="stepInfo"
+    [checks]="['STEP_CONTEST_APPROVAL.CHECK']"
+    [approveStateLoading]="approveLoading"
+    [canApprove]="validAttachmentDeliveryDeadline && validPrintingCenterSignUpDeadline && validGenerateVotingCardsDeadline"
+    [canRevert]="false"
+    (approve)="approve()"
+    (revert)="revert()"
+    [hint]="'STEP_CONTEST_APPROVAL.HINT' + (stepInfo.contest.isSingleAttendeeContest ? '_SINGLE_ATTENDEE' : '')"
+  >
+  </app-wizard-sidebar>
+</ng-container>

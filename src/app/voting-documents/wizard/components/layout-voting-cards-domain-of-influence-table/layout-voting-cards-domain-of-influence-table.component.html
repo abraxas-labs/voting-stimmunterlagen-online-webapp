@@ -1,0 +1,33 @@
+<bc-table selection class="w-full" [dataSource]="layoutGroups">
+  <ng-container [columnDef]="colNameDoi">
+    <bc-header-cell *headerCellDef>{{ 'STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TABLE.DOI_TITLE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.name }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container *ngFor="let vcType of votingCardTypes">
+    <ng-container [columnDef]="vcType + colNameVotingCardTemplateSuffix">
+      <bc-header-cell *headerCellDef>{{
+        'STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TABLE.VC_TEMPLATE' | translate: { vcType: 'VOTING_CARD_TYPES.' + vcType | translate }
+      }}</bc-header-cell>
+      <bc-data-cell *dataCellDef="let element">{{ element.layouts[vcType]?.effectiveTemplate?.name }}</bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="vcType + colNameVotingCardAllowCustomSuffix">
+      <bc-header-cell *headerCellDef>{{ 'STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TABLE.ALLOW_CUSTOM' | translate }}</bc-header-cell>
+      <bc-data-cell *dataCellDef="let element"
+        ><bc-checkbox [disabled]="true" [ngModel]="element.layouts[vcType]?.allowCustom || false"></bc-checkbox
+      ></bc-data-cell>
+    </ng-container>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row
+    *dataRowDef="let row; columns: columns; let i = index"
+    selectionToggle
+    [selectionToggleValue]="row"
+    selectionRow
+    [selectionRowValue]="row"
+    [selectionDisabled]="isSelectionDisabled"
+    (click)="edit(row)"
+  ></bc-data-row>
+</bc-table>

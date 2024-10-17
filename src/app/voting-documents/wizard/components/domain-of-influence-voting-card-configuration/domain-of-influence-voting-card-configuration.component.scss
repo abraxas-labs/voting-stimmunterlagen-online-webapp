@@ -1,0 +1,16 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.group-sort-container {
+  display: flex;
+  align-items: center;
+
+  .trash:hover {
+    cursor: pointer;
+    color: $color-error;
+  }
+}

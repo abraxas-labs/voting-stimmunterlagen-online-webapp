@@ -1,0 +1,25 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host {
+  display: block;
+}
+
+// styles copy pasted from mat-table
+.grid-item-entry {
+  @extend .p-1;
+
+  display: flex;
+  align-items: center;
+  padding: 1rem 0.4rem;
+  height: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+
+  &.default {
+    border-bottom: 1px solid rgb(0 0 0 / 12%);
+  }
+
+  &.bold {
+    border-bottom: 2px solid rgb(0 0 0 / 36%);
+  }
+}

@@ -1,0 +1,31 @@
+<form>
+  <div *ngFor="let voterList of voterLists" class="mb-4">
+    <h2 class="mb-3">{{ 'VOTING_CARD_TYPES.' + voterList.votingCardType | translate }}</h2>
+
+    <form>
+      <app-voter-duplicate-table [voterDuplicates]="voterList.voterDuplicates"></app-voter-duplicate-table>
+
+      <p>{{ 'VOTER_LIST.NUMBER_OF_VOTERS' | translate }}: {{ voterList.numberOfVoters }}</p>
+      <p class="mb-3" *ngIf="voterList.votingCardType !== votingCardTypes.VOTING_CARD_TYPE_E_VOTING">
+        {{ 'VOTER_LIST.COUNT_OF_SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS' | translate }}:
+        {{ voterList.countOfSendVotingCardsToDomainOfInfluenceReturnAddress }}
+      </p>
+
+      <bc-checkbox
+        *ngIf="
+          !autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit &&
+          voterList.votingCardType !== votingCardTypes.VOTING_CARD_TYPE_E_VOTING
+        "
+        class="mb-3"
+        [label]="'VOTER_LIST.SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS' | translate"
+        [checked]="voterList.sendVotingCardsToDomainOfInfluenceReturnAddress"
+        (checkedChange)="updateSendVotingCardsToDomainOfInfluenceReturnAddress(voterList, $event)"
+        [hint]="
+          voterList.sendVotingCardsToDomainOfInfluenceReturnAddress
+            ? ('VOTER_LIST.SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS_HINT' | translate)
+            : ''
+        "
+      ></bc-checkbox>
+    </form>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+<div class="container">
+  <div>
+    <span>{{ 'PRINT_JOB.GENERATE_VOTING_CARDS_TRIGGERED' | translate }}</span>
+    <p>{{ printJob.generateVotingCardsTriggered | date: 'dd.MM.yyyy' }}</p>
+  </div>
+  <div>
+    <span>{{ 'PRINT_JOB.PROCESS_STARTED_ON' | translate }}</span>
+    <p>{{ printJob.processStartedOn | date: 'dd.MM.yyyy' }}</p>
+  </div>
+  <div>
+    <span>{{ 'PRINT_JOB.PROCESS_ENDED_ON' | translate }}</span>
+    <p>{{ printJob.processEndedOn | date: 'dd.MM.yyyy' }}</p>
+  </div>
+  <div>
+    <span>{{ 'PRINT_JOB.DONE_ON' | translate }}</span>
+    <p>{{ printJob.doneOn | date: 'dd.MM.yyyy' }}</p>
+  </div>
+  <div class="spacer"></div>
+  <div>
+    <app-print-job-state [state]="printJob.state"></app-print-job-state>
+  </div>
+</div>

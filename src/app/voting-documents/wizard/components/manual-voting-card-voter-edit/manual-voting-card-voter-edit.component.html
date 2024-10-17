@@ -1,0 +1,170 @@
+<form>
+  <!-- validations according to eCH 0045 and eCH 0010 -->
+  <div class="form-group">
+    <bc-masked
+      [label]="'VOTER.PERSON_ID' | translate"
+      name="personId"
+      [maskOptions]="personIdMaskOptions"
+      [(ngModel)]="voterValue.personId"
+    ></bc-masked>
+
+    <bc-dropdown
+      [label]="'VOTER.SALUTATION' | translate"
+      [(value)]="voterValue.salutation"
+      [items]="salutations"
+      [clearable]="true"
+      valueExpr="value"
+      displayExpr="description"
+      [subscriptSizing]="'dynamic'"
+    ></bc-dropdown>
+    <bc-text
+      class="w-7"
+      [label]="'VOTER.TITLE' | translate"
+      [maxlength]="50"
+      name="title"
+      [(ngModel)]="voterValue.title"
+      [subscriptSizing]="'dynamic'"
+    ></bc-text>
+    <bc-text
+      [label]="'VOTER.FIRST_NAME' | translate"
+      [maxlength]="30"
+      [required]="true"
+      name="firstName"
+      [(ngModel)]="voterValue.firstName"
+      [subscriptSizing]="'dynamic'"
+    ></bc-text>
+    <bc-text
+      [label]="'VOTER.LAST_NAME' | translate"
+      [maxlength]="30"
+      [required]="true"
+      name="lastName"
+      [(ngModel)]="voterValue.lastName"
+      [subscriptSizing]="'dynamic'"
+    ></bc-text>
+  </div>
+
+  <bc-date
+    [label]="'VOTER.DATE_OF_BIRTH' | translate"
+    [value]="dateOfBirth"
+    (valueChange)="updateDateOfBirth($event)"
+    [subscriptSizing]="'dynamic'"
+  ></bc-date>
+
+  <bc-text
+    [label]="'VOTER.ADDRESS_LINE_1' | translate"
+    [maxlength]="150"
+    name="addressLine1"
+    [(ngModel)]="voterValue.addressLine1"
+    [subscriptSizing]="'dynamic'"
+  ></bc-text>
+  <bc-text
+    [label]="'VOTER.ADDRESS_LINE_2' | translate"
+    [maxlength]="150"
+    name="addressLine2"
+    [(ngModel)]="voterValue.addressLine2"
+    [subscriptSizing]="'dynamic'"
+  ></bc-text>
+  <div class="form-group">
+    <bc-text
+      [label]="'VOTER.STREET' | translate"
+      [maxlength]="150"
+      [required]="true"
+      name="street"
+      [(ngModel)]="voterValue.street"
+      [subscriptSizing]="'dynamic'"
+    ></bc-text>
+    <bc-text
+      class="w-5"
+      [label]="'VOTER.HOUSE_NUMBER' | translate"
+      [maxlength]="30"
+      name="houseNumber"
+      [(ngModel)]="voterValue.houseNumber"
+      [subscriptSizing]="'dynamic'"
+    ></bc-text>
+    <bc-text
+      class="w-5"
+      [label]="'VOTER.DWELLING_NUMBER' | translate"
+      [maxlength]="30"
+      name="dwellingNumber"
+      [(ngModel)]="voterValue.dwellingNumber"
+      [subscriptSizing]="'dynamic'"
+    ></bc-text>
+  </div>
+  <bc-checkbox class="mb-2" [label]="'COUNTRY.CH' | translate" [checked]="swiss" (checkedChange)="updateSwiss($event)"></bc-checkbox>
+  <ng-container *ngIf="swiss; else foreigner">
+    <div class="form-group">
+      <bc-number
+        class="w-7"
+        [label]="'VOTER.ZIP_CH' | translate"
+        [min]="1000"
+        [max]="9999"
+        [required]="true"
+        name="zipCH"
+        [(ngModel)]="voterValue.swissZipCode"
+        [subscriptSizing]="'dynamic'"
+      ></bc-number>
+      <bc-text
+        [label]="'VOTER.TOWN' | translate"
+        [maxlength]="40"
+        [required]="true"
+        name="townCH"
+        [(ngModel)]="voterValue.town"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
+    </div>
+  </ng-container>
+  <ng-template #foreigner>
+    <div class="form-group">
+      <bc-text
+        class="w-7"
+        [label]="'VOTER.ZIP_FOREIGNER' | translate"
+        [required]="true"
+        name="zipForeigner"
+        [(ngModel)]="voterValue.foreignZipCode"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
+      <bc-text
+        [label]="'VOTER.TOWN' | translate"
+        [maxlength]="40"
+        [required]="true"
+        name="townForeigner"
+        [(ngModel)]="voterValue.town"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
+    </div>
+    <div class="form-group">
+      <bc-text
+        [label]="'COUNTRY.ISO2' | translate"
+        [minlength]="2"
+        [maxlength]="2"
+        [required]="true"
+        name="countryIso2"
+        [(ngModel)]="voterValue.country.iso2"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
+      <bc-text
+        [label]="'COUNTRY.NAME' | translate"
+        [maxlength]="50"
+        [required]="true"
+        name="countryName"
+        [(ngModel)]="voterValue.country.name"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
+    </div>
+  </ng-template>
+
+  <bc-dropdown
+    [required]="true"
+    [label]="'VOTER.LANGUAGE_OF_CORRESPONDENCE' | translate"
+    [(value)]="voterValue.languageOfCorrespondence"
+    valueExpr="name"
+    displayExpr="description"
+    [items]="[
+      { name: 'de', description: 'LANGUAGES.de' | translate },
+      { name: 'fr', description: 'LANGUAGES.fr' | translate },
+      { name: 'it', description: 'LANGUAGES.it' | translate },
+      { name: 'rm', description: 'LANGUAGES.rm' | translate }
+    ]"
+    [subscriptSizing]="'dynamic'"
+  ></bc-dropdown>
+</form>

@@ -1,0 +1,23 @@
+@use 'src/app/styles/layout';
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host {
+  @extend .layout;
+}
+
+.political-business-group {
+  &:not(:first-child) {
+    @extend .mt-4;
+  }
+
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+
+    .table-title-all-approved {
+      font-size: 0.7rem;
+      color: $color-grey-4;
+    }
+  }
+}

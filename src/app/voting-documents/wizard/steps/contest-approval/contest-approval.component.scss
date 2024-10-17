@@ -1,0 +1,11 @@
+@use 'src/app/styles/layout';
+
+:host {
+  @extend .layout;
+}
+
+bc-date {
+  max-width: 22rem;
+  display: block;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,7 @@
+<div class="m-4">
+  <h3 translate>ROLE.SELECT.TITLE</h3>
+
+  <div content class="m-2" *ngIf="roleItems.length">
+    <bc-dropdown class="full-width" [items]="roleItems" displayExpr="label" valueExpr="value" (valueChange)="done($event)"></bc-dropdown>
+  </div>
+</div>

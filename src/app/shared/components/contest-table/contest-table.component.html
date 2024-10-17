@@ -1,0 +1,43 @@
+<bc-table selection [dataSource]="contests" class="w-full">
+  <ng-container columnDef="date">
+    <bc-header-cell *headerCellDef>{{ 'CONTEST.DATE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.date | date: 'dd.MM.yyyy' }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="authorityColumn">
+    <bc-header-cell *headerCellDef>{{ 'CONTEST.AUTHORITY_NAME' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.authorityName }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="domainOfInfluenceColumn">
+    <bc-header-cell *headerCellDef>{{ 'CONTEST.DOMAIN_OF_INFLUENCE_NAME' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.name }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="printingCenterSignupDeadline">
+    <bc-header-cell *headerCellDef>{{ 'CONTEST.PRINTING_CENTER_SIGNUP_DEADLINE_SHORT' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.printingCenterSignUpDeadlineDate | date: 'dd.MM.yyyy' }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="generateVotingCardsDeadline">
+    <bc-header-cell *headerCellDef>{{ 'CONTEST.GENERATE_VOTING_CARDS_DEADLINE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.generateVotingCardsDeadlineDate | date: 'dd.MM.yyyy' }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="attachmentDeliveryDeadline">
+    <bc-header-cell *headerCellDef>{{ 'CONTEST.ATTACHMENT_DELIVERY_DEADLINE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.attachmentDeliveryDeadlineDate | date: 'dd.MM.yyyy' }}</bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row
+    *dataRowDef="let row; columns: columns; let i = index"
+    selectionToggle
+    [selectionToggleValue]="row"
+    selectionRow
+    [selectionRowValue]="row"
+    (click)="openDetail.emit(row)"
+  ></bc-data-row>
+</bc-table>
+
+<p class="italic ml-2" *ngIf="contests.length === 0" translate>APP.NO_DATA</p>

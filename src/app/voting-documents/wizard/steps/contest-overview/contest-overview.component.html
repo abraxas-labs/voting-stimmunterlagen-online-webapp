@@ -1,0 +1,12 @@
+<h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_CONTEST_OVERVIEW.TITLE</h1>
+<div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
+  <ng-container *ngIf="stepInfo && !loading; else spinner">
+    <app-contest-overview-tabs [contest]="stepInfo.contest"></app-contest-overview-tabs>
+  </ng-container>
+</div>
+
+<app-wizard-sidebar class="layout-right" [stepInfo]="stepInfo" [showApprove]="false"> </app-wizard-sidebar>
+
+<ng-template #spinner>
+  <bc-spinner size="large"></bc-spinner>
+</ng-template>

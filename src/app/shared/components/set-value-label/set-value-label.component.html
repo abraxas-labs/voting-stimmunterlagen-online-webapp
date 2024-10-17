@@ -1,0 +1,3 @@
+<span class="link" [class.color-error]="value === undefined" (click)="setValue.emit()">
+  {{ value === undefined ? ('APP.SET' | translate | uppercase) : label !== undefined ? label : value }}
+</span>

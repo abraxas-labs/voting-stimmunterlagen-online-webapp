@@ -1,0 +1,642 @@
+{
+  "APP": {
+    "APPLICATION_TITLE": {
+      "default": "VOTING Stimmunterlagen",
+      "sg": "Stimmunterlagen"
+    },
+    "LOGOUT": "Abmelden",
+    "MENU_TOGGLE": "menu",
+    "NO_PERMISSIONS": "Keine Berechtigung",
+    "NOT_FOUND": "Seite nicht gefunden",
+    "USER_PLACEHOLDER": "Benutzer",
+    "TENANT_PLACEHOLDER": "Mandant",
+    "TENANT_SWITCH": "Mandant wechseln",
+    "LOADING": "Laden...",
+    "RELOAD": "Neu laden",
+    "NO_DATA": "Keine Einträge vorhanden.",
+    "DELETE": "Löschen",
+    "CONTINUE": "Weiter",
+    "DELETE_CONFIRM": "Diesen Datensatz wirklich löschen?",
+    "SAVE": "Speichern",
+    "CANCEL": "Abbrechen",
+    "BACK": "← zurück",
+    "OK": "Ok",
+    "SAVED": "Gespeichert",
+    "DELETED": "Gelöscht",
+    "SEARCH": "suchen...",
+    "SET": "Setzen",
+    "CHANGE": "Ändern",
+    "CLOSE": "Schliessen",
+    "EDIT": "Bearbeiten",
+    "YES": "Ja",
+    "NO": "Nein"
+  },
+  "BREADCRUMBS": {
+    "CONTEST_OVERVIEW": "Übersicht Urnengänge",
+    "WIZARD": "Stimmrechtsunterlagen vom {{contestDate}}",
+    "CONTEST_DETAIL": "Stimmrechtsunterlagen vom {{contestDate}}",
+    "PRINT_JOB_DETAIL": "Druck- und Verpackungsauftrag {{printJob.domainOfInfluence.name}}"
+  },
+  "ROLE": {
+    "SELECT": {
+      "TITLE": "Wähle eine Rolle aus um fortzufahren"
+    },
+    "TYPE": {
+      "Wahlverwalter": "Wahlverwalter",
+      "Auftragsmanager": "Auftragsmanager"
+    }
+  },
+  "CONTEST": {
+    "LIST_TITLE": "Urnengänge",
+    "LIST_TITLE_PAST": "Vergangene Urnengänge",
+    "LIST_TITLE_ARCHIVED": "Archivierte Urnengänge",
+    "DATE": "Datum Urnengang",
+    "CHOOSE_DOMAIN_OF_INFLUENCE": "Einflussbereich auswählen",
+    "PRINTING_CENTER_SIGNUP_DEADLINE": "Frist Auftragserteilung Produktionszentrum",
+    "PRINTING_CENTER_SIGNUP_DEADLINE_SHORT": "Frist Anmeldung DVZ",
+    "AUTHORITY_NAME": "Kunde",
+    "DOMAIN_OF_INFLUENCE_NAME": "Einflussbereich",
+    "ATTACHMENT_DELIVERY_DEADLINE": "Frist Lieferung Beilagen",
+    "GENERATE_VOTING_CARDS_DEADLINE": "Frist Gut zum Druck",
+    "DEADLINE_CLOSE_TO_CONTEST_DATE_HINT": "Das Datum liegt weniger als 3 Wochen vor dem Urnengang. Bitte beachten Sie, dass der Versand per B1- oder A-Post erfolgen wird",
+    "DEADLINE_NOT_SET": "noch nicht erfasst",
+    "PRINTING_CENTER_SIGN_UP_DEADLINE_DIALOG": {
+      "TITLE": "Gut zum Druck zurücksetzen",
+      "PRINT_JOBS": "Druckaufträge"
+    }
+  },
+  "POLITICAL_BUSINESS": {
+    "TITLE": "Geschäfte",
+    "NR": "Nr.",
+    "DOMAIN_OF_INFLUENCE": "Einflussbereich",
+    "SHORT_DESCRIPTION": "Kurzbezeichnung",
+    "TYPE": "Geschäftstyp",
+    "TYPES": {
+      "1": "Abstimmung",
+      "2": "Majorzwahl",
+      "3": "Proporzwahl",
+      "4": "Majorz-Nebenwahl"
+    }
+  },
+  "DOMAIN_OF_INFLUENCE": {
+    "NAME": "Bezeichnung",
+    "CONTEST_MANAGER_TITLE": "Oberbehörde",
+    "TYPES": {
+      "1": "Bund",
+      "2": "Kanton",
+      "3": "Bezirk",
+      "4": "Gemeinde",
+      "5": "Stadtkreis",
+      "6": "Schulgemeinde",
+      "7": "Kirchgemeinde",
+      "8": "Ortsbürgergemeinde",
+      "9": "Korporation",
+      "10": "Andere"
+    }
+  },
+  "ATTACHMENT": {
+    "TITLE": "Beilagen",
+    "CREATE": "+ Beilagen erfassen",
+    "DEFINE": "Beilage definieren",
+    "NAME": "Bezeichnung",
+    "NAME_HINT": "Verwenden Sie eine eindeutige, sprechende Bezeichnung für die korrekte Zuordnung jeder physischen Beilage zu Ihrem Auftrag. Am besten den Titel oder die Überschrift der Beilage verwenden.",
+    "DOCUMENT": "Dokument",
+    "ORDERED_COUNT": "Anzahl bestellt",
+    "REQUIRED_COUNT": "Anzahl benötigt",
+    "REQUIRED_FOR_VOTER_LISTS_COUNT": "Anzahl gem. Stimmregister",
+    "COLOR": "Farbe",
+    "COLOR_HINT": "Verwenden Sie für jedes Geschäft eine separate Farbe für die Beilagen. Dies macht die gesamte Verarbeitungskette sicherer und hilft allen Beteiligten bei der eindeutigen optischen Differenzierung.",
+    "SUPPLIER": "Lieferant",
+    "SUPPLIER_HINT": "Erfassen Sie den Lieferanten der Beilage mit Kontaktperson, Telefon und E-Mail.",
+    "POLITICAL_BUSINESSES": "Geschäfte {{name}}",
+    "AUTHORITY": "Behörde",
+    "DOMAIN_OF_INFLUENCE": "Einflussbereich",
+    "SELECT_ALL": "alle",
+    "DELETE_CONFIRM": "Diese Beilage wirklich löschen?",
+    "FORMAT": "Format",
+    "STATION": "Station",
+    "SET_REQUIRED_COUNT_TITLE": "Beilage benötigte Anzahl festlegen",
+    "UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES": {
+      "EXCLUDE": "Einflussbereiche ausschliessen",
+      "TITLE": "Zugelassene Einflussbereiche",
+      "APPROVED": "Zugelassen"
+    },
+    "FORMATS": {
+      "1": "A4",
+      "2": "A5",
+      "3": "A6"
+    },
+    "CATEGORY": "Kategorie",
+    "CATEGORIES": {
+      "1": "Eidgenössische Broschüre",
+      "2": "Kantonale Broschüre",
+      "3": "Kommunale Broschüre",
+      "4": "Stimmzettel für alle Geschäftsebenen",
+      "5": "Eidgenössischer Stimmzettel ",
+      "6": "Kantonaler Stimmzettel ",
+      "7": "Kommunaler Stimmzettel ",
+      "8": "Standard Stimmzettel-Couvert",
+      "9": "Eigenes Stimmzettel-Couvert",
+      "10": "Eidgenössische andere Beilage",
+      "11": "Kantonale andere Beilage",
+      "12": "Kommunale andere Beilage",
+      "13": "Eidgenössische Wahlanleitung",
+      "14": "Kantonale Wahlanleitung",
+      "15": "Kommunale Wahlanleitung"
+    },
+    "FORMAT_CONSULTATION_HINT": "Bitte zur Vorabklärung mit Abraxas Produktionszentrum Kontakt aufnehmen",
+    "FORMAT_CONSULTATION_CHECKED": "Vorabklärung mit Abraxas erledigt",
+    "EDIT_FORMATS": {
+      "1": "A4",
+      "2": "A5 (Standard)",
+      "3": "A6"
+    },
+    "STATE": "Status",
+    "STATES": {
+      "0": "alle",
+      "1": "erfasst",
+      "2": "geliefert",
+      "3": "zurückgewiesen"
+    },
+    "NO_ATTACHMENTS": "Keine Beilagen erfasst",
+    "DELIVERY_PLANNED_ON": "Lieferung geplant",
+    "DELIVERY_PLANNED_ON_HINT": "Entnehmen Sie die vorgegebenen Liefertermine der Jahresplanung. Sollten die Termine nicht eingehalten werden können, nehmen Sie für die alternative Planung und Ermittlung der möglichen Zusatzkosten frühzeitig mit dem Support kontakt auf.",
+    "DELIVERY_PLANNED_ON_PAST_DEADLINE": "Die Lieferung muss vor der eingestellten Frist erfolgen.",
+    "DELIVERY_RECEIVED_ON": "Lieferung erfolgt",
+    "SET_STATION_TITLE": "Beilage Station festlegen",
+    "SET_STATE": {
+      "TITLE": "Status Beilage ändern",
+      "LABEL": "Bitte setzen Sie den gewünschten Status",
+      "CURRENT_STATE": "Aktueller Status",
+      "STATE_CHANGE": {
+        "SET_TO_REJECTED": "Auf zurückgewiesen setzen",
+        "SET_TO_DELIVERED": "Auf geliefert setzen",
+        "RESET_TO_DEFINED": "Auf erfasst zurücksetzen"
+      }
+    },
+    "COMMENT": "Kommentar"
+  },
+  "PRINT_JOB": {
+    "AUTHORITY": "Behörde",
+    "DOMAIN_OF_INFLUENCE": "Einflussbereich",
+    "ATTACHMENTS_DEFINED_COUNT": "Beilagen erfasst",
+    "ATTACHMENTS_DELIVERED_COUNT": "Beilagen geliefert",
+    "DELIVERY_TYPE": "Zustellart",
+    "GENERATE_VOTING_CARDS_TRIGGERED": "Gut zum Druck",
+    "PROCESS_STARTED_ON": "Start Verarbeitung",
+    "PROCESS_ENDED_ON": "Ende Verarbeitung",
+    "DONE_ON": "Übergabe Post/Lager",
+    "STATE": "Status Druckauftrag",
+    "COMMUNAL_POLITICAL_BUSINESSES": "Kommunale Geschäfte",
+    "TEMPLATE_NAME": "Layout",
+    "LAST_CONFIRMED_STEP": "Letzter bestätigter Arbeitsschritt",
+    "SHIPPING_AWAY": "Postversand",
+    "VOTING_CARDS_PRINTED_AND_PACKED_COUNT": "Anzahl gedruckte und verpackte Stimmrechtsausweise",
+    "VOTING_CARDS_SHIPMENT_WEIGHT": "Sendungsgewicht in Gramm",
+    "COMMENT": "Kommentar für Auszählungskreis",
+    "STATES": {
+      "1": " ",
+      "2": "in Erfassung",
+      "3": "bereit",
+      "4": "gestartet",
+      "5": "verarbeitet",
+      "6": "erledigt"
+    },
+    "FILTER_STATES": {
+      "0": "alle",
+      "1": "leer",
+      "2": "in Erfassung",
+      "3": "bereit",
+      "4": "gestartet",
+      "5": "verarbeitet",
+      "6": "erledigt"
+    },
+    "SET_STATE": {
+      "NEXT_STATE": {
+        "3": {
+          "HEADER": "Verarbeitung starten",
+          "TEXT": "Durch das STARTEN werden die für den Druck der Stimmrechtsausweise nötigen Dateien\nan das Produktionszentrum übertragen und die Verarbeitung kann gestartet werden.",
+          "ACTIONS_LIST": {
+            "HEADER": "Folgende Aktionen können dann ausgelöst werden",
+            "ITEMS": {
+              "1": "Druck der Stimmrechtsausweise in Prisma",
+              "2": "Stimmrechtsausweise in Druckstation",
+              "3": "Beilagen in Stationen verteilen",
+              "4": "Verarbeitung starten"
+            }
+          },
+          "INVOKE": "Starten"
+        },
+        "4": {
+          "HEADER": "Verarbeitung beenden",
+          "TEXT": "Bitte geben Sie an, wieviele Stimmrechtsausweise gedruckt und verpackt wurden.",
+          "INVOKE": "Beenden"
+        },
+        "5": {
+          "HEADER": "Versand bestätigen",
+          "TEXT": "Bitte bestätigen Sie den Versand der Stimmrechtsunterlagen.",
+          "INVOKE": "Bestätigen"
+        }
+      },
+      "RESET_STATE": {
+        "HEADER": "Status zurücksetzen",
+        "TEXT": "Sind Sie sicher, dass Sie den Status zurücksetzen wollen auf ",
+        "INVOKE": "Status zurücksetzen",
+        "RESET_TO": "Zurücksetzen auf"
+      }
+    }
+  },
+  "VOTER_LIST_IMPORT": {
+    "UPLOAD_ECH_TITLE": {
+      "STEP_1": "Datei hochladen (eCH-0045) (1/2)",
+      "STEP_2": "Zuordnung der Stimmberechtigten (2/2)"
+    },
+    "CREATE_FROM_SR_TITLE": {
+      "STEP_1": "Stimmregister abrufen (1/2)",
+      "STEP_2": "Zuordnung der Stimmberechtigten (2/2)"
+    },
+    "UPLOAD_ECH": "+ Datei hochladen (eCH-0045)",
+    "CREATE_FROM_SR": "+ Stimmregister abrufen",
+    "UPDATE_DATA": "Stimmregisterdaten bearbeiten",
+    "NAME": "Bezeichnung",
+    "CHOOSE_FILE": "Datei auswählen",
+    "LAST_UPDATE": "Datum",
+    "LAST_UPDATE_HINT": "Datum der letzten Aktualisierung",
+    "DELETE_CONFIRM": "Dieses Stimmregister wirklich löschen?",
+    "IMPORTING": "Stimmberechtigte werden geladen...",
+    "ELECTORAL_REGISTER": {
+      "FILTER": {
+        "SELECTION": "Filter Stimmregister",
+        "NO_DATA": "Keine Filter vorhanden"
+      },
+      "FILTER_VERSION": {
+        "NEW": {
+          "TITLE": "Version neu erstellen",
+          "NAME": "Bezeichnung",
+          "DEADLINE": "Stichtag (i.d.R. Datum des Urnengangs)",
+          "NUMBER_OF_PERSONS": "{{count}} Personen",
+          "NUMBER_OF_PERSONS_WITH_INVALID": "{{count}} Personen, davon {{invalidCount}} Personen mit invaliden Daten. Die Personen mit invaliden Daten werden nicht in Stimmunterlagen importiert. Bitte bereinigen Sie diese wenn nötig im Quellsystem.",
+          "ACTUALITY_DATE_ERROR": "{{count}} Personen des ausgewählten Filters aus dem Stimmregister sind nicht tagesaktuell. Der Datenstand ist vom {{actualityDate}}."
+        },
+        "EXISTING": "Vergangene Versionen",
+        "CHOOSE": "bitte auswählen…",
+        "NAME": "Version",
+        "DEADLINE": "Stichtag",
+        "NUMBER_OF_PERSONS": "Anzahl",
+        "NUMBER_OF_INVALID_PERSONS": "Exkludiert",
+        "CREATED_BY": "Ersteller",
+        "CREATED_AT": "Erstelldatum",
+        "NO_DATA": "Keine Filterversionen vorhanden"
+      }
+    },
+    "SELECTION": {
+      "TITLE": "Import auswählen"
+    }
+  },
+  "VOTER_LIST": {
+    "TITLE": "Stimmregister",
+    "NAME": "Bezeichnung",
+    "VOTING_CARD_TYPE": "Typ Stimmrechtsausweis",
+    "LAST_UPDATE": "Datum",
+    "POLITICAL_BUSINESSES": "Geschäfte {{name}}",
+    "SELECT_ALL": "alle",
+    "NUMBER_OF_VOTERS": "Anzahl Stimmberechtigte",
+    "COUNT_OF_SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS": "davon nicht zustellen",
+    "SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS": "Nicht zustellen",
+    "SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS_HINT": "Die Stimmrechtsausweise vom Typ \"Nicht zustellen\" werden an die in VOTING Basis hinterlegte Rücksendeadresse adressiert.",
+    "NO_DATA": "Keine Stimmregister erfasst",
+    "HAS_VOTER_DUPLICATES_WARNING": "Folgende Personen kommen in diesem Stimmregister-Typ mehrfach vor.\nBitte bereinigen Sie diese wenn nötig im Quellsystem und führen Sie den Schritt \"Stimmregister abrufen\" erneut durch."
+  },
+  "VOTING_CARD": {
+    "TITLE": "Stimmrechtsausweise"
+  },
+  "VOTING_CARD_TYPES": {
+    "1": "Standard",
+    "2": "Auslandschweizer",
+    "3": "E-Voting"
+  },
+  "VOTING_CARD_GROUPS": {
+    "1": "Sprache",
+    "2": "Versandregion"
+  },
+  "VOTING_CARD_SORTS": {
+    "1": "Strasse",
+    "2": "Name"
+  },
+  "VOTING_CARD_SHIPPING_FRANKING": {
+    "1": "B1 Post",
+    "2": "B2 Post",
+    "3": "A Post",
+    "4": "GAS A Post",
+    "5": "GAS B Post",
+    "6": "ohne Frankatur"
+  },
+  "VOTING_CARD_SHIPPING_METHOD": {
+    "1": "Druck / Verpackung und Versand an Bürger",
+    "2": "Druck / Verpackung und Versand an Gemeinde",
+    "3": "Nur Druck und Versand an Gemeinde"
+  },
+  "VOTING_CARD_PRINT_FILE": {
+    "TITLE": "Druckdateien"
+  },
+  "VOTER": {
+    "SALUTATION": "Anrede",
+    "TITLE": "Titel",
+    "FIRST_NAME": "Vorname",
+    "LAST_NAME": "Nachname",
+    "ADDRESS_LINE_1": "Adresszeile 1",
+    "ADDRESS_LINE_2": "Adresszeile 2",
+    "STREET": "Strasse",
+    "HOUSE_NUMBER": "Hausnr.",
+    "DWELLING_NUMBER": "Wohnungsnr.",
+    "TOWN": "Ort",
+    "ZIP_CH": "PLZ",
+    "ZIP_FOREIGNER": "PLZ",
+    "LANGUAGE_OF_CORRESPONDENCE": "Korrespondenzsprache",
+    "PERSON_ID": "Personen-ID",
+    "DATE_OF_BIRTH": "Geburtsdatum"
+  },
+  "SALUTATIONS": {
+    "1": "Frau",
+    "2": "Herr",
+    "3": "Fräulein"
+  },
+  "COUNTRY": {
+    "CH": "Schweiz",
+    "ISO2": "Land Iso2",
+    "NAME": "Land Name"
+  },
+  "LANGUAGES": {
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "it": "Italienisch",
+    "rm": "Romanisch"
+  },
+  "VOTING_CARD_GENERATOR_JOB": {
+    "FILE_NAME": "Datei",
+    "VC_TYPE": "Typ SRA",
+    "COUNT_OF_VOTERS": "benötigt",
+    "STATE": "Status",
+    "STATES": {
+      "1": "in Warteschlange",
+      "2": "in Arbeit",
+      "3": "fertig",
+      "4": "fehlgeschlagen",
+      "5": "offline"
+    }
+  },
+  "VOTING_CARD_PRINT_FILE_EXPORT_JOB": {
+    "RETRY_FAILED": "Fehlgeschlagene Jobs erneut ausführen",
+    "FILE_NAME": "Datei",
+    "STATE": "Status"
+  },
+  "VOTING_CARD_CONFIGURATION": {
+    "SAMPLE_COUNT": "Anzahl Stichproben",
+    "GROUP": "Gruppierung {{number}}",
+    "ADD_GROUP": "+ Gruppierung hinzufügen",
+    "SORT": "Sortierung {{number}}",
+    "ADD_SORT": "+ Sortierung hinzufügen"
+  },
+  "MANUAL_VOTING_CARD_GENERATOR_JOB": {
+    "JOBS": "Stimmausweise",
+    "CREATED": "Generiert am",
+    "CREATED_BY": "Generiert von",
+    "VOTER": "Stimmberechtigte/r"
+  },
+  "E_VOTING": {
+    "DOMAIN_OF_INFLUENCE": {
+      "READY": "Status",
+      "NAME": "Bezeichnung",
+      "PARENT_POLITICAL_BUSINESSES_COUNT": "Geschäfte auf übergeordneten Wahlkreisen",
+      "OWN_POLITICAL_BUSINESSES_COUNT": "Eigene Geschäfte",
+      "NUMBER_OF_E_VOTERS": "Total betroffener E-Voter"
+    },
+    "ATTACHMENT_STATIONS_NOT_SET": "Achtung: Aktuell sind noch nicht alle relevanten Beilagenstationen gesetzt. Wird der Export jetzt generiert, werden nur die bereits gesetzten Beilagenstationen berücksichtigt."
+  },
+  "INVOICE": {
+    "EXPORT": "Exportieren"
+  },
+  "VOTING_JOURNAL": {
+    "EXPORT": "Exportieren",
+    "EXPORT_SUCCESS": "Export erfolgreich generiert",
+    "VOTING_STATISTICS": {
+      "TITLE": "Abstimmungs Statistik"
+    },
+    "VOTING_JOURNAL": {
+      "TITLE": "Abstimmungsjournal"
+    },
+    "STATISTICS_BY_RELIGION": {
+      "TITLE": "Statistik nach Konfession"
+    }
+  },
+  "ADDITIONAL_INVOICE_POSITION": {
+    "DEFINE": "Zusatzleistung definieren",
+    "AUTHORITY": "Behörde",
+    "DOMAIN_OF_INFLUENCE": "Einflussbereich",
+    "MATERIAL": "Leistung",
+    "AMOUNT": "Menge",
+    "CREATED_BY": "Ersteller",
+    "CREATED": "Erstellt am",
+    "CREATE": "Zusatzleistung erstellen",
+    "DELETE_CONFIRM": "Diese Zusatzleistung wirklich löschen?"
+  },
+  "WIZARD": {
+    "NO_STEPS": "Keine Wizard-Schritte vorhanden...",
+    "APPROVE_STEP": "Auf erledigt setzen",
+    "REVERT_STEP": "Rückgängig",
+    "HINT_TITLE": "Hinweis:",
+    "WARN_TITLE": "Warnung:",
+    "PRINT_DATA_TITLE": "Druckdatenangaben:",
+    "STEP_STATES": {
+      "complete": "erledigt",
+      "open": "offen",
+      "progress": "in Bearbeitung"
+    },
+    "STEPS": {
+      "1": "{{number}}. Geschäfte",
+      "2": "{{number}}. Layout SRA",
+      "3": "{{number}}. Zuweisung SRA",
+      "4": "{{number}}. Layout SRA",
+      "5": "{{number}}. Fristen",
+      "6": "{{number}}. Beilagen",
+      "7": "{{number}}. Stimmregister",
+      "8": "{{number}}. Gut zum Druck",
+      "9": "{{number}}. E-Voting",
+      "10": "{{number}}. Druckauftrag",
+      "11": "{{number}}. Nachdruck",
+      "12": "{{number}}. Übersicht",
+      "13": "{{number}}. Stimmjournal"
+    }
+  },
+  "STEPS": {
+    "0": "",
+    "1": "Geschäfte",
+    "2": "Layout SRA",
+    "3": "Zuweisung SRA",
+    "4": "Layout SRA",
+    "5": "Fristen",
+    "6": "Beilagen",
+    "7": "Stimmregister",
+    "8": "Gut zum Druck",
+    "9": "E-Voting",
+    "10": "Druckauftrag",
+    "11": "Nachdruck",
+    "12": "Übersicht",
+    "13": "Stimmjournal"
+  },
+  "STEP_POLITICAL_BUSINESS_APPROVAL": {
+    "ALL_APPROVED": "Die Geschäfte sind vollständig erfasst",
+    "APPROVE_CHECK": "Eigene Geschäfte sind vollständig erfasst",
+    "APPROVE_CHECK_NONE": "Es hat keine eigenen Geschäfte",
+    "HINT": "Bitte prüfen Sie, ob die Geschäfte Ihrer Zuständigkeit in den Basisservices erfasst wurden."
+  },
+  "STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER": {
+    "TITLE": "Layout Stimmrechtsausweis",
+    "HINT": "Bitte definieren Sie die Vorlage für den/die Stimmrechtsausweis/e.",
+    "CHECK": "Die Vorlage/n sind eingerichtet",
+    "DEFAULT": "Vorlage",
+    "ALLOW_CUSTOM": "Eigene möglich",
+    "OVERWRITE": "Vorgabe übersteuern"
+  },
+  "STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES": {
+    "TITLE": "Zuweisung Stimmrechtsausweise",
+    "HINT": "Je nach Einflussbereich können Sie die Vorgaben für die Stimmrechtsausweise übersteuern oder eigene Vorlagen zulassen.",
+    "CHECK": "Der korrekte Stimmrechtsausweis ist zugewiesen",
+    "TABLE": {
+      "DOI_TITLE": "Bezeichnung",
+      "VC_TEMPLATE": "SRA {{vcType}} Vorlage",
+      "ALLOW_CUSTOM": "Eigene möglich"
+    },
+    "ASSIGN_DIALOG": {
+      "TITLE": "SRA festlegen: {{name}}"
+    }
+  },
+  "STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE": {
+    "TITLE": "Layout Stimmrechtsausweis",
+    "HINT": "Bitte prüfen Sie, ob das Layout der Stimmrechtsausweise korrekt ist und ob die Textbausteine den richtigen Inhalt aufweisen.",
+    "CHECK_1": "Die Stimmrechtsausweise sind definiert",
+    "CHECK_2": "Die Textbausteine sind in Ordnung",
+    "EDIT_TEMPLATE_DATA": "Textbausteine bearbeiten",
+    "NO_TEMPLATE_DATA": "Keine Textbausteine vorhanden",
+    "EDIT_SINGLE_TEMPLATE_DATA": "Textbaustein {{ name }} bearbeiten",
+    "OVERWRITE": "Vorgabe übersteuern",
+    "DEFAULT": "Vorgabe"
+  },
+  "STEP_CONTEST_APPROVAL": {
+    "TITLE": "Fristen",
+    "HINT": "Durch die Freigabe dieses Schrittes können weitere Einheiten, deren Geschäfte durch die politische Gemeinde verwaltet werden (zum Beispiel Schulgemeinden, Kirchgemeinden etc.) mit der Erfassung beginnen. Bitte diese Fristen in jedem Fall mit dem Produktionszentrum abstimmen. So kann sichergestellt werden, dass die Aufträge rechtzeitig und korrekt verarbeitet werden.",
+    "HINT_SINGLE_ATTENDEE": "Mit Setzen der Fristen können Sie die Bearbeitung der weiteren Schritte freigeben. Bitte diese Fristen in jedem Fall mit dem Produktionszentrum abstimmen. So kann sichergestellt werden, dass die Aufträge rechtzeitig und korrekt verarbeitet werden.",
+    "CHECK": "Freigabe erteilen"
+  },
+  "STEP_ATTACHMENTS": {
+    "TITLE": "Beilagen",
+    "HINT": "Bitte erfassen Sie die Beilagen zu Ihren Geschäften. Die Beilagen sind separat bei Ihrer Druckerei zu bestellen und an das Produktionszentrum zu liefern.\n\nFassen Sie einzelne Beilagen, insbesondere Stimm-, Wahlzettel und Wahlanleitungen, soweit wie möglich auf einem Bogen zusammen.\n\nBei einem C5 Versand können maximal 12 Beilagen über die Maschine verpackt werden. Bei einem C4-Versand sind maximal 8 Beilagen möglich. Weitere Beilagen müssen manuell nachverpackt werden, was zu entsprechenden Mehrkosten führt.\n\nBestellen Sie die Beilagen rechtzeitig, nach unseren Konfektionierungs- und Liefervorgaben, in den geforderten Mengen, inkl. vorgegebener Reserven.\n\nVerarbeitungsreserven für Abraxas:\nbis 2'000 Stimmberechtigte → 10% (mindestens aber 100)\nbis 10'000 Stimmberechtigte → 3%\nab 10'000 Stimmberechtigte → 2%\n\nBestehen Sie auf die Lieferung der exakten Bestellmengen.\nVereinbaren Sie, dass keine Unter- und Überlieferungen akzeptiert werden!",
+    "CHECK_COMPLETE": "Die Beilagen sind vollständig erfasst (oder es gibt keine Beilagen)",
+    "CHECK_COUNT": "Die benötigten Anzahlen sind überall eingetragen"
+  },
+  "STEP_VOTER_LISTS": {
+    "TITLE": "Stimmregister",
+    "HINT": "Die Stimmregister-Dateien müssen aus der Einwohnerkontroll-Lösung exportiert und hochgeladen werden. Um möglichst aktuelle Stimmunterlagen zu erzeugen, sollten die Daten möglichst zeitnah zur Erteilung des Druckauftrags erstellt werden.",
+    "HINT_ELECTORAL_REGISTRATION": "Der Stimmregisterabzug kann direkt über die automatische Schnittstelle getätigt werden.",
+    "CHECK": "Die Stimmregister-Dateien sind vollständig und korrekt hochgeladen",
+    "CHECK_ELECTORAL_REGISTRATION": "Das Stimmregister ist vollständig und korrekt importiert",
+    "ATTACHMENTS_WARN": "Die Anzahl der benötigten Beilagen ist grösser als die bestellte Menge!",
+    "HAS_VOTER_DUPLICATES_WARN": "Die Stimmregister-Dateien dürfen keine Duplikate beinhalten"
+  },
+  "STEP_GENERATE_VOTING_CARDS": {
+    "TITLE": "Generierung SRA",
+    "SAMPLES_CHECKED": "Die Stichproben sind geprüft",
+    "INFORMATION_CORRECT": "Alle Angaben sind korrekt",
+    "READY_TO_GENERATE": "Das Gut zum Druck kann erteilt werden",
+    "PRINT_DATA_CHECKED": "Die Druckdatenangaben wurden geprüft",
+    "NO_DATA": "Keine Daten",
+    "HINT": "Um Stichproben der Stimmrechtsausweise generieren zu können, müssen Sie zuerst die Stimmregister hochgeladen haben. Bitte prüfen Sie nach der Generierung der Stichproben, ob diese korrekt sind. Beachten Sie dabei insbesondere das Datum, Umlaute und Textbausteine. Mit der Erledigung dieses Schritts wird das Gut zum Druck erteilt.",
+    "SHIPPING_AWAY": "Versand Hinweg",
+    "SHIPPING_RETURN": "Versand Rückweg",
+    "SHIPPING_METHOD": "Versandart"
+  },
+  "STEP_E_VOTING": {
+    "TITLE": "E-Voting",
+    "HINT": "Bitte die Vollständigkeit der E-Voting Daten prüfen. Nach erfolgreicher Prüfung mittels 'E-Voting Daten übermitteln' den Transfer an den definierten Connector initialisieren. Die Übertragung kann einige Minuten dauern (bitte sicherstellen, dass der Connector empfangsbereit ist).",
+    "CHECK": "Die E-Voting Register sowie die Informationen der Wahlkreise sind komplett.",
+    "RETRY": "Export erneut ausführen",
+    "TITLE_EXPORT": "E-Voting Export",
+    "TITLE_DOMAIN_OF_INFLUENCE": "Einflussbereiche",
+    "TOTAL_NUMBER_OF_EVOTERS": "Total"
+  },
+  "STEP_PRINT_JOB_OVERVIEW": {
+    "HINT": "Hier können Sie den Fortschritt des Druckauftrags überwachen. Bei Fragen können Sie sich direkt ans Druck- und Verpackungszentrum wenden.",
+    "TITLE": "Druckauftrag",
+    "TITLE_VC": "Stimmrechtsausweise",
+    "RETRY_FAILED": "Fehlgeschlagene Jobs erneut ausführen",
+    "RETRYING": "Jobs werden bearbeitet..."
+  },
+  "STEP_GENERATE_MANUAL_VOTING_CARDS": {
+    "HINT": "Hier können Sie nachträglich zusätzliche Stimmrechtsausweise ausdrucken.",
+    "TITLE": "Nachdruck",
+    "FILE_NAME": "Stimmausweis.pdf",
+    "GENERATE": "Stimmausweis drucken",
+    "SUCCESS": "Stimmausweis generiert",
+    "DUPLICATE_WARNING_TITLE": "Doublettenprüfung",
+    "DUPLICATE_WARNING_MESSAGE": "Für {{ firstName }} {{ lastName }} wurde am {{ date }} bereits ein Nachdruck generiert. Möchten Sie trotzdem nochmals einen Nachdruck generieren?",
+    "DUPLICATE_WARNING_CONFIRM": "Generieren"
+  },
+  "STEP_CONTEST_OVERVIEW": {
+    "TITLE": "Übersicht",
+    "UPDATE_PRINTING_CENTER_SIGN_UP_DEADLINE": "Gut zum Druck zurücksetzen...",
+    "DOMAIN_OF_INFLUENCE_ALLOW_MANUAL_VOTER_LIST_UPLOAD": "Dateiupload erlauben"
+  },
+  "STEP_VOTING_JOURNAL": {
+    "TITLE": "Stimmjournal",
+    "HINT": "Die Stimmausweise für die Abstimmung vom {{contestDate}} werden beim Download live für Sie erstellt. Ihre Mutationen wurden berücksichtigt bis und mit {{lastVoterUpdate}} Uhr."
+  },
+  "PRINT_JOB_MANAGEMENT": {
+    "CONTEST": {
+      "TABS": {
+        "0": "Beilagen",
+        "1": "Aufträge",
+        "2": "Rechnungen",
+        "3": "Stimmregister"
+      }
+    }
+  },
+  "E_VOTING_EXPORT_JOB": {
+    "FILE_NAME": "Datei",
+    "FILE_HASH": "Hash-Wert",
+    "STATE": "Status"
+  },
+  "EXPORT_JOB": {
+    "STATES": {
+      "1": "ausstehend",
+      "2": "in Warteschlange",
+      "3": "in Arbeit",
+      "4": "fertig",
+      "5": "fehlgeschlagen"
+    }
+  },
+  "PREVIEW": "Vorschau",
+  "ERRORS": {
+    "GENERIC": {
+      "TITLE": "Fehler",
+      "MESSAGE": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später nochmal.\nCode: {{statusCode}}\nDetails: {{statusMessage}}"
+    },
+    "3": {
+      "MESSAGE": "Die eingegebenen Daten sind nicht valide."
+    },
+    "7": {
+      "MESSAGE": "Zugriff verweigert."
+    },
+    "16": {
+      "MESSAGE": "Nicht authentisiert. Loggen Sie sich erneut ein."
+    },
+    "400": {
+      "MESSAGE": "Die eingegebenen Daten sind nicht valide."
+    },
+    "401": {
+      "MESSAGE": "Nicht authentisiert. Loggen Sie sich erneut ein."
+    },
+    "403": {
+      "MESSAGE": "Zugriff verweigert."
+    }
+  }
+}

@@ -1,0 +1,14 @@
+@use 'src/app/styles/layout';
+
+:host {
+  @extend .layout;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+
+  h4 {
+    margin-bottom: 0;
+  }
+}

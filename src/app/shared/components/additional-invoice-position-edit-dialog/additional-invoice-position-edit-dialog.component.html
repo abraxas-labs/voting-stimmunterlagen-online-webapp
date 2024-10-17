@@ -1,0 +1,54 @@
+<app-dialog>
+  <h1 header translate>ADDITIONAL_INVOICE_POSITION.DEFINE</h1>
+
+  <div content class="m-2">
+    <form #form="ngForm">
+      <bc-dropdown
+        [label]="'ADDITIONAL_INVOICE_POSITION.DOMAIN_OF_INFLUENCE' | translate"
+        name="domainOfInfluence"
+        class="full-width"
+        [items]="domainOfInfluences"
+        displayExpr="name"
+        [required]="true"
+        [(ngModel)]="additionalInvoicePosition.domainOfInfluence"
+      ></bc-dropdown>
+
+      <bc-dropdown
+        [label]="'ADDITIONAL_INVOICE_POSITION.MATERIAL' | translate"
+        name="material"
+        class="full-width"
+        [items]="availableMaterials"
+        displayExpr="displayText"
+        valueExpr="number"
+        [required]="true"
+        [(ngModel)]="additionalInvoicePosition.materialNumber"
+      ></bc-dropdown>
+
+      <bc-number
+        [label]="'ADDITIONAL_INVOICE_POSITION.AMOUNT' | translate"
+        name="amount"
+        [required]="true"
+        [ngModel]="additionalInvoicePosition.amount"
+        (ngModelChange)="additionalInvoicePosition.amount = $event; updateValidAmount()"
+        [min]="0"
+        [precision]="2"
+        [error]="!validAmount"
+        [subscriptSizing]="'dynamic'"
+      ></bc-number>
+    </form>
+  </div>
+
+  <div footer>
+    <app-button-bar
+      deleteConfirmLabel="ADDITIONAL_INVOICE_POSITION.DELETE_CONFIRM"
+      [saving]="saving"
+      [deleting]="deleting"
+      [canSave]="form.valid && validAmount"
+      [hasDeleteButton]="!isNew"
+      (save)="save()"
+      (delete)="delete()"
+      (cancel)="done()"
+    >
+    </app-button-bar>
+  </div>
+</app-dialog>

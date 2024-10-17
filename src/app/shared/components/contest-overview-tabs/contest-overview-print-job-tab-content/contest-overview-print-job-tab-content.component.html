@@ -1,0 +1,19 @@
+<app-print-job-filter (filterChange)="loadPrintJobs($event)"></app-print-job-filter>
+
+<ng-container *ngIf="!loading; else spinner">
+  <div class="mt-0 mb-2 buttons" *ngIf="!forPrintJobManagement">
+    <bc-button
+      (buttonClick)="updatePrintingCenterSignUpDeadline()"
+      [label]="'STEP_CONTEST_OVERVIEW.UPDATE_PRINTING_CENTER_SIGN_UP_DEADLINE' | translate"
+    ></bc-button>
+  </div>
+
+  <app-contest-overview-print-job-table
+    [printJobs]="printJobs"
+    [forPrintJobManagement]="forPrintJobManagement"
+  ></app-contest-overview-print-job-table>
+</ng-container>
+
+<ng-template #spinner>
+  <bc-spinner size="large"></bc-spinner>
+</ng-template>

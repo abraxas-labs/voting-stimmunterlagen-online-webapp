@@ -1,0 +1,29 @@
+<app-dialog>
+  <h3 header translate>ATTACHMENT.SET_STATION_TITLE</h3>
+
+  <div content class="m-2">
+    <form #form="ngForm">
+      <bc-text
+        [label]="'ATTACHMENT.NAME' | translate"
+        [disabled]="true"
+        name="name"
+        [ngModel]="data.attachment.name"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
+
+      <bc-number
+        [label]="'ATTACHMENT.STATION' | translate"
+        name="station"
+        [required]="true"
+        [(ngModel)]="station"
+        [min]="1"
+        [max]="99"
+        [subscriptSizing]="'dynamic'"
+      ></bc-number>
+    </form>
+  </div>
+
+  <div footer>
+    <app-button-bar [saving]="saving" [canSave]="form.valid" [hasDeleteButton]="false" (save)="save()" (cancel)="done()"> </app-button-bar>
+  </div>
+</app-dialog>

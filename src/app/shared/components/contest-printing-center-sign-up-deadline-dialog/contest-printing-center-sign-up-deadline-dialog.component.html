@@ -1,0 +1,61 @@
+<app-dialog>
+  <h3 header translate>CONTEST.PRINTING_CENTER_SIGN_UP_DEADLINE_DIALOG.TITLE</h3>
+
+  <div content class="m-2">
+    <bc-date
+      [label]="'CONTEST.PRINTING_CENTER_SIGNUP_DEADLINE' | translate"
+      [value]="printingCenterSignUpDeadline"
+      (valueChange)="updatePrintingCenterSignUpDeadline($event)"
+      [required]="true"
+      [hint]="showPrintingCenterSignUpDeadlineHint ? ('CONTEST.DEADLINE_CLOSE_TO_CONTEST_DATE_HINT' | translate) : ''"
+      [error]="!validPrintingCenterSignUpDeadline"
+      [subscriptSizing]="'dynamic'"
+    ></bc-date>
+
+    <bc-date
+      [label]="'CONTEST.GENERATE_VOTING_CARDS_DEADLINE' | translate"
+      [value]="generateVotingCardsDeadline"
+      (valueChange)="updateGenerateVotingCardsDeadline($event)"
+      [required]="true"
+      [hint]="showGenerateVotingCardsDeadlineHint ? ('CONTEST.DEADLINE_CLOSE_TO_CONTEST_DATE_HINT' | translate) : ''"
+      [error]="!validGenerateVotingCardsDeadline"
+      [subscriptSizing]="'dynamic'"
+    ></bc-date>
+
+    <h4 translate>CONTEST.PRINTING_CENTER_SIGN_UP_DEADLINE_DIALOG.PRINT_JOBS</h4>
+
+    <bc-table [dataSource]="checkablePrintJobs.items" class="w-full">
+      <ng-container columnDef="checkbox">
+        <bc-header-cell *headerCellDef></bc-header-cell>
+        <bc-data-cell *dataCellDef="let element">
+          <bc-checkbox [checked]="element.checked" (checkedChange)="checkablePrintJobs.updateChecked(element, $event)"> </bc-checkbox>
+        </bc-data-cell>
+      </ng-container>
+
+      <ng-container columnDef="authority">
+        <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.AUTHORITY' | translate }}</bc-header-cell>
+        <bc-data-cell *dataCellDef="let element">{{ element.item.domainOfInfluence.authorityName }}</bc-data-cell>
+      </ng-container>
+
+      <ng-container columnDef="domainOfInfluence">
+        <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.DOMAIN_OF_INFLUENCE' | translate }}</bc-header-cell>
+        <bc-data-cell *dataCellDef="let element">{{ element.item.domainOfInfluence.name }}</bc-data-cell>
+      </ng-container>
+
+      <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+      <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+    </bc-table>
+
+    <p class="italic ml-2" *ngIf="checkablePrintJobs.items.length === 0" translate>APP.NO_DATA</p>
+  </div>
+
+  <div footer>
+    <app-button-bar
+      [saving]="saving"
+      [canSave]="validPrintingCenterSignUpDeadline && validGenerateVotingCardsDeadline"
+      [hasDeleteButton]="false"
+      (save)="save()"
+      (cancel)="done()"
+    ></app-button-bar>
+  </div>
+</app-dialog>

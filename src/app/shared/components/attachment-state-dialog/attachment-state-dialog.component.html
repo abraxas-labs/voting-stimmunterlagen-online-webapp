@@ -1,0 +1,44 @@
+<app-dialog>
+  <h3 header translate>ATTACHMENT.SET_STATE.TITLE</h3>
+
+  <div content>
+    <div class="header">
+      <p>{{ 'ATTACHMENT.SET_STATE.LABEL' | translate }}</p>
+      <p>{{ 'ATTACHMENT.SET_STATE.CURRENT_STATE' | translate }}</p>
+      <app-attachment-state [state]="data.attachment.state"></app-attachment-state>
+    </div>
+
+    <form #form="ngForm">
+      <bc-text
+        [label]="'ATTACHMENT.NAME' | translate"
+        [disabled]="true"
+        name="name"
+        [ngModel]="data.attachment.name"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
+
+      <bc-textarea
+        [label]="'ATTACHMENT.COMMENT' | translate"
+        name="comment"
+        [(ngModel)]="comment"
+        [subscriptSizing]="'dynamic'"
+      ></bc-textarea>
+    </form>
+  </div>
+
+  <div footer>
+    <app-button-bar
+      [saving]="saving"
+      [hasDeleteButton]="true"
+      [hasDeleteConfirm]="false"
+      [deleteLabel]="'ATTACHMENT.SET_STATE.STATE_CHANGE.' + deleteButtonData.label"
+      (delete)="save(deleteButtonData.state)"
+      [saveColor]="data.attachment.state === attachmentStates.ATTACHMENT_STATE_DEFINED ? 'primary' : 'error'"
+      saveVariant="secondary"
+      [saveLabel]="'ATTACHMENT.SET_STATE.STATE_CHANGE.' + saveButtonData.label"
+      [hasSaveButton]="data.attachment.state !== attachmentStates.ATTACHMENT_STATE_REJECTED"
+      (save)="save(saveButtonData.state)"
+      (cancel)="done()"
+    ></app-button-bar>
+  </div>
+</app-dialog>

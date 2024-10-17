@@ -1,0 +1,11 @@
+<iframe *ngIf="url; else content" [src]="url + '#toolbar=0&navpanes=0' | safeUrl" frameBorder="0"></iframe>
+
+<ng-template #content>
+  <h1 *ngIf="loading; else previewPlaceholder">
+    <bc-spinner class="mr-1"></bc-spinner>
+    {{ 'APP.LOADING' | translate }}
+  </h1>
+  <ng-template #previewPlaceholder>
+    <h1 translate>PREVIEW</h1>
+  </ng-template>
+</ng-template>

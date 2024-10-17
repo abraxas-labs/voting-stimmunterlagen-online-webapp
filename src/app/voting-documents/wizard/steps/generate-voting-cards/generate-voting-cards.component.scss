@@ -1,0 +1,14 @@
+@use 'src/app/styles/layout';
+
+:host {
+  @extend .layout;
+}
+
+div.layout-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.layout-left {
+  min-width: 20rem;
+}

@@ -1,0 +1,7 @@
+bc-status-label {
+  min-width: 8rem;
+
+  ::ng-deep label {
+    width: 100%;
+  }
+}

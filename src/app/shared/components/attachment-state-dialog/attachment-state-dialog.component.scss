@@ -1,0 +1,16 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.header {
+  display: flex;
+  align-items: center;
+
+  @extend .mb-2;
+
+  > *:not(:first-child) {
+    @extend .ml-4;
+  }
+
+  > * {
+    @extend .mb-0;
+  }
+}

@@ -1,0 +1,15 @@
+<bc-big-stepper
+  *ngIf="stepStates.length > 0"
+  direction="horizontal"
+  (selectionChange)="showStep($event.selectedIndex)"
+  [selectedIndex]="selectedIndex"
+  [sequential]="true"
+>
+  <bc-big-step
+    *ngFor="let stepState of stepStates; let index = index"
+    [status]="stepState.progressState"
+    [statusText]="'WIZARD.STEP_STATES.' + stepState.progressState | translate"
+    [disabled]="stepState.disabled"
+    [label]="'WIZARD.STEPS.' + stepState.step | translate: { number: index + 1 }"
+  ></bc-big-step>
+</bc-big-stepper>

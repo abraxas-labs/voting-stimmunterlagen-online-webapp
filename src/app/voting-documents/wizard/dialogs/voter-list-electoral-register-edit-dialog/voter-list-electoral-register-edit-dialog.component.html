@@ -1,0 +1,135 @@
+<app-dialog>
+  <h1 header>{{ 'VOTER_LIST_IMPORT.CREATE_FROM_SR_TITLE.STEP_' + step | translate }}</h1>
+
+  <div content class="m-2">
+    <app-voter-list-import-edit-form [voterListImport]="voterListImport" [(step)]="step" *ngIf="!loading; else spinner">
+      <bc-autocomplete
+        *ngIf="filters?.length > 0; else noFilters"
+        [label]="'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER.SELECTION' | translate"
+        [items]="filters"
+        [required]="true"
+        [clearable]="false"
+        displayExpr="name"
+        [showOptionsOnStart]="true"
+        [value]="selectedFilter?.name"
+        [hint]="selectedFilter?.description || ''"
+        [disabled]="!!voterListImport.sourceId"
+        (valueChange)="selectFilter($event)"
+      ></bc-autocomplete>
+      <ng-template #noFilters>
+        <div *ngIf="filters === undefined; else noFilterEntries">
+          <span class="block" translate>VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER.SELECTION</span>
+          <bc-spinner></bc-spinner>
+        </div>
+      </ng-template>
+      <ng-template #noFilterEntries>
+        <span class="italic block" translate>VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER.NO_DATA</span>
+      </ng-template>
+
+      <div *ngIf="selectedFilter" class="mb-4">
+        <bc-label [label]="'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NAME' | translate"></bc-label>
+        <bc-expansion-panel
+          [expanded]="selectedFilterVersion === undefined"
+          class="selectable"
+          [class.selected]="selectedFilterVersion !== undefined"
+          [header]="
+            selectedFilterVersion === undefined
+              ? ('VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.CHOOSE' | translate)
+              : selectedFilterVersion.name + ' / ' + (selectedFilterVersion.deadline | date: 'dd.MM.yyyy')
+          "
+        >
+          <p class="panel-section-title">{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NEW.TITLE' | translate }}</p>
+          <div class="new-filter-version">
+            <bc-text
+              [label]="'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NEW.NAME' | translate"
+              [value]="newFilterVersionName"
+              (valueChange)="setNewFilterVersionName($event)"
+              [subscriptSizing]="'dynamic'"
+            ></bc-text>
+            <bc-date
+              [label]="'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NEW.DEADLINE' | translate"
+              [value]="newFilterVersionDeadline"
+              (valueChange)="setNewFilterVersionDeadline($event)"
+              [subscriptSizing]="'dynamic'"
+            ></bc-date>
+          </div>
+
+          <div *ngIf="newFilterVersionMetadata" class="persons-count">
+            <ng-container *ngIf="newFilterVersionMetadata.numberOfInvalidPersons === 0 && newFilterVersionMetadata.isActual">
+              <div class="message-row">
+                <bc-icon class="color-info mr-2" icon="info-circle-o"></bc-icon>
+                {{
+                  'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NEW.NUMBER_OF_PERSONS'
+                    | translate
+                      : {
+                          count: newFilterVersionMetadata.numberOfPersons | number
+                        }
+                }}
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="!newFilterVersionMetadata.isActual" class="message-row">
+              <div class="message-row">
+                <bc-icon class="color-error mr-2" icon="exclamation-circle-o"></bc-icon>
+                {{
+                  'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NEW.ACTUALITY_DATE_ERROR'
+                    | translate
+                      : {
+                          count: newFilterVersionMetadata.numberOfPersons | number,
+                          actualityDate: newFilterVersionMetadata.actualityDate | date: 'short'
+                        }
+                }}
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="newFilterVersionMetadata.numberOfInvalidPersons > 0" class="message-row">
+              <div class="message-row">
+                <bc-icon class="color-warning mr-2" icon="exclamation-triangle-o"></bc-icon>
+                {{
+                  'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NEW.NUMBER_OF_PERSONS_WITH_INVALID'
+                    | translate
+                      : {
+                          count: newFilterVersionMetadata.numberOfPersons | number,
+                          invalidCount: newFilterVersionMetadata.numberOfInvalidPersons | number
+                        }
+                }}
+              </div>
+            </ng-container>
+          </div>
+
+          <bc-spinner *ngIf="newFilterVersionMetadataLoading"></bc-spinner>
+
+          <p class="panel-section-title">{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.EXISTING' | translate }}</p>
+          <app-voter-list-electoral-register-filter-version-table
+            [filterVersions]="filterVersions"
+            [selectedFilterVersionId]="selectedFilterVersion?.id"
+          ></app-voter-list-electoral-register-filter-version-table>
+        </bc-expansion-panel>
+      </div>
+    </app-voter-list-import-edit-form>
+  </div>
+
+  <div footer>
+    <app-button-bar
+      *ngIf="!loading"
+      deleteConfirmLabel="VOTER_LIST_IMPORT.DELETE_CONFIRM"
+      [saving]="saving"
+      [saveLabel]="isNew || createNewVersion || step !== 1 ? 'APP.SAVE' : 'APP.CONTINUE'"
+      [deleting]="deleting"
+      [savingLabel]="step === 1 ? 'VOTER_LIST_IMPORT.IMPORTING' : ''"
+      [canSave]="
+        (!createNewVersion && !!voterListImport.sourceId) || (createNewVersion && !!newFilterVersionName && !!newFilterVersionDeadline)
+      "
+      [hasDeleteButton]="!isNew && step === 1"
+      [hasCancelButton]="step === 1"
+      (save)="save()"
+      (delete)="delete()"
+      (cancel)="cancel()"
+    >
+    </app-button-bar>
+  </div>
+</app-dialog>
+
+<ng-template #spinner>
+  <bc-spinner size="large"></bc-spinner>
+</ng-template>

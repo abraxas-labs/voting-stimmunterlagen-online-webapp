@@ -1,0 +1,21 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.table-header {
+  @extend .mb-1;
+
+  &:not(:first-child) {
+    @extend .mt-4;
+  }
+
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .table-title {
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+}

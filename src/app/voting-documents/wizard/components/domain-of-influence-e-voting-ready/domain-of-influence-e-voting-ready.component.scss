@@ -1,0 +1,12 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+div {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 0.5rem;
+  background-color: $color-warning;
+
+  &.ready {
+    background-color: $color-success;
+  }
+}

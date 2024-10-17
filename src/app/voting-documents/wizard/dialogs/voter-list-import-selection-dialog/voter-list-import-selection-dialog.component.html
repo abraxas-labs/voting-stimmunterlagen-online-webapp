@@ -1,0 +1,13 @@
+<div>
+  <h3 class="header" translate>VOTER_LIST_IMPORT.SELECTION.TITLE</h3>
+
+  <div content class="m-2">
+    <bc-dropdown
+      class="full-width"
+      [items]="voterListImports"
+      displayExpr="name"
+      valueExpr="importId"
+      (valueChange)="done($event)"
+    ></bc-dropdown>
+  </div>
+</div>

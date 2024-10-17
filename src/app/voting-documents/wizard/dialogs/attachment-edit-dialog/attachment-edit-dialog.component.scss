@@ -1,0 +1,15 @@
+[header] {
+  min-width: 30rem;
+}
+
+[content] {
+  max-width: 45rem;
+}
+
+form > * {
+  display: block;
+}
+
+::ng-deep bc-radio-button-group .mat-mdc-radio-button {
+  margin-top: 0 !important;
+}

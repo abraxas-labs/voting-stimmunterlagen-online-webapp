@@ -1,0 +1,19 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+@use '@abraxas/voting-lib/style/color' as *;
+@use 'src/app/styles/overflow';
+
+:host {
+  @extend .px-3;
+  @extend .py-4;
+  @extend .overflow-auto;
+
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  background-color: $color-grey-6;
+  border-left: 1px solid $color-grey-5;
+}
+
+bc-checkbox:not(:first-of-type) {
+  margin-top: 1rem;
+}

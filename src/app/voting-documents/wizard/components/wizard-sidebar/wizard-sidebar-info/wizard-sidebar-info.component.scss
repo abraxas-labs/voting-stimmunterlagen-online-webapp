@@ -1,0 +1,12 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+@use '@abraxas/voting-lib/style/color' as *;
+
+:host {
+  display: block;
+}
+
+.content {
+  @extend .ml-2;
+
+  font-size: 1rem;
+}

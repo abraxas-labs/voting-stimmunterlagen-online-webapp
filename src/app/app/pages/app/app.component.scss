@@ -1,0 +1,24 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.no-permissions-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+
+  > * {
+    margin-top: 0.3rem;
+  }
+
+  p {
+    font-size: 2em;
+  }
+}
+
+.spinner-container {
+  @extend .m-4;
+
+  display: flex;
+  justify-content: center;
+}

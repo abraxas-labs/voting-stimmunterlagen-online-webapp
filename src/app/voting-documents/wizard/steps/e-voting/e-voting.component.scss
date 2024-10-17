@@ -1,0 +1,10 @@
+@use 'src/app/styles/layout';
+
+:host {
+  @extend .layout;
+}
+
+.header {
+  font-weight: bold;
+  font-size: 0.8rem;
+}

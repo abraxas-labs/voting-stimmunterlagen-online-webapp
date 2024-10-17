@@ -1,0 +1,12 @@
+<app-dialog>
+  <h3 header>{{ title | translate }}</h3>
+
+  <div content>
+    <p>{{ message | translate }}</p>
+  </div>
+
+  <div footer class="buttons" [class.align-right]="!showCancel">
+    <bc-button *ngIf="showCancel" (buttonClick)="cancel()" [label]="cancelText | translate"></bc-button>
+    <bc-button variant="primary" color="warn" (buttonClick)="confirm()" [label]="confirmText | translate"></bc-button>
+  </div>
+</app-dialog>

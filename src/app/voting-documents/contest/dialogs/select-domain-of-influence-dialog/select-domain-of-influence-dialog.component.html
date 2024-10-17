@@ -1,0 +1,7 @@
+<div>
+  <h3>{{ 'CONTEST.CHOOSE_DOMAIN_OF_INFLUENCE' | translate }}</h3>
+
+  <div content class="m-2" *ngIf="domainOfInfluences">
+    <bc-dropdown class="full-width" [items]="domainOfInfluences" displayExpr="name" (valueChange)="done($event)"></bc-dropdown>
+  </div>
+</div>

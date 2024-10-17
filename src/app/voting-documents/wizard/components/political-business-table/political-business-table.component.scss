@@ -1,0 +1,23 @@
+:host {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+
+  .mat-mdc-cell,
+  .mat-mdc-header-cell {
+    &.mat-column-nr {
+      width: 10%;
+    }
+
+    &.mat-column-type {
+      width: 10%;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    &.mat-column-doiName {
+      width: 35%;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+<div
+  class="grid-container"
+  [style.gridAutoFlow]="itemOrientation === 'horizontal' ? 'row' : 'column'"
+  [style.gridTemplateRows]="itemOrientation === 'vertical' ? gridTemplateEntriesDirectionStyle : gridTemplateItemsDirectionStyle"
+  [style.gridTemplateColumns]="itemOrientation === 'horizontal' ? gridTemplateEntriesDirectionStyle : gridTemplateItemsDirectionStyle"
+>
+  <ng-content></ng-content>
+</div>

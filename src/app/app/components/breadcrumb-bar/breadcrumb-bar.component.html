@@ -1,0 +1,7 @@
+<ng-container *ngIf="breadcrumbItems$ | async as items">
+  <div class="container" *ngIf="items && items.length > 0">
+    <bc-breadcrumbs>
+      <bc-breadcrumb-item *ngFor="let item of items" [link]="item.link">{{ item.label | translate: item.i18nData }}</bc-breadcrumb-item>
+    </bc-breadcrumbs>
+  </div>
+</ng-container>

@@ -1,0 +1,35 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+@use 'src/app/styles/layout';
+
+:host {
+  @extend .layout;
+
+  min-height: inherit;
+  max-height: inherit;
+  min-width: inherit;
+  max-width: inherit;
+  margin: 1.5rem;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+
+  h4 {
+    margin-bottom: 0;
+  }
+}
+
+.layout-left {
+  @extend .mr-2;
+
+  width: 20rem;
+}
+
+.default-name {
+  @extend .ml-1;
+  @extend .my-1;
+
+  display: block;
+  font-size: 1rem;
+}

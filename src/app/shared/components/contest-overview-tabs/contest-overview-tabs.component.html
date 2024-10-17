@@ -1,0 +1,30 @@
+<div *ngIf="!!contest">
+  <div class="my-3">
+    <bc-tab-bar [selectedIndex]="selectedTabIndex" (selectedChange)="selectedTabIndex = $event">
+      <bc-tab *ngFor="let tabItem of tabItems" [label]="tabItem.description"></bc-tab>
+    </bc-tab-bar>
+  </div>
+
+  <div [ngSwitch]="selectedTab">
+    <app-contest-overview-attachment-tab-content
+      *ngSwitchCase="contestDetailTabs.ATTACHMENTS"
+      [contest]="contest"
+      [forPrintJobManagement]="forPrintJobManagement"
+    ></app-contest-overview-attachment-tab-content>
+    <app-contest-overview-print-job-tab-content
+      *ngSwitchCase="contestDetailTabs.PRINT_JOBS"
+      [contest]="contest"
+      [forPrintJobManagement]="forPrintJobManagement"
+    ></app-contest-overview-print-job-tab-content>
+    <app-contest-overview-voter-list-settings-tab-content
+      *ngSwitchCase="contestDetailTabs.VOTER_LIST_SETTINGS"
+      [contest]="contest"
+    ></app-contest-overview-voter-list-settings-tab-content>
+  </div>
+  <div *ngIf="selectedTab === contestDetailTabs.INVOICES">
+    <app-contest-overview-invoice-tab-content
+      [contest]="contest"
+      [forPrintJobManagement]="forPrintJobManagement"
+    ></app-contest-overview-invoice-tab-content>
+  </div>
+</div>

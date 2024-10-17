@@ -1,0 +1,40 @@
+@use '../../../node_modules/normalize.css/normalize.css';
+@use '@abraxas/voting-lib/style' as *;
+@use './layout';
+@use './overflow';
+@use './color';
+@use './sizing';
+@use './font';
+@use './table';
+@use './display';
+@use './flex';
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+bc-app-layout main {
+  @extend .layout;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: $color-primary;
+}
+
+bc-checkbox.checkbox-break-text .mat-mdc-checkbox-label {
+  white-space: normal;
+  line-height: 1.1rem;
+}
+
+// enable bc multiline hints on form fields.
+.formfield .mat-mdc-form-field-subscript-wrapper {
+  position: relative;
+}

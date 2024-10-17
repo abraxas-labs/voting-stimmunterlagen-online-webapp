@@ -1,0 +1,62 @@
+<div class="layout-left overflow-auto px-4">
+  <div class="layout-header layout-center pb-1 pt-4">
+    <h1>{{ 'STEP_GENERATE_VOTING_CARDS.TITLE' | translate }}</h1>
+    <bc-spinner *ngIf="saving"></bc-spinner>
+  </div>
+  <ng-container *ngIf="!loading; else spinner">
+    <app-domain-of-influence-voting-card-configuration
+      *ngIf="votingCardConfiguration"
+      [votingCardConfiguration]="votingCardConfiguration"
+      (configurationChanged)="saveConfigurationAndUpdatePreview()"
+      [canEdit]="canEdit && !saving && !previewLoading"
+    ></app-domain-of-influence-voting-card-configuration>
+    <p *ngIf="!votingCardConfiguration && !canEdit" class="italic" translate>STEP_GENERATE_VOTING_CARDS.NO_DATA</p>
+  </ng-container>
+</div>
+<app-voting-card-preview
+  class="layout-center layout-start-header layout-end-footer"
+  *ngIf="!loading"
+  [(selectedVotingCardType)]="previewVotingCardType"
+  (selectedVotingCardTypeChange)="updatePreview()"
+  [previewLoading]="previewLoading"
+  [previewData]="previewData"
+  [votingCardTypes]="votingCardTypes"
+>
+</app-voting-card-preview>
+
+<app-wizard-sidebar
+  class="layout-right"
+  [stepInfo]="stepInfo"
+  [checks]="[
+    'STEP_GENERATE_VOTING_CARDS.SAMPLES_CHECKED',
+    'STEP_GENERATE_VOTING_CARDS.INFORMATION_CORRECT',
+    'STEP_GENERATE_VOTING_CARDS.READY_TO_GENERATE',
+    'STEP_GENERATE_VOTING_CARDS.PRINT_DATA_CHECKED'
+  ]"
+  [approveStateLoading]="approveLoading"
+  [canApprove]="true"
+  [canRevert]="false"
+  (approve)="approve()"
+  (revert)="revert()"
+  hint="STEP_GENERATE_VOTING_CARDS.HINT"
+>
+  <ng-container *ngIf="stepInfo && stepInfo.domainOfInfluence.printData">
+    <p translate>WIZARD.PRINT_DATA_TITLE</p>
+    <app-wizard-sidebar-info
+      label="STEP_GENERATE_VOTING_CARDS.SHIPPING_AWAY"
+      [content]="'VOTING_CARD_SHIPPING_FRANKING.' + stepInfo.domainOfInfluence.printData.shippingAway"
+    ></app-wizard-sidebar-info>
+    <app-wizard-sidebar-info
+      label="STEP_GENERATE_VOTING_CARDS.SHIPPING_RETURN"
+      [content]="'VOTING_CARD_SHIPPING_FRANKING.' + stepInfo.domainOfInfluence.printData.shippingReturn"
+    ></app-wizard-sidebar-info>
+    <app-wizard-sidebar-info
+      label="STEP_GENERATE_VOTING_CARDS.SHIPPING_METHOD"
+      [content]="'VOTING_CARD_SHIPPING_METHOD.' + stepInfo.domainOfInfluence.printData.shippingMethod"
+    ></app-wizard-sidebar-info>
+  </ng-container>
+</app-wizard-sidebar>
+
+<ng-template #spinner>
+  <bc-spinner size="large"></bc-spinner>
+</ng-template>

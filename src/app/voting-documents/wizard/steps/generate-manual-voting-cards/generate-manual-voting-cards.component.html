@@ -1,0 +1,28 @@
+<h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_GENERATE_MANUAL_VOTING_CARDS.TITLE</h1>
+<div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
+  <app-manual-voting-card-voter-edit #editComponent [voter]="newVoter"></app-manual-voting-card-voter-edit>
+
+  <div class="buttons" *ngIf="editComponent.form">
+    <bc-button
+      [disabled]="!editComponent.form.valid || generating"
+      [label]="'STEP_GENERATE_MANUAL_VOTING_CARDS.GENERATE' | translate"
+      (buttonClick)="createVoter()"
+    ></bc-button>
+    <bc-spinner *ngIf="generating" class="ml-2"></bc-spinner>
+  </div>
+
+  <div class="mb-3">
+    <p class="header mb-1 mt-4" translate>MANUAL_VOTING_CARD_GENERATOR_JOB.JOBS</p>
+    <app-manual-voting-card-generator-jobs-table [jobs]="jobs"></app-manual-voting-card-generator-jobs-table>
+  </div>
+</div>
+
+<app-wizard-sidebar
+  class="layout-right"
+  [stepInfo]="stepInfo"
+  [canApprove]="false"
+  [canRevert]="false"
+  [showApprove]="false"
+  hint="STEP_GENERATE_MANUAL_VOTING_CARDS.HINT"
+>
+</app-wizard-sidebar>

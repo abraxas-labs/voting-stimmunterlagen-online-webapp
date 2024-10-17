@@ -1,0 +1,19 @@
+::ng-deep .voter-list-settings {
+  bc-table {
+    table-layout: auto;
+    width: unset;
+  }
+
+  bc-checkbox {
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  td {
+    &.cdk-column-name {
+      min-width: 20rem;
+    }
+
+    vertical-align: middle;
+  }
+}

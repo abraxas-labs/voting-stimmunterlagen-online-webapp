@@ -1,0 +1,26 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host {
+  @extend .py-3;
+
+  padding-left: 2rem;
+  padding-right: 2rem;
+  display: block;
+  border-bottom: 1px solid $color-grey-5;
+
+  .container {
+    display: flex;
+    align-items: center;
+
+    > div:not(:last-child) {
+      @extend .mr-4;
+
+      min-height: 3rem;
+
+      > p {
+        @extend .m-0;
+      }
+    }
+  }
+}

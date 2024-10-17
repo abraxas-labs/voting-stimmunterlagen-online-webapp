@@ -1,0 +1,6 @@
+<div class="my-3" *ngIf="votingCardTypes.length > 1">
+  <bc-tab-bar [selectedIndex]="selectedIndex" (selectedChange)="select($event)">
+    <bc-tab *ngFor="let vcType of votingCardTypes" [label]="'VOTING_CARD_TYPES.' + vcType | translate"></bc-tab>
+  </bc-tab-bar>
+</div>
+<app-pdf-preview [loading]="previewLoading" [data]="previewData"></app-pdf-preview>

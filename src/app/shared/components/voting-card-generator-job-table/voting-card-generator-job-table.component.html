@@ -1,0 +1,26 @@
+<bc-table class="mt-1 mb-4" [dataSource]="jobs">
+  <ng-container columnDef="vcType">
+    <bc-header-cell *headerCellDef>{{ 'VOTING_CARD_GENERATOR_JOB.VC_TYPE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ 'VOTING_CARD_TYPES.' + element.votingCardType | translate }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="fileName">
+    <bc-header-cell *headerCellDef>{{ 'VOTING_CARD_GENERATOR_JOB.FILE_NAME' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.fileName }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="countOfVoters">
+    <bc-header-cell *headerCellDef>{{ 'VOTING_CARD_GENERATOR_JOB.COUNT_OF_VOTERS' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.countOfVoters | number }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="state">
+    <bc-header-cell *headerCellDef>{{ 'VOTING_CARD_GENERATOR_JOB.STATE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">
+      <app-voting-card-generator-job-state [state]="element.state"></app-voting-card-generator-job-state>
+    </bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: ['fileName', 'vcType', 'countOfVoters', 'state']"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: ['fileName', 'vcType', 'countOfVoters', 'state']; let i = index"></bc-data-row>
+</bc-table>

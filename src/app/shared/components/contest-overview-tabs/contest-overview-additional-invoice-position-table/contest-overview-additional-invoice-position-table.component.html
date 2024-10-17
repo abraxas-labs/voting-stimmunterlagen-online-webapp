@@ -1,0 +1,47 @@
+<div class="table-header">
+  <bc-button variant="tertiary" (buttonClick)="createOrEdit()" [label]="'ADDITIONAL_INVOICE_POSITION.CREATE' | translate"></bc-button>
+</div>
+
+<bc-table selection [dataSource]="additionalInvoicePositions" class="w-full">
+  <ng-container columnDef="authority">
+    <bc-header-cell *headerCellDef>{{ 'ADDITIONAL_INVOICE_POSITION.AUTHORITY' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.authorityName }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="domainOfInfluence">
+    <bc-header-cell *headerCellDef>{{ 'ADDITIONAL_INVOICE_POSITION.DOMAIN_OF_INFLUENCE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.name }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="description">
+    <bc-header-cell *headerCellDef>{{ 'ADDITIONAL_INVOICE_POSITION.MATERIAL' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.material?.displayText ?? element.materialNumber }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="amount">
+    <bc-header-cell *headerCellDef>{{ 'ADDITIONAL_INVOICE_POSITION.AMOUNT' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.amount }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="createdBy">
+    <bc-header-cell *headerCellDef>{{ 'ADDITIONAL_INVOICE_POSITION.CREATED_BY' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.createdBy.firstName }} {{ element.createdBy.lastName }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="created">
+    <bc-header-cell *headerCellDef>{{ 'ADDITIONAL_INVOICE_POSITION.CREATED' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.created | date: 'dd.MM.yyyy' }}</bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row
+    *dataRowDef="let row; columns: columns; let i = index"
+    selectionToggle
+    [selectionToggleValue]="row"
+    selectionRow
+    [selectionRowValue]="row"
+    (click)="createOrEdit(row)"
+  ></bc-data-row>
+</bc-table>
+
+<p class="italic ml-2" *ngIf="additionalInvoicePositions.length === 0" translate>APP.NO_DATA</p>

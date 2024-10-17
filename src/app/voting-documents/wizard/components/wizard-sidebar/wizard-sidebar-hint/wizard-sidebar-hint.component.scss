@@ -1,0 +1,9 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+:host {
+  display: block;
+}
+
+.hint {
+  white-space: pre-wrap;
+}

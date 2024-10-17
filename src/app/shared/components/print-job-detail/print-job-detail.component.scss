@@ -1,0 +1,19 @@
+@use 'src/app/styles/layout';
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host {
+  @extend .layout;
+
+  grid-template-rows: minmax(2rem, auto) minmax(2rem, 1fr);
+}
+
+.buttons {
+  @extend .mb-2;
+
+  text-align: right;
+}
+
+p.header {
+  font-weight: bold;
+  font-size: 0.8rem;
+}

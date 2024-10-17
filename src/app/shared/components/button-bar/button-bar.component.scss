@@ -1,0 +1,24 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.buttons {
+  @extend .py-2, .mt-2;
+
+  display: flex;
+  justify-content: space-between;
+  background-color: $color-white;
+
+  &.sticky {
+    position: sticky;
+    bottom: 0;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  align-self: center;
+
+  > *:not(:last-child) {
+    @extend .pr-2;
+  }
+}

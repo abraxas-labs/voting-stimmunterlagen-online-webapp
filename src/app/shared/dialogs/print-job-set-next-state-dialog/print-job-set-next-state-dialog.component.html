@@ -1,0 +1,53 @@
+<app-dialog>
+  <h3 header>{{ nextStateTranslationPrefix + '.HEADER' | translate }}</h3>
+
+  <div content class="m-2">
+    <p class="whitespace-pre-wrap">{{ nextStateTranslationPrefix + '.TEXT' | translate }}</p>
+
+    <form #form="ngForm">
+      <ng-container *ngIf="printJob.state === printJobStates.PRINT_JOB_STATE_READY_FOR_PROCESS">
+        <p>{{ nextStateTranslationPrefix + '.ACTIONS_LIST.HEADER' | translate }}</p>
+        <ul>
+          <li *ngFor="let i of [1, 2, 3, 4]">{{ nextStateTranslationPrefix + '.ACTIONS_LIST.ITEMS.' + i | translate }}</li>
+        </ul>
+      </ng-container>
+
+      <ng-container *ngIf="printJob.state === printJobStates.PRINT_JOB_STATE_PROCESS_STARTED">
+        <bc-number
+          [label]="'PRINT_JOB.VOTING_CARDS_PRINTED_AND_PACKED_COUNT' | translate"
+          name="votingCardsPrintedAndPackedCount"
+          [required]="true"
+          [(ngModel)]="votingCardsPrintedAndPackedCount"
+          [min]="0"
+          [subscriptSizing]="'dynamic'"
+        ></bc-number>
+
+        <bc-number
+          [label]="'PRINT_JOB.VOTING_CARDS_SHIPMENT_WEIGHT' | translate"
+          name="votingCardsShipmentWeight"
+          [required]="true"
+          [(ngModel)]="votingCardsShipmentWeight"
+          [min]="0"
+          [precision]="2"
+          [subscriptSizing]="'dynamic'"
+        ></bc-number>
+      </ng-container>
+
+      <ng-container *ngIf="printJob.state === printJobStates.PRINT_JOB_STATE_PROCESS_ENDED">
+        <bc-textarea [label]="'PRINT_JOB.COMMENT' | translate" name="comment" [(ngModel)]="comment" [subscriptSizing]="'dynamic'">
+        </bc-textarea>
+      </ng-container>
+    </form>
+  </div>
+
+  <div footer>
+    <app-button-bar
+      [saving]="saving"
+      [saveLabel]="nextStateTranslationPrefix + '.INVOKE'"
+      [hasDeleteButton]="false"
+      [canSave]="form.valid"
+      (save)="save()"
+      (cancel)="done()"
+    ></app-button-bar>
+  </div>
+</app-dialog>

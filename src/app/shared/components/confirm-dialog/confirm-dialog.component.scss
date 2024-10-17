@@ -1,0 +1,20 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.buttons {
+  @extend .mt-2;
+
+  display: flex;
+  justify-content: space-between;
+
+  bc-button:last-child {
+    margin-left: 1rem;
+  }
+}
+
+.buttons.align-right {
+  flex-direction: row-reverse;
+}
+
+p {
+  white-space: pre-wrap;
+}

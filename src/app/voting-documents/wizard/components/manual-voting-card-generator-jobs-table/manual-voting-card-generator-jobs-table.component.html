@@ -1,0 +1,21 @@
+<bc-table class="w-full" [dataSource]="jobs">
+  <ng-container columnDef="created">
+    <bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.CREATED' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.created | date: 'dd.MM.yyyy HH:mm' }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="createdBy">
+    <bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.CREATED_BY' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.createdBy.firstName }} {{ element.createdBy.lastName }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="voter">
+    <bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.VOTER' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element"
+      >{{ element.voter.firstName }} {{ element.voter.lastName }}, {{ element.voter.town }}</bc-data-cell
+    >
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: ['created', 'createdBy', 'voter']"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: ['created', 'createdBy', 'voter']; let i = index"></bc-data-row>
+</bc-table>

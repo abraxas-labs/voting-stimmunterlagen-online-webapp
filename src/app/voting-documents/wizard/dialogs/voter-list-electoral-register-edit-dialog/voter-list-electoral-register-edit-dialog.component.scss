@@ -1,0 +1,44 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host,
+[header],
+[content] {
+  width: 40rem;
+}
+
+form > * {
+  display: block;
+}
+
+::ng-deep app-voter-list-electoral-register-edit-dialog bc-expansion-panel.selectable {
+  &.selected mat-panel-title {
+    font-weight: 500;
+  }
+
+  &:not(.selected) mat-panel-title {
+    font-weight: 500;
+    color: $color-grey-4;
+  }
+}
+
+.new-filter-version {
+  display: flex;
+  column-gap: 1.3rem;
+}
+
+.panel-section-title {
+  font-weight: 500;
+}
+
+.persons-count {
+  @extend .mb-2;
+
+  column-gap: 0.3rem;
+}
+
+.message-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}

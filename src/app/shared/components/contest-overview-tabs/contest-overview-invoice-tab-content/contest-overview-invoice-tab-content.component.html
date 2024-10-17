@@ -1,0 +1,21 @@
+<ng-container *ngIf="!loading; else spinner">
+  <div class="buttons">
+    <bc-spinner class="mr-1" *ngIf="generating"></bc-spinner>
+    <bc-button
+      [label]="'INVOICE.EXPORT' | translate"
+      (buttonClick)="generateExport()"
+      variant="primary"
+      [disabled]="generating"
+    ></bc-button>
+  </div>
+
+  <app-contest-overview-additional-invoice-position-table
+    [additionalInvoicePositions]="additionalInvoicePositions"
+    [availableMaterials]="availableMaterials"
+    [selectableDomainOfInfluences]="domainOfInfluences"
+  ></app-contest-overview-additional-invoice-position-table>
+</ng-container>
+
+<ng-template #spinner>
+  <bc-spinner size="large"></bc-spinner>
+</ng-template>

@@ -1,0 +1,19 @@
+@use 'src/app/styles/layout';
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host {
+  @extend .layout;
+}
+
+.download-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  .download-item {
+    text-align: center;
+
+    &:not(:last-child) {
+      @extend .mr-3;
+    }
+  }
+}

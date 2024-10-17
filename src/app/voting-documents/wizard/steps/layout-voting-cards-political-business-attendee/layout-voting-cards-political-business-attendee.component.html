@@ -1,0 +1,76 @@
+<div class="layout-left overflow-auto px-4">
+  <h1 class="pb-1 pt-4" translate>STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.TITLE</h1>
+  <ng-container *ngIf="stepInfo && !loading; else spinner">
+    <div *ngFor="let layout of layouts">
+      <div class="mt-5 mb-1 title">
+        <h4>{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h4>
+        <bc-spinner *ngIf="layout.loading"></bc-spinner>
+      </div>
+      <ng-container *ngIf="layout.layout.contestTemplate">
+        <div>
+          <span class="block">{{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.DEFAULT' | translate }}</span>
+          <span class="default-name">{{ layout.layout.domainOfInfluenceTemplate?.name || layout.layout.contestTemplate.name }}</span>
+        </div>
+        <div *ngIf="layout.layout.allowCustom" class="mt-2">
+          <bc-checkbox
+            [label]="'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.OVERWRITE' | translate"
+            [ngModel]="layout.hasOverriddenLayout"
+            (ngModelChange)="updateHasOverriddenLayout(layout, $event)"
+            [disabled]="!canEdit"
+          ></bc-checkbox>
+        </div>
+      </ng-container>
+      <div *ngIf="layout.hasOverriddenLayout || !layout.layout.contestTemplate">
+        <bc-dropdown
+          class="w-full mt-1"
+          [items]="templates"
+          displayExpr="name"
+          valueExpr="id"
+          [required]="true"
+          [disabled]="!canEdit"
+          [ngModel]="layout.layout.overriddenTemplate?.id"
+          (ngModelChange)="updateOverriddenTemplate(layout, $event)"
+        ></bc-dropdown>
+      </div>
+    </div>
+    <div class="mt-4">
+      <bc-button
+        variant="tertiary"
+        [disabled]="loadingAnyLayout || !canEdit"
+        [label]="'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATA' | translate"
+        (buttonClick)="editTemplateData()"
+      ></bc-button>
+    </div>
+  </ng-container>
+</div>
+<div class="layout-center">
+  <app-voting-card-preview
+    *ngIf="!loading"
+    [(selectedVotingCardType)]="previewVotingCardType"
+    (selectedVotingCardTypeChange)="updatePreview()"
+    [previewLoading]="previewLoading"
+    [previewData]="previewData"
+    [votingCardTypes]="votingCardTypes"
+  >
+  </app-voting-card-preview>
+</div>
+
+<app-wizard-sidebar
+  class="layout-right"
+  [stepInfo]="stepInfo"
+  [checks]="[
+    'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.CHECK_1',
+    'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.CHECK_2'
+  ]"
+  [canApprove]="true"
+  [canRevert]="true"
+  [approveStateLoading]="approveLoading"
+  (approve)="approve()"
+  (revert)="revert()"
+  hint="STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.HINT"
+>
+</app-wizard-sidebar>
+
+<ng-template #spinner>
+  <bc-spinner size="large"></bc-spinner>
+</ng-template>

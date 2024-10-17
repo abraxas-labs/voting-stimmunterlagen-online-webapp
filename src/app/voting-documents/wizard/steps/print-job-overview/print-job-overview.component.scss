@@ -1,0 +1,28 @@
+@use 'src/app/styles/layout';
+
+:host {
+  @extend .layout;
+}
+
+.header {
+  display: flex;
+
+  p {
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+
+  bc-icon {
+    visibility: hidden;
+    cursor: pointer;
+  }
+
+  &:hover bc-icon {
+    visibility: visible;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+}

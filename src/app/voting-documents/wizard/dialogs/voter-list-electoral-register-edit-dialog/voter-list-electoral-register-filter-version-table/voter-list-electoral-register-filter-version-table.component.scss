@@ -1,0 +1,13 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+tr.selected {
+  background-color: $color-grey-7;
+}
+
+// this is a generated class name by angular material
+// which does not conform to our stylelint rules
+/* stylelint-disable-next-line selector-class-pattern */
+.mat-column-numberOfInvalidPersons {
+  text-align: right;
+  justify-content: flex-end;
+}

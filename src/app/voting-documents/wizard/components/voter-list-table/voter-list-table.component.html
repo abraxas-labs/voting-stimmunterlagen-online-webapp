@@ -1,0 +1,61 @@
+<ng-container *ngIf="domainOfInfluenceVoterLists">
+  <div class="table-header" *ngIf="canEdit">
+    <bc-button
+      *ngIf="domainOfInfluenceVoterLists.domainOfInfluence.canManuallyUploadVoterList"
+      variant="tertiary"
+      (buttonClick)="create(voterListSources.VOTER_LIST_SOURCE_MANUAL_ECH_45_UPLOAD)"
+      [label]="'VOTER_LIST_IMPORT.UPLOAD_ECH' | translate"
+    ></bc-button>
+    <bc-button
+      *ngIf="domainOfInfluenceVoterLists.domainOfInfluence.electoralRegistrationEnabled"
+      variant="tertiary"
+      (buttonClick)="create(voterListSources.VOTER_LIST_SOURCE_VOTING_STIMMREGISTER_FILTER_VERSION)"
+      [label]="'VOTER_LIST_IMPORT.CREATE_FROM_SR' | translate"
+    ></bc-button>
+    <bc-button
+      *ngIf="domainOfInfluenceVoterLists.voterLists.length > 0"
+      variant="tertiary"
+      (buttonClick)="edit()"
+      [label]="'VOTER_LIST_IMPORT.UPDATE_DATA' | translate"
+    ></bc-button>
+  </div>
+
+  <app-grid-table itemOrientation="vertical" *ngIf="domainOfInfluenceVoterLists.voterLists.length > 0">
+    <app-grid-table-item>
+      <app-grid-table-item-entry>{{ 'VOTER_LIST.NAME' | translate }}</app-grid-table-item-entry>
+      <app-grid-table-item-entry>{{ 'VOTER_LIST.VOTING_CARD_TYPE' | translate }}</app-grid-table-item-entry>
+      <app-grid-table-item-entry>{{ 'VOTER_LIST.LAST_UPDATE' | translate }}</app-grid-table-item-entry>
+      <app-grid-table-item-entry borderVariant="bold">{{ 'VOTER_LIST.NUMBER_OF_VOTERS' | translate }}</app-grid-table-item-entry>
+
+      <app-grid-table-item-entry *ngFor="let pbNumberOfVoters of domainOfInfluenceVoterLists.numberOfVoters">
+        {{ pbNumberOfVoters.politicalBusiness.shortDescription }}
+      </app-grid-table-item-entry>
+    </app-grid-table-item>
+
+    <app-grid-table-item *ngFor="let voterList of domainOfInfluenceVoterLists.voterLists">
+      <app-grid-table-item-entry>{{ voterList.name }}</app-grid-table-item-entry>
+      <app-grid-table-item-entry>{{ 'VOTING_CARD_TYPES.' + voterList.votingCardType | translate }}</app-grid-table-item-entry>
+      <app-grid-table-item-entry>{{ voterList.lastUpdate | date: 'dd.MM.yyyy' }}</app-grid-table-item-entry>
+      <app-grid-table-item-entry borderVariant="bold">{{ voterList.numberOfVoters | number }}</app-grid-table-item-entry>
+
+      <app-grid-table-item-entry *ngFor="let checkablePoliticalBusiness of voterList.checkablePoliticalBusinesses.items">
+        <bc-checkbox
+          [checked]="checkablePoliticalBusiness.checked"
+          (checkedChange)="updatePoliticalBusinessChecked(voterList, checkablePoliticalBusiness, $event)"
+          [disabled]="!canEdit || checkablePoliticalBusiness.disabled"
+          (click)="$event.stopPropagation()"
+        ></bc-checkbox>
+      </app-grid-table-item-entry>
+    </app-grid-table-item>
+
+    <app-grid-table-item>
+      <app-grid-table-item-entry borderVariant="none" *ngFor="let i of [].constructor(3)"></app-grid-table-item-entry>
+      <app-grid-table-item-entry borderVariant="bold">{{
+        domainOfInfluenceVoterLists.totalNumberOfVoters | number
+      }}</app-grid-table-item-entry>
+      <app-grid-table-item-entry *ngFor="let pbNumberOfVoters of domainOfInfluenceVoterLists.numberOfVoters">
+        {{ pbNumberOfVoters.numberOfVoters | number }}
+      </app-grid-table-item-entry>
+    </app-grid-table-item>
+  </app-grid-table>
+</ng-container>

@@ -1,0 +1,2 @@
+<bc-search [(value)]="filter.query" (searchClick)="emitFilterChange()" [placeholder]="'APP.SEARCH' | translate"></bc-search>
+<bc-segmented-control-group [items]="stateItems" [value]="filter.state" (valueChange)="stateChange($event)"></bc-segmented-control-group>

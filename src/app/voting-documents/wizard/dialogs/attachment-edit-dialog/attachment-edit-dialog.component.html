@@ -1,0 +1,146 @@
+<app-dialog>
+  <h1 header translate>ATTACHMENT.DEFINE</h1>
+
+  <div content class="m-2">
+    <form #form="ngForm">
+      <bc-text
+        [label]="'ATTACHMENT.NAME' | translate"
+        name="name"
+        [required]="true"
+        [hint]="'ATTACHMENT.NAME_HINT' | translate"
+        [(ngModel)]="attachment.name"
+        [subscriptSizing]="'dynamic'"
+        [maxlength]="300"
+      ></bc-text>
+
+      <bc-radio-button-group
+        class="mb-3"
+        [items]="attachmentCategoryRadioButtons"
+        name="category"
+        [label]="'ATTACHMENT.CATEGORY' | translate"
+        [required]="true"
+        [(ngModel)]="attachment.category"
+        orientation="vertical"
+      ></bc-radio-button-group>
+
+      <bc-number
+        *ngIf="!requireExplicitRequiredCount"
+        [label]="'ATTACHMENT.ORDERED_COUNT' | translate"
+        [min]="1"
+        name="orderedCount"
+        [required]="true"
+        [(ngModel)]="attachment.orderedCount"
+        [subscriptSizing]="'dynamic'"
+      ></bc-number>
+
+      <bc-number
+        *ngIf="requireExplicitRequiredCount"
+        [label]="'ATTACHMENT.REQUIRED_COUNT' | translate"
+        [min]="1"
+        name="requiredCount"
+        [required]="true"
+        [(ngModel)]="attachment.domainOfInfluenceAttachmentRequiredCount"
+        [subscriptSizing]="'dynamic'"
+      ></bc-number>
+
+      <bc-radio-button-group
+        class="mb-3"
+        [items]="attachmentFormatRadioButtons"
+        name="format"
+        [label]="'ATTACHMENT.FORMAT' | translate"
+        [required]="true"
+        [ngModel]="attachment.format"
+        (ngModelChange)="attachment.format = $event; updateFormatConsultationRequired()"
+      ></bc-radio-button-group>
+
+      <div *ngIf="formatConsultationRequired">
+        <label>{{ 'ATTACHMENT.FORMAT_CONSULTATION_HINT' | translate }}</label>
+        <bc-checkbox
+          class="mt-1 mb-3"
+          [(checked)]="formatConsultationChecked"
+          [label]="'ATTACHMENT.FORMAT_CONSULTATION_CHECKED' | translate"
+        ></bc-checkbox>
+      </div>
+
+      <bc-text
+        [label]="'ATTACHMENT.COLOR' | translate"
+        name="color"
+        [hint]="'ATTACHMENT.COLOR_HINT' | translate"
+        [(ngModel)]="attachment.color"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
+
+      <bc-text
+        [label]="'ATTACHMENT.SUPPLIER' | translate"
+        name="supplier"
+        [hint]="'ATTACHMENT.SUPPLIER_HINT' | translate"
+        [(ngModel)]="attachment.supplier"
+        [required]="true"
+        [subscriptSizing]="'dynamic'"
+        [maxlength]="300"
+      ></bc-text>
+
+      <bc-date
+        [label]="'ATTACHMENT.DELIVERY_PLANNED_ON' | translate"
+        [value]="deliveryPlannedOn"
+        (valueChange)="deliveryPlannedOn = $event; updateValidDeliveryDate()"
+        [required]="true"
+        [error]="!validDeliveryDate"
+        [hint]="
+          (!!deliveryPlannedOn && !validDeliveryDate
+            ? 'ATTACHMENT.DELIVERY_PLANNED_ON_PAST_DEADLINE'
+            : 'ATTACHMENT.DELIVERY_PLANNED_ON_HINT'
+          ) | translate
+        "
+        [subscriptSizing]="'dynamic'"
+      ></bc-date>
+
+      <ng-container *ngFor="let doiNameCheckablePoliticalBusinessesPair of doiNameCheckablePoliticalBusinessesPairs | keyvalue">
+        <label class="mt-2">{{
+          'ATTACHMENT.POLITICAL_BUSINESSES' | translate: { name: doiNameCheckablePoliticalBusinessesPair.key }
+        }}</label>
+        <bc-checkbox
+          class="m-0 my-1"
+          [indeterminate]="
+            !doiNameCheckablePoliticalBusinessesPair.value.allChecked && doiNameCheckablePoliticalBusinessesPair.value.atLeastOneChecked
+          "
+          [checked]="doiNameCheckablePoliticalBusinessesPair.value.allChecked"
+          (checkedChange)="
+            doiNameCheckablePoliticalBusinessesPair.value.allChecked = $event; attachment.checkablePoliticalBusinesses.refreshState()
+          "
+          [label]="'VOTER_LIST.SELECT_ALL' | translate"
+        >
+        </bc-checkbox>
+        <bc-checkbox
+          class="m-0 my-1"
+          *ngFor="let checkablePoliticalBusiness of doiNameCheckablePoliticalBusinessesPair.value.items"
+          [checked]="checkablePoliticalBusiness.checked"
+          (checkedChange)="
+            doiNameCheckablePoliticalBusinessesPair.value.updateChecked(checkablePoliticalBusiness, $event);
+            attachment.checkablePoliticalBusinesses.refreshState()
+          "
+          [label]="checkablePoliticalBusiness.item.shortDescription"
+        ></bc-checkbox>
+      </ng-container>
+    </form>
+  </div>
+
+  <div footer>
+    <app-button-bar
+      deleteConfirmLabel="ATTACHMENT.DELETE_CONFIRM"
+      [saving]="saving"
+      [deleting]="deleting"
+      [canSave]="
+        form.valid &&
+        validDeliveryDate &&
+        (attachment.checkablePoliticalBusinesses.atLeastOneChecked || isPoliticalAssembly) &&
+        (!formatConsultationRequired || formatConsultationChecked)
+      "
+      [hasDeleteButton]="!isNew"
+      (save)="save()"
+      (delete)="delete()"
+      (cancel)="done()"
+    >
+    </app-button-bar>
+  </div>
+</app-dialog>

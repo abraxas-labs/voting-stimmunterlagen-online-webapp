@@ -1,0 +1,59 @@
+<div class="layout-left overflow-auto px-4">
+  <h1 class="pb-1 pt-4" translate>STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.TITLE</h1>
+  <ng-container *ngIf="stepInfo && !loading; else spinner">
+    <div *ngFor="let layout of layouts">
+      <div class="mt-5 mb-1 title">
+        <h3 class="mb-1">{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h3>
+        <bc-spinner *ngIf="layout.loading"></bc-spinner>
+      </div>
+      <div>
+        <bc-dropdown
+          [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.DEFAULT' | translate"
+          [items]="templates"
+          displayExpr="name"
+          valueExpr="id"
+          [required]="true"
+          [disabled]="stepInfo.state.approved"
+          [ngModel]="layout.layout.template?.id"
+          (ngModelChange)="updateTemplate(layout, $event)"
+        ></bc-dropdown>
+      </div>
+      <div>
+        <bc-checkbox
+          [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.ALLOW_CUSTOM' | translate"
+          [disabled]="stepInfo.state.approved"
+          [ngModel]="layout.layout.allowCustom"
+          (ngModelChange)="updateAllowCustom(layout, $event)"
+        ></bc-checkbox>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div class="layout-center">
+  <app-voting-card-preview
+    *ngIf="!loading"
+    [(selectedVotingCardType)]="previewVotingCardType"
+    (selectedVotingCardTypeChange)="updatePreview()"
+    [previewLoading]="previewLoading"
+    [previewData]="previewData"
+    [votingCardTypes]="votingCardTypes"
+  >
+  </app-voting-card-preview>
+</div>
+
+<app-wizard-sidebar
+  class="layout-right"
+  [stepInfo]="stepInfo"
+  [checks]="['STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.CHECK']"
+  [canApprove]="allTemplatesSet"
+  [canRevert]="true"
+  [approveStateLoading]="approveLoading"
+  (approve)="approve()"
+  (revert)="revert()"
+  hint="STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.HINT"
+>
+</app-wizard-sidebar>
+
+<ng-template #spinner>
+  <bc-spinner size="large"></bc-spinner>
+</ng-template>

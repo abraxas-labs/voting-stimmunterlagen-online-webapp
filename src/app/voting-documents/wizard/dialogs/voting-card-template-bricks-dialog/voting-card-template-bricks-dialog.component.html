@@ -1,0 +1,20 @@
+<app-dialog>
+  <h1 header translate>STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATA</h1>
+
+  <div content class="m-2">
+    <ng-container *ngFor="let brick of bricks">
+      <div class="brick-item mb-2">
+        <p class="m-0">{{ brick.name }}</p>
+        <bc-button variant="tertiary" [label]="'APP.EDIT' | translate" (buttonClick)="editBrick(brick)"></bc-button>
+      </div>
+    </ng-container>
+    <bc-spinner *ngIf="loading; else noData"></bc-spinner>
+    <ng-template #noData>
+      <p *ngIf="bricks.length === 0">{{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.NO_TEMPLATE_DATA' | translate }}</p>
+    </ng-template>
+  </div>
+
+  <div footer>
+    <app-button-bar [saveLabel]="'APP.CLOSE'" [hasDeleteButton]="false" (save)="close()" [hasCancelButton]="false"> </app-button-bar>
+  </div>
+</app-dialog>

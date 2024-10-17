@@ -1,0 +1,15 @@
+@use 'src/app/styles/layout';
+
+:host {
+  @extend .layout;
+}
+
+div.buttons {
+  display: flex;
+  align-items: center;
+}
+
+p.header {
+  font-weight: bold;
+  font-size: 0.8rem;
+}

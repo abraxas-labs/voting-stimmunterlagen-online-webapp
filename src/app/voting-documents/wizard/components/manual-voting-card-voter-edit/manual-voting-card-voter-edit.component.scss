@@ -1,0 +1,24 @@
+:host {
+  max-width: 70rem;
+  display: block;
+}
+
+.form-group {
+  display: flex;
+
+  > *:not(:last-child) {
+    margin-right: 0.7rem;
+  }
+}
+
+.w-5 {
+  width: 5rem;
+}
+
+.w-7 {
+  width: 7rem;
+}
+
+.w-11 {
+  width: 11rem;
+}

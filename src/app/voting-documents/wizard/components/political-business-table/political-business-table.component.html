@@ -1,0 +1,24 @@
+<bc-table class="w-full" [dataSource]="politicalBusinesses">
+  <ng-container columnDef="nr">
+    <bc-header-cell *headerCellDef>{{ 'POLITICAL_BUSINESS.NR' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.politicalBusinessNumber }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="type">
+    <bc-header-cell *headerCellDef>{{ 'POLITICAL_BUSINESS.TYPE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ 'POLITICAL_BUSINESS.TYPES.' + element.politicalBusinessType | translate }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="doiName">
+    <bc-header-cell *headerCellDef>{{ 'POLITICAL_BUSINESS.DOMAIN_OF_INFLUENCE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.name }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="shortDescription">
+    <bc-header-cell *headerCellDef>{{ 'POLITICAL_BUSINESS.SHORT_DESCRIPTION' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.shortDescription }}</bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: ['nr', 'type', 'doiName', 'shortDescription']"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: ['nr', 'type', 'doiName', 'shortDescription']; let i = index"></bc-data-row>
+</bc-table>

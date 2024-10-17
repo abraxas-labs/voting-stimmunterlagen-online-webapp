@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.table-header {
+  > *:not(:first-child) {
+    margin-left: 1rem;
+  }
+}
+
+bc-table {
+  ::ng-deep bc-button .mat-mdc-button {
+    white-space: normal;
+  }
+}
+
+.bc-column-domain-of-influences-exclude {
+  width: 14%;
+}
+
+.bc-column-category {
+  width: 15%;
+}

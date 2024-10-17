@@ -1,0 +1,35 @@
+<h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_VOTER_LISTS.TITLE</h1>
+<div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
+  <ng-container *ngIf="!loading; else spinner">
+    <app-voter-list-table
+      [domainOfInfluenceVoterLists]="voterLists"
+      [canEdit]="canEdit"
+      (voterListsChange)="refreshWarn()"
+    ></app-voter-list-table>
+    <p *ngIf="!!voterLists && voterLists.totalNumberOfVoters === 0 && !canEdit" class="italic" translate>VOTER_LIST.NO_DATA</p>
+  </ng-container>
+</div>
+
+<app-wizard-sidebar
+  class="layout-right"
+  [stepInfo]="stepInfo"
+  [checks]="isElectoralRegistrationEnabled ? ['STEP_VOTER_LISTS.CHECK_ELECTORAL_REGISTRATION'] : ['STEP_VOTER_LISTS.CHECK']"
+  [approveStateLoading]="approveLoading"
+  [canApprove]="!hasVoterDuplicates"
+  [canRevert]="true"
+  (approve)="approve()"
+  (revert)="revert()"
+  [hint]="isElectoralRegistrationEnabled ? 'STEP_VOTER_LISTS.HINT_ELECTORAL_REGISTRATION' : 'STEP_VOTER_LISTS.HINT'"
+  [warn]="
+    hasVoterDuplicates
+      ? 'STEP_VOTER_LISTS.HAS_VOTER_DUPLICATES_WARN'
+      : showMissingAttachmentsWarn
+      ? 'STEP_VOTER_LISTS.ATTACHMENTS_WARN'
+      : ''
+  "
+>
+</app-wizard-sidebar>
+
+<ng-template #spinner>
+  <bc-spinner size="large"></bc-spinner>
+</ng-template>

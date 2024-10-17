@@ -1,0 +1,26 @@
+<div class="voter-list-settings">
+  <bc-table [dataSource]="domainOfInfluences">
+    <ng-container columnDef="name">
+      <bc-header-cell *headerCellDef>{{ 'DOMAIN_OF_INFLUENCE.NAME' | translate }}</bc-header-cell>
+      <bc-data-cell *dataCellDef="let doi">{{ doi.name }}</bc-data-cell>
+    </ng-container>
+
+    <ng-container columnDef="allowManualVoterListUpload">
+      <bc-header-cell *headerCellDef>{{
+        'STEP_CONTEST_OVERVIEW.DOMAIN_OF_INFLUENCE_ALLOW_MANUAL_VOTER_LIST_UPLOAD' | translate
+      }}</bc-header-cell>
+      <bc-data-cell *dataCellDef="let doi">
+        <bc-checkbox
+          [checked]="doi.allowManualVoterListUpload"
+          (checkedChange)="setAllowManualVoterListUpload(doi, $event)"
+          [disabled]="saving"
+        ></bc-checkbox>
+      </bc-data-cell>
+    </ng-container>
+
+    <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+    <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+  </bc-table>
+
+  <p class="italic ml-2" *ngIf="domainOfInfluences.length === 0" translate>APP.NO_DATA</p>
+</div>

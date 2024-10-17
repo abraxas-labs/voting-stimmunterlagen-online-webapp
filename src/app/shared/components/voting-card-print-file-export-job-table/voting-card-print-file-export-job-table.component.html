@@ -1,0 +1,16 @@
+<bc-table class="mt-1 mb-4" [dataSource]="jobs">
+  <ng-container columnDef="fileName">
+    <bc-header-cell *headerCellDef>{{ 'VOTING_CARD_PRINT_FILE_EXPORT_JOB.FILE_NAME' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">{{ element.fileName }}</bc-data-cell>
+  </ng-container>
+
+  <ng-container columnDef="state">
+    <bc-header-cell *headerCellDef>{{ 'VOTING_CARD_PRINT_FILE_EXPORT_JOB.STATE' | translate }}</bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">
+      <app-export-job-state [state]="element.state"></app-export-job-state>
+    </bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+</bc-table>

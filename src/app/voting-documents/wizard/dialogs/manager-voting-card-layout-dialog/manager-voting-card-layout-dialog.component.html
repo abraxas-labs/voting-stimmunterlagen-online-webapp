@@ -1,0 +1,56 @@
+<div class="layout-header layout-left">
+  <h1>{{ 'STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.ASSIGN_DIALOG.TITLE' | translate: domainOfInfluence }}</h1>
+</div>
+
+<div class="layout-left layout-content overflow-auto">
+  <div *ngFor="let layout of layouts; let first = first">
+    <div [class.mt-5]="!first" class="mb-1 title">
+      <h4>{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h4>
+      <bc-spinner *ngIf="layout.loading"></bc-spinner>
+    </div>
+    <div>
+      <span class="block">{{ 'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.DEFAULT' | translate }}</span>
+      <span class="default-name">{{ layout.layout.contestTemplate.name }}</span>
+    </div>
+    <div>
+      <bc-checkbox
+        [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.OVERWRITE' | translate"
+        [ngModel]="layout.hasDomainOfInfluenceLayout"
+        (ngModelChange)="updateHasDoiLayout(layout, $event)"
+      ></bc-checkbox>
+    </div>
+    <div *ngIf="layout.hasDomainOfInfluenceLayout">
+      <bc-dropdown
+        class="w-full mt-1"
+        [items]="templates"
+        displayExpr="name"
+        valueExpr="id"
+        [required]="true"
+        [ngModel]="layout.layout.domainOfInfluenceTemplate?.id"
+        (ngModelChange)="updateDoiTemplate(layout, $event)"
+      ></bc-dropdown>
+    </div>
+    <div>
+      <bc-checkbox
+        [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.ALLOW_CUSTOM' | translate"
+        [ngModel]="layout.layout.allowCustom"
+        (ngModelChange)="updateAllowCustom(layout, $event)"
+      ></bc-checkbox>
+    </div>
+  </div>
+</div>
+
+<div class="layout-start-center layout-end-right layout-start-header layout-end-footer">
+  <app-voting-card-preview
+    [(selectedVotingCardType)]="previewVotingCardType"
+    (selectedVotingCardTypeChange)="updatePreview()"
+    [previewLoading]="previewLoading"
+    [previewData]="previewData"
+    [votingCardTypes]="votingCardTypes"
+  >
+  </app-voting-card-preview>
+</div>
+
+<div class="layout-left layout-footer">
+  <app-button-bar [hasDeleteButton]="false" [hasCancelButton]="false" (save)="close()" [saving]="saving"></app-button-bar>
+</div>
