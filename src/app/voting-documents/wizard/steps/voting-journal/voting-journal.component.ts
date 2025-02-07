@@ -24,7 +24,7 @@ const votingJournalExportKey = 'voting_journal';
   styleUrls: ['./voting-journal.component.scss'],
 })
 export class VotingJournalComponent extends StepBaseComponent {
-  public readonly defaultLastVoterUpdate = new Date();
+  public readonly defaultGenerateVotingCardsTriggered = new Date();
 
   // using an uncached domain of influence (because the domain of influence on the step info is cached)
   public domainOfInfluence?: DomainOfInfluence;

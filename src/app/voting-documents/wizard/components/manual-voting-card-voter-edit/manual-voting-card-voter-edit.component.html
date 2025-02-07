@@ -90,7 +90,13 @@
       [subscriptSizing]="'dynamic'"
     ></bc-text>
   </div>
-  <bc-checkbox class="mb-2" [label]="'COUNTRY.CH' | translate" [checked]="swiss" (checkedChange)="updateSwiss($event)"></bc-checkbox>
+  <bc-checkbox
+    class="mb-2"
+    [label]="'COUNTRY.CH' | translate"
+    [checked]="swiss"
+    (checkedChange)="updateSwiss($event)"
+    subscriptSizing="dynamic"
+  ></bc-checkbox>
   <ng-container *ngIf="swiss; else foreigner">
     <div class="form-group">
       <bc-number
@@ -163,7 +169,7 @@
       { name: 'de', description: 'LANGUAGES.de' | translate },
       { name: 'fr', description: 'LANGUAGES.fr' | translate },
       { name: 'it', description: 'LANGUAGES.it' | translate },
-      { name: 'rm', description: 'LANGUAGES.rm' | translate }
+      { name: 'rm', description: 'LANGUAGES.rm' | translate },
     ]"
     [subscriptSizing]="'dynamic'"
   ></bc-dropdown>

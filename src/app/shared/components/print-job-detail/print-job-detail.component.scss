@@ -8,8 +8,10 @@
 }
 
 .buttons {
-  @extend .mb-2;
+  @extend .mb-3;
 
+  display: flex;
+  justify-content: space-between;
   text-align: right;
 }
 

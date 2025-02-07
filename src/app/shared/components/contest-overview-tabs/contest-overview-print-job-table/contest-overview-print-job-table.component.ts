@@ -37,9 +37,16 @@ export class ContestOverviewPrintJobTableComponent {
   @Input()
   public forPrintJobManagement = false;
 
-  constructor(private readonly router: Router, private readonly route: ActivatedRoute) {}
+  constructor(
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+  ) {}
 
   public async openDetail(printJob: PrintJob): Promise<void> {
+    if (this.isSelectionDisabled(printJob)) {
+      return;
+    }
+
     const route = this.forPrintJobManagement
       ? ['print-job', printJob.domainOfInfluence.id]
       : ['../', 'print-job', printJob.domainOfInfluence.id];

@@ -24,6 +24,7 @@
           [disabled]="stepInfo.state.approved"
           [ngModel]="layout.layout.allowCustom"
           (ngModelChange)="updateAllowCustom(layout, $event)"
+          subscriptSizing="dynamic"
         ></bc-checkbox>
       </div>
     </div>

@@ -14,6 +14,7 @@
           [checked]="doi.allowManualVoterListUpload"
           (checkedChange)="setAllowManualVoterListUpload(doi, $event)"
           [disabled]="saving"
+          subscriptSizing="dynamic"
         ></bc-checkbox>
       </bc-data-cell>
     </ng-container>

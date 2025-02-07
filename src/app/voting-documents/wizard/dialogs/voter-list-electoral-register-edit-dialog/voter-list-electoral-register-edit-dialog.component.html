@@ -62,7 +62,7 @@
                   'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NEW.NUMBER_OF_PERSONS'
                     | translate
                       : {
-                          count: newFilterVersionMetadata.numberOfPersons | number
+                          count: newFilterVersionMetadata.numberOfPersons | number,
                         }
                 }}
               </div>
@@ -76,7 +76,7 @@
                     | translate
                       : {
                           count: newFilterVersionMetadata.numberOfPersons | number,
-                          actualityDate: newFilterVersionMetadata.actualityDate | date: 'short'
+                          actualityDate: newFilterVersionMetadata.actualityDate | date: 'short',
                         }
                 }}
               </div>
@@ -90,7 +90,7 @@
                     | translate
                       : {
                           count: newFilterVersionMetadata.numberOfPersons | number,
-                          invalidCount: newFilterVersionMetadata.numberOfInvalidPersons | number
+                          invalidCount: newFilterVersionMetadata.numberOfInvalidPersons | number,
                         }
                 }}
               </div>
@@ -124,7 +124,7 @@
       [hasCancelButton]="step === 1"
       (save)="save()"
       (delete)="delete()"
-      (cancel)="cancel()"
+      (cancelEvent)="cancel()"
     >
     </app-button-bar>
   </div>

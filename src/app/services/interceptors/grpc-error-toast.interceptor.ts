@@ -17,7 +17,10 @@ import { ToastService } from '../toast.service';
   providedIn: 'root',
 })
 export class GrpcErrorToastInterceptor implements GrpcInterceptor {
-  constructor(private readonly i18n: TranslateService, private readonly toast: ToastService) {}
+  constructor(
+    private readonly i18n: TranslateService,
+    private readonly toast: ToastService,
+  ) {}
 
   public intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
     return next

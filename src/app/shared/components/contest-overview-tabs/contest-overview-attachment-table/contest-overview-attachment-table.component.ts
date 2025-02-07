@@ -36,6 +36,9 @@ export class ContestOverviewAttachmentTableComponent implements OnChanges {
   public async setStation(attachment: Attachment): Promise<void> {
     const data: AttachmentStationDialogData = {
       attachment,
+      otherDomainOfInfluenceAttachments: this.getAttachments().filter(
+        a => a.id !== attachment.id && a.domainOfInfluence.id === attachment.domainOfInfluence.id,
+      ),
     };
 
     await this.dialog.openForResult(AttachmentStationDialogComponent, data);
@@ -70,5 +73,9 @@ export class ContestOverviewAttachmentTableComponent implements OnChanges {
     if (this.forPrintJobManagement) {
       this.columns.splice(this.columns.length, 0, 'stateChange');
     }
+  }
+
+  private getAttachments(): Attachment[] {
+    return this.entries.filter(isAttachment) as Attachment[];
   }
 }

@@ -1,4 +1,4 @@
-# ✨ Changelog (`v2.5.0`)
+# ✨ Changelog (`v3.4.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,111 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v2.5.0
-Previous version ---- v2.3.1
+This version -------- v3.4.0
+Previous version ---- v2.5.0
 Initial version ----- v2.1.0
-Total commits ------- 12
+Total commits ------- 16
 ```
+
+## [v3.4.0] - 2025-01-28
+
+### 🆕 Added
+
+- send attachment only to householder
+
+## [v3.3.0] - 2025-01-24
+
+### 🆕 Added
+
+- button to export e-voter table content on e-voting-domain-of-influence-table.component.
+
+## [v3.2.1] - 2025-01-08
+
+### 🔄 Changed
+
+- fix electoral registration switch
+
+## [v3.2.0] - 2025-01-07
+
+### 🆕 Added
+
+- add robots meta tag to instruct crawlers to not index content
+- add X-Robots-Tag response header to instruct crawlers to not index content
+
+## [v3.1.0] - 2024-12-12
+
+### 🆕 Added
+
+- introduced a setting to disable UI elements for electoral registration imports
+
+## [v3.0.8] - 2024-12-06
+
+### ❌ Removed
+
+- remove unused political business approved field
+
+## [v3.0.7] - 2024-12-06
+
+### 🔄 Changed
+
+- add additional invoice position comment
+
+## [v3.0.6] - 2024-12-04
+
+### 🔄 Changed
+
+- show votingcards triggered timestamp in voting journal step hint
+
+## [v3.0.5] - 2024-11-28
+
+### 🔄 Changed
+
+- introduce column max-width in voter list table
+
+## [v3.0.4] - 2024-11-25
+
+### 🔄 Changed
+
+- ensure unique station on communal attachments
+
+## [v3.0.3] - 2024-11-22
+
+### 🔄 Changed
+
+- show e-voting hint on voting card attendee layout
+
+## [v3.0.2] - 2024-11-19
+
+### 🔄 Changed
+
+- change A6 to a standard attachment format
+
+## [v3.0.1] - 2024-11-15
+
+### 🔄 Changed
+
+- add redirect to previous page in print job details
+
+## [v3.0.0] - 2024-11-15
+
+BREAKING CHANGE: update Angular to version 18
+
+### 🔄 Changed
+
+- update Angular to version 18
+- migrate to new build system
+
+## [v2.5.2] - 2024-11-14
+
+### 🔄 Changed
+
+- prevent print job table disabled entry click
+
+## [v2.5.1] - 2024-10-16
+
+### 🔄 Changed
+
+- make contest approval revertable
 
 ## [v2.5.0] - 2024-10-08
 

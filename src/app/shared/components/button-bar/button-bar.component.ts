@@ -55,7 +55,7 @@ export class ButtonBarComponent {
   public saveVariant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   @Output()
-  public cancel: EventEmitter<void> = new EventEmitter<void>();
+  public cancelEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
   public save: EventEmitter<void> = new EventEmitter<void>();

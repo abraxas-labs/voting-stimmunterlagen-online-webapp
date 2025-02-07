@@ -17,6 +17,7 @@
             [ngModel]="layout.hasOverriddenLayout"
             (ngModelChange)="updateHasOverriddenLayout(layout, $event)"
             [disabled]="!canEdit"
+            subscriptSizing="dynamic"
           ></bc-checkbox>
         </div>
       </ng-container>
@@ -40,6 +41,13 @@
         [label]="'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATA' | translate"
         (buttonClick)="editTemplateData()"
       ></bc-button>
+
+      <div *ngIf="stepInfo.domainOfInfluence.eVoting" class="e-voting-hint">
+        {{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_HINT' | translate }}
+        <a [href]="'mailto:' + ('STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_EMAIL' | translate)">
+          {{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_EMAIL' | translate }}
+        </a>
+      </div>
     </div>
   </ng-container>
 </div>
@@ -60,7 +68,7 @@
   [stepInfo]="stepInfo"
   [checks]="[
     'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.CHECK_1',
-    'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.CHECK_2'
+    'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.CHECK_2',
   ]"
   [canApprove]="true"
   [canRevert]="true"

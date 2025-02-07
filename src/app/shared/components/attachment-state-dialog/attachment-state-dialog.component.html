@@ -38,7 +38,7 @@
       [saveLabel]="'ATTACHMENT.SET_STATE.STATE_CHANGE.' + saveButtonData.label"
       [hasSaveButton]="data.attachment.state !== attachmentStates.ATTACHMENT_STATE_REJECTED"
       (save)="save(saveButtonData.state)"
-      (cancel)="done()"
+      (cancelEvent)="done()"
     ></app-button-bar>
   </div>
 </app-dialog>

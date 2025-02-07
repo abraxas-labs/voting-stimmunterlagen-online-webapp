@@ -63,6 +63,7 @@ export class LayoutVotingCardsDomainOfInfluenceTableComponent {
       {
         templates: this.templates,
         layouts: row,
+        disabled: !!row.domainOfInfluence.generateVotingCardsTriggered,
       } as ManagerVotingCardLayoutDialogData,
       {
         minWidth: '70vw',

@@ -21,7 +21,10 @@ export class GrpcTenantInterceptor implements GrpcInterceptor, OnDestroy {
   private readonly tenantSubscription: Subscription;
   private tenant?: Tenant;
 
-  constructor(authentication: AuthenticationService, private readonly authorization: AuthorizationService) {
+  constructor(
+    authentication: AuthenticationService,
+    private readonly authorization: AuthorizationService,
+  ) {
     this.tenantSubscription = authorization.activeTenantChanged.subscribe(t => (this.tenant = t));
   }
 

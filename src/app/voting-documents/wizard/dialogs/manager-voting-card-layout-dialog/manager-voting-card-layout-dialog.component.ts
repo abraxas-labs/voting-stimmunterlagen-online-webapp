@@ -34,6 +34,7 @@ export class ManagerVotingCardLayoutDialogComponent implements OnInit {
   public readonly layouts: Layout[];
   public readonly votingCardTypes: VotingCardType[];
   public templates: Template[];
+  public disabled?: boolean;
 
   public previewData?: Uint8Array;
   public previewLoading = false;
@@ -48,6 +49,7 @@ export class ManagerVotingCardLayoutDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: ManagerVotingCardLayoutDialogData,
   ) {
     this.domainOfInfluence = data.layouts.domainOfInfluence;
+    this.disabled = data.disabled;
     this.templates = data.templates;
     this.templatesById = groupBySingle(
       data.templates,
@@ -169,4 +171,5 @@ export class ManagerVotingCardLayoutDialogComponent implements OnInit {
 export interface ManagerVotingCardLayoutDialogData {
   layouts: DomainOfInfluenceVotingCardLayouts;
   templates: Template[];
+  disabled?: boolean;
 }

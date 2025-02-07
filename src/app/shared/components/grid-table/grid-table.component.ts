@@ -68,10 +68,10 @@ export class GridTableComponent implements OnDestroy, AfterViewInit {
   }
 
   private refreshGridTemplateItemsDirectionStyle(): void {
-    this.gridTemplateItemsDirectionStyleValue = `repeat(${this.itemsValue!.length}, min-content)`;
+    this.gridTemplateItemsDirectionStyleValue = `repeat(${this.itemsValue!.length}, fit-content(22%))`;
   }
 
   private refreshGridTemplateEntriesDirectionStyle(): void {
-    this.gridTemplateEntriesDirectionStyleValue = `repeat(${this.itemsValue!.first.itemEntries.length}, min-content)`;
+    this.gridTemplateEntriesDirectionStyleValue = `repeat(${this.itemsValue!.first.itemEntries.length}, fit-content(22%))`;
   }
 }

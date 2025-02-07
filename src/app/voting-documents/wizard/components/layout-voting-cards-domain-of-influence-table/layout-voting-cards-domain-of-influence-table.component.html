@@ -15,7 +15,7 @@
     <ng-container [columnDef]="vcType + colNameVotingCardAllowCustomSuffix">
       <bc-header-cell *headerCellDef>{{ 'STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TABLE.ALLOW_CUSTOM' | translate }}</bc-header-cell>
       <bc-data-cell *dataCellDef="let element"
-        ><bc-checkbox [disabled]="true" [ngModel]="element.layouts[vcType]?.allowCustom || false"></bc-checkbox
+        ><bc-checkbox [disabled]="true" [ngModel]="element.layouts[vcType]?.allowCustom || false" subscriptSizing="dynamic"></bc-checkbox
       ></bc-data-cell>
     </ng-container>
   </ng-container>

@@ -18,7 +18,10 @@ export class ConfirmDialogComponent {
   public readonly cancelText: string;
   public readonly showCancel: boolean;
 
-  constructor(private readonly dialogRef: MatDialogRef<ConfirmDialogData>, @Inject(MAT_DIALOG_DATA) dialogData: ConfirmDialogData) {
+  constructor(
+    private readonly dialogRef: MatDialogRef<ConfirmDialogData>,
+    @Inject(MAT_DIALOG_DATA) dialogData: ConfirmDialogData,
+  ) {
     this.title = dialogData.title;
     this.message = dialogData.message;
     this.showCancel = dialogData.showCancel;

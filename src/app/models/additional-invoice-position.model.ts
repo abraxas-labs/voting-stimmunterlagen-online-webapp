@@ -19,12 +19,14 @@ export interface AdditionalInvoicePosition {
   created: Date;
   createdBy: User;
   material?: AdditionalInvoicePositionAvailableMaterial;
+  comment: string;
 }
 
 export interface AdditionalInvoicePositionAvailableMaterial {
   number: string;
   description: string;
   displayText: string;
+  commentRequired: boolean;
 }
 
 export function newAdditionalInvoicePosition(): AdditionalInvoicePosition {

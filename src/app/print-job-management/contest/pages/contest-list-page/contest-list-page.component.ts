@@ -20,7 +20,11 @@ export class ContestListPageComponent implements OnInit {
   public contests: Contest[] = [];
   public pastContests: Contest[] = [];
 
-  constructor(private readonly contestService: ContestService, private readonly router: Router, private readonly route: ActivatedRoute) {}
+  constructor(
+    private readonly contestService: ContestService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+  ) {}
 
   public async ngOnInit(): Promise<void> {
     try {

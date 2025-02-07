@@ -37,7 +37,7 @@ import { GrpcErrorToastInterceptor } from './services/interceptors/grpc-error-to
 import { GrpcTenantInterceptor } from './services/interceptors/grpc-tenant-interceptor.service';
 import { RestErrorToastInterceptor } from './services/interceptors/rest-error-toast.interceptor';
 import { RestTenantInterceptor } from './services/interceptors/rest-tenant.interceptor';
-import { WebpackTranslateLoader } from './services/webpack-translate-loader';
+import { TranslationLoader } from './services/translation-loader';
 import { SharedModule } from './shared/shared.module';
 import { GrpcLanguageInterceptor } from './services/interceptors/grpc-language-interceptor.service';
 import { RestLanguageInterceptor } from './services/interceptors/rest-language.interceptor';
@@ -76,7 +76,7 @@ import { ENV_INJECTION_TOKEN, VotingLibModule } from '@abraxas/voting-lib';
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useClass: WebpackTranslateLoader,
+        useClass: TranslationLoader,
       },
     }),
     SnackbarModule,

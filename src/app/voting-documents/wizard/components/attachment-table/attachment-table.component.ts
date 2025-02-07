@@ -67,7 +67,10 @@ export class AttachmentTableComponent implements OnChanges {
     this.entries = mapToAttachmentTableEntries(v.attachmentCategorySummaries);
   }
 
-  constructor(private readonly dialog: DialogService, private readonly attachmentService: AttachmentService) {}
+  constructor(
+    private readonly dialog: DialogService,
+    private readonly attachmentService: AttachmentService,
+  ) {}
 
   public readonly isAttachment = isAttachment;
 

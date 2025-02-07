@@ -17,14 +17,16 @@ export interface ElectoralRegisterFilterMetadata extends Omit<Required<Electoral
 }
 
 export interface ElectoralRegisterFilterVersion
-  extends Omit<Required<ElectoralRegisterFilterVersionProto.AsObject>, 'deadline' | 'createdAt'> {
+  extends Omit<Partial<ElectoralRegisterFilterVersionProto.AsObject>, 'deadline' | 'createdAt'> {
   deadline: Date;
   createdAt: Date;
 }
 
 export function mapFilterVersion(filterVersion: ElectoralRegisterFilterVersionProto): ElectoralRegisterFilterVersion {
+  const { deadline, createdAt, ...otherFields } = filterVersion.toObject();
+
   return {
-    ...(<ElectoralRegisterFilterVersion>filterVersion.toObject()),
+    ...otherFields,
     deadline: filterVersion.deadline!.toDate(),
     createdAt: filterVersion.createdAt!.toDate(),
   };

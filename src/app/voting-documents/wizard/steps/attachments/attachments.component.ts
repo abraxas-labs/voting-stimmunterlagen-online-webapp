@@ -23,7 +23,12 @@ export class AttachmentsComponent extends StepBaseComponent {
   public checks: string[] = [];
   public canApprove = false;
 
-  constructor(router: Router, route: ActivatedRoute, stepService: StepService, private readonly attachmentService: AttachmentService) {
+  constructor(
+    router: Router,
+    route: ActivatedRoute,
+    stepService: StepService,
+    private readonly attachmentService: AttachmentService,
+  ) {
     super(Step.STEP_ATTACHMENTS, router, route, stepService);
   }
 

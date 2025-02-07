@@ -5,7 +5,7 @@
  */
 
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AttachmentTableEntry, mapToAttachmentTableEntries } from '../../../models/attachment.model';
 import { PrintJob, PrintJobState } from '../../../models/print-job.model';
@@ -25,6 +25,9 @@ import {
   PrintJobSetNextStateDialogData,
 } from '../../dialogs/print-job-set-next-state-dialog/print-job-set-next-state-dialog.component';
 import { Contest } from '../../../models/contest.model';
+import { Step } from '../../../models/step.model';
+import { Roles } from '../../../models/roles.model';
+import { ContestOverviewTab } from '../contest-overview-tabs/contest-overview-tabs.component';
 
 @Component({
   selector: 'app-print-job-detail',
@@ -42,22 +45,25 @@ export class PrintJobDetailComponent implements OnDestroy {
   public vcJobsCompleted = false;
   public retrying = false;
   public hasFailedPrintFileExportJobs = false;
+  public forPrintJobManagement = false;
 
   private readonly routeSubscription: Subscription;
   public loading = true;
   public editable = true;
 
   constructor(
-    route: ActivatedRoute,
+    private readonly route: ActivatedRoute,
     private readonly votingCardGeneratorJobService: VotingCardGeneratorJobService,
     private readonly votingCardPrintFileExportJobService: VotingCardPrintFileExportJobService,
     private readonly attachmentService: AttachmentService,
     private readonly dialog: DialogService,
+    private readonly router: Router,
   ) {
-    this.routeSubscription = route.data.subscribe(async ({ printJob, contest, editable }) => {
+    this.routeSubscription = route.data.subscribe(async ({ printJob, contest, editable, roles }) => {
       this.printJob = printJob;
       this.contest = contest;
       this.editable = editable && !this.contest.locked;
+      this.forPrintJobManagement = Array.isArray(roles) && roles.includes(Roles.PrintJobManager);
       await this.loadData();
     });
   }
@@ -114,6 +120,15 @@ export class PrintJobDetailComponent implements OnDestroy {
     } finally {
       this.retrying = false;
     }
+  }
+
+  public async back(): Promise<void> {
+    const route = this.forPrintJobManagement ? ['../../'] : ['../../', Step.STEP_CONTEST_OVERVIEW];
+
+    await this.router.navigate(route, {
+      queryParams: { contestOverviewTab: ContestOverviewTab.PRINT_JOBS },
+      relativeTo: this.route,
+    });
   }
 
   private async loadJobs(domainOfInfluenceId: string): Promise<void> {

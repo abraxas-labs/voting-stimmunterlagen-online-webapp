@@ -76,7 +76,10 @@ export class CheckableItems<T> {
     this.refreshState();
   }
 
-  constructor(public items: CheckableItem<T>[], config?: CheckableItemsConfig) {
+  constructor(
+    public items: CheckableItem<T>[],
+    config?: CheckableItemsConfig,
+  ) {
     this.config = config ?? { disabledWhenOnlyOneChecked: false };
     this.refreshState();
   }

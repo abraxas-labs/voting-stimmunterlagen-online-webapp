@@ -17,7 +17,10 @@ import { addCheckablePoliticalBusinessesToVoterLists } from '../utils/voter-list
   providedIn: 'root',
 })
 export class DomainOfInfluenceVoterListsBuilder {
-  constructor(private readonly voterListService: VoterListService, private readonly politicalBusinessService: PoliticalBusinessService) {}
+  constructor(
+    private readonly voterListService: VoterListService,
+    private readonly politicalBusinessService: PoliticalBusinessService,
+  ) {}
 
   public async build(stepInfo: StepInfo): Promise<DomainOfInfluenceVoterLists> {
     const politicalBusinesses = await this.politicalBusinessService.listForDomainOfInfluence(stepInfo.domainOfInfluence.id);

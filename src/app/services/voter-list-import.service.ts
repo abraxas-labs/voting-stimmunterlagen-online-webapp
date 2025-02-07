@@ -17,7 +17,10 @@ import { VoterListImport, VoterListImportResponse, mapVoterListImport } from '..
 export class VoterListImportService {
   private readonly restApiUrl: string = '';
 
-  constructor(private readonly client: VoterListImportServiceClient, private readonly http: MultipartFormDataHttpService) {
+  constructor(
+    private readonly client: VoterListImportServiceClient,
+    private readonly http: MultipartFormDataHttpService,
+  ) {
     this.restApiUrl = `${environment.restApiEndpoint}/voter-list-import`;
   }
 

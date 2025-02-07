@@ -24,6 +24,7 @@ export class AdditionalInvoicePositionEditDialogComponent implements OnInit {
   public saving: boolean = false;
   public deleting: boolean = false;
   public validAmount: boolean = false;
+  public showComment: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: AdditionalInvoicePositionEditDialogData,
@@ -52,6 +53,7 @@ export class AdditionalInvoicePositionEditDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.updateValidAmount();
+    this.updateShowComment();
   }
 
   public async save(): Promise<void> {
@@ -97,6 +99,20 @@ export class AdditionalInvoicePositionEditDialogComponent implements OnInit {
 
   public updateValidAmount(): void {
     this.validAmount = this.additionalInvoicePosition.amount > 0 && (this.additionalInvoicePosition.amount * 100) % 25 === 0;
+  }
+
+  public updateMaterialNumber(e: any) {
+    this.additionalInvoicePosition.materialNumber = e;
+    this.updateShowComment();
+  }
+
+  private updateShowComment(): void {
+    const availableMaterial = this.availableMaterials.find(m => m.number === this.additionalInvoicePosition.materialNumber);
+    this.showComment = !!availableMaterial && availableMaterial.commentRequired;
+
+    if (!this.showComment) {
+      this.additionalInvoicePosition.comment = '';
+    }
   }
 }
 

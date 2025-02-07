@@ -115,6 +115,9 @@
     "DELETE_CONFIRM": "Diese Beilage wirklich löschen?",
     "FORMAT": "Format",
     "STATION": "Station",
+    "SHIPPING_INSTRUCTIONS": "Versandinstruktionen",
+    "SEND_ONLY_TO_HOUSEHOLDER": "Versand Beilage an Haushaltsvorstand",
+    "SEND_ONLY_TO_HOUSEHOLDER_HINT": "Achtung bei Auswahl dieser Option wird die Beilage nur an die für den jeweiligen Haushalt als Haushaltsvorstand markierte Person versendet.",
     "SET_REQUIRED_COUNT_TITLE": "Beilage benötigte Anzahl festlegen",
     "UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES": {
       "EXCLUDE": "Einflussbereiche ausschliessen",
@@ -411,6 +414,11 @@
       "OWN_POLITICAL_BUSINESSES_COUNT": "Eigene Geschäfte",
       "NUMBER_OF_E_VOTERS": "Total betroffener E-Voter"
     },
+    "EXPORT_DOMAIN_OF_INFLUENCE": {
+      "NAME": "Bezeichnung (Gemeinde)",
+      "EXPORT_FILENAME": "Export_Einflussbereiche",
+      "EXPORT": "EXPORT TABELLE"
+    },
     "ATTACHMENT_STATIONS_NOT_SET": "Achtung: Aktuell sind noch nicht alle relevanten Beilagenstationen gesetzt. Wird der Export jetzt generiert, werden nur die bereits gesetzten Beilagenstationen berücksichtigt."
   },
   "INVOICE": {
@@ -435,6 +443,7 @@
     "DOMAIN_OF_INFLUENCE": "Einflussbereich",
     "MATERIAL": "Leistung",
     "AMOUNT": "Menge",
+    "COMMENT": "Bemerkungen",
     "CREATED_BY": "Ersteller",
     "CREATED": "Erstellt am",
     "CREATE": "Zusatzleistung erstellen",
@@ -517,6 +526,8 @@
     "CHECK_1": "Die Stimmrechtsausweise sind definiert",
     "CHECK_2": "Die Textbausteine sind in Ordnung",
     "EDIT_TEMPLATE_DATA": "Textbausteine bearbeiten",
+    "EDIT_TEMPLATE_DATE_E_VOTING_HINT": "Anpassungen an den\n Textbausteinen werden für die\n E-Voting\n Stimmrechtsausweise nicht\n automatisch übernommen.\n Bitte melden Sie allfällige\n Textanpassungen für die\n E-Voting-Stimmrechtsausweise\n an",
+    "EDIT_TEMPLATE_DATE_E_VOTING_EMAIL": "voting@abraxas.ch",
     "NO_TEMPLATE_DATA": "Keine Textbausteine vorhanden",
     "EDIT_SINGLE_TEMPLATE_DATA": "Textbaustein {{ name }} bearbeiten",
     "OVERWRITE": "Vorgabe übersteuern",
@@ -588,7 +599,7 @@
   },
   "STEP_VOTING_JOURNAL": {
     "TITLE": "Stimmjournal",
-    "HINT": "Die Stimmausweise für die Abstimmung vom {{contestDate}} werden beim Download live für Sie erstellt. Ihre Mutationen wurden berücksichtigt bis und mit {{lastVoterUpdate}} Uhr."
+    "HINT": "Die Stimmausweise für die Abstimmung vom {{contestDate}} werden beim Download live für Sie erstellt. Ihre Mutationen wurden berücksichtigt bis und mit {{generateVotingCardsTriggered}} Uhr."
   },
   "PRINT_JOB_MANAGEMENT": {
     "CONTEST": {

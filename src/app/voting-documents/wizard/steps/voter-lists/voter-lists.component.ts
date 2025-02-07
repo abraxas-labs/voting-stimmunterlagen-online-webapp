@@ -12,6 +12,7 @@ import { AttachmentService } from '../../../../services/attachment.service';
 import { DomainOfInfluenceVoterListsBuilder } from '../../../../services/builders/domain-of-influence-voter-lists.builder';
 import { StepService } from '../../../../services/step.service';
 import { StepBaseComponent } from '../step-base.component';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-voter-lists',
@@ -43,7 +44,8 @@ export class VoterListsComponent extends StepBaseComponent {
 
     this.voterLists = await this.voterListsBuilder.build(this.stepInfo);
     this.refreshHasVoterDuplicates();
-    this.isElectoralRegistrationEnabled = this.stepInfo.domainOfInfluence.electoralRegistrationEnabled;
+    this.isElectoralRegistrationEnabled =
+      this.stepInfo.domainOfInfluence.electoralRegistrationEnabled && environment.isElectoralRegistrationEnabled;
 
     const attachmentsByPbId = await this.attachmentService.listAttachmentsGroupedByPoliticalBusiness(this.stepInfo.domainOfInfluence.id);
     this.attachmentMaxAllowedCountByPoliticalBusiness = {};

@@ -16,7 +16,10 @@ const votingDocumentsApp = 'voting-documents';
   providedIn: 'root',
 })
 export class AppContext {
-  constructor(private readonly router: Router, private readonly location: Location) {}
+  constructor(
+    private readonly router: Router,
+    private readonly location: Location,
+  ) {}
 
   public get appName(): string {
     const segments = this.router.parseUrl(this.location.path()).root.children.primary?.segments;

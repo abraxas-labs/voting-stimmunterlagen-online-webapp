@@ -28,7 +28,12 @@
       <ng-container columnDef="checkbox">
         <bc-header-cell *headerCellDef></bc-header-cell>
         <bc-data-cell *dataCellDef="let element">
-          <bc-checkbox [checked]="element.checked" (checkedChange)="checkablePrintJobs.updateChecked(element, $event)"> </bc-checkbox>
+          <bc-checkbox
+            [checked]="element.checked"
+            (checkedChange)="checkablePrintJobs.updateChecked(element, $event)"
+            subscriptSizing="dynamic"
+          >
+          </bc-checkbox>
         </bc-data-cell>
       </ng-container>
 
@@ -55,7 +60,7 @@
       [canSave]="validPrintingCenterSignUpDeadline && validGenerateVotingCardsDeadline"
       [hasDeleteButton]="false"
       (save)="save()"
-      (cancel)="done()"
+      (cancelEvent)="done()"
     ></app-button-bar>
   </div>
 </app-dialog>

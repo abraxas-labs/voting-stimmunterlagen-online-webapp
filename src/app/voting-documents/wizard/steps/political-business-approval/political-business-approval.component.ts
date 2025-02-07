@@ -30,16 +30,6 @@ export class PoliticalBusinessApprovalComponent extends StepBaseComponent {
     super(Step.STEP_POLITICAL_BUSINESSES_APPROVAL, router, route, stepService);
   }
 
-  public async revert(): Promise<void> {
-    await super.revert();
-    await this.setApproved(false);
-  }
-
-  async approve(): Promise<void> {
-    await super.approve();
-    await this.setApproved(true);
-  }
-
   protected async loadData(): Promise<void> {
     if (!this.stepInfo) {
       return;
@@ -51,24 +41,5 @@ export class PoliticalBusinessApprovalComponent extends StepBaseComponent {
     )
       ? 'STEP_POLITICAL_BUSINESS_APPROVAL.APPROVE_CHECK'
       : 'STEP_POLITICAL_BUSINESS_APPROVAL.APPROVE_CHECK_NONE';
-  }
-
-  private async setApproved(approved: boolean): Promise<void> {
-    if (!this.stepInfo) {
-      return;
-    }
-
-    const { secureConnectId } = this.stepInfo.domainOfInfluence;
-
-    for (const politicalBusinessesKey in this.politicalBusinesses) {
-      if (!this.politicalBusinesses.hasOwnProperty(politicalBusinessesKey)) {
-        continue;
-      }
-
-      this.politicalBusinesses[politicalBusinessesKey] = this.politicalBusinesses[politicalBusinessesKey].map(pb => ({
-        ...pb,
-        approved: pb.domainOfInfluence.secureConnectId === secureConnectId ? approved : pb.approved,
-      }));
-    }
   }
 }

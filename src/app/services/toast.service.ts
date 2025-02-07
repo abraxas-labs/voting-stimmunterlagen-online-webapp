@@ -12,7 +12,10 @@ import { SnackbarService } from '@abraxas/voting-lib';
   providedIn: 'root',
 })
 export class ToastService {
-  constructor(private readonly snackbarService: SnackbarService, private readonly i18n: TranslateService) {}
+  constructor(
+    private readonly snackbarService: SnackbarService,
+    private readonly i18n: TranslateService,
+  ) {}
 
   public success(message: string): void {
     this.snackbarService.success(this.i18n.instant(message));

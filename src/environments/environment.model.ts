@@ -11,13 +11,13 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 
 export interface Environment extends TenantConfig, UserConfig, AuthorizationConfig {
   production: boolean;
-  hmr: boolean;
   env: Environments;
   authenticationConfig: AuthConfig & Required<Pick<AuthConfig, 'clientId' | 'issuer' | 'scope'>>;
   authAllowedUrls?: string[];
   grpcApiEndpoint: string;
   restApiEndpoint: string;
   dmDocBaseUrl: string;
+  isElectoralRegistrationEnabled: boolean;
 }
 
 export function buildScope(...clientIds: string[]): string {

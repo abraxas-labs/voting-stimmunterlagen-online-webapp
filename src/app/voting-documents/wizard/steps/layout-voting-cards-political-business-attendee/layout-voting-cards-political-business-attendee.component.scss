@@ -1,4 +1,5 @@
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use '@abraxas/voting-lib/style/color' as *;
 @use 'src/app/styles/layout';
 
 :host {
@@ -20,4 +21,11 @@
 
   display: block;
   font-size: 1rem;
+}
+
+.e-voting-hint {
+  @extend .mt-3;
+
+  color: $color-error;
+  white-space: pre-line;
 }

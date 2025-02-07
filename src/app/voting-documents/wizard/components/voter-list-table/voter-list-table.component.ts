@@ -25,6 +25,7 @@ import {
   VoterListImportSelectionDialogResult,
 } from '../../dialogs/voter-list-import-selection-dialog/voter-list-import-selection-dialog.component';
 import { VoterListImportEditDialogData } from '../../dialogs/voter-list-import-edit-dialog-base/voter-list-import-edit-dialog-base.component';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-voter-list-table',
@@ -34,6 +35,7 @@ import { VoterListImportEditDialogData } from '../../dialogs/voter-list-import-e
 export class VoterListTableComponent {
   public readonly voterListSources: typeof VoterListSource = VoterListSource;
   private domainOfInfluenceVoterListsValue!: DomainOfInfluenceVoterLists;
+  public isElectoralRegistrationEnabled = false;
 
   @Input()
   public canEdit = false;
@@ -51,6 +53,7 @@ export class VoterListTableComponent {
     }
 
     this.domainOfInfluenceVoterListsValue = v;
+    this.isElectoralRegistrationEnabled = v.domainOfInfluence.electoralRegistrationEnabled && environment.isElectoralRegistrationEnabled;
     this.recalculateNumberOfVotersAndGridStyle();
   }
 

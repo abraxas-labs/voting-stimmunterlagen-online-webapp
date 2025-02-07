@@ -35,7 +35,10 @@ export class ManualVotingCardVoterEditComponent {
   @Input()
   public readOnly = true;
 
-  constructor(private readonly i18n: TranslateService, enumUtil: EnumUtil) {
+  constructor(
+    private readonly i18n: TranslateService,
+    enumUtil: EnumUtil,
+  ) {
     this.salutations = enumUtil.getArrayWithDescriptions<Salutation>(Salutation, 'SALUTATIONS.');
   }
 

@@ -1,5 +1,5 @@
 <div class="buttons" [class.sticky]="sticky">
-  <bc-button *ngIf="hasCancelButton" (buttonClick)="cancel.emit()" [label]="'APP.CANCEL' | translate"></bc-button>
+  <bc-button *ngIf="hasCancelButton" (buttonClick)="cancelEvent.emit()" [label]="'APP.CANCEL' | translate"></bc-button>
 
   <ng-container *ngIf="!deleting && !saving; else spinner">
     <bc-button

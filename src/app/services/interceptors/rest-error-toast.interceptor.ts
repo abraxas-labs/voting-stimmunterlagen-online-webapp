@@ -18,7 +18,10 @@ import { ToastService } from '../toast.service';
 export class RestErrorToastInterceptor implements HttpInterceptor {
   private readonly restApiEndpoint = environment.restApiEndpoint;
 
-  constructor(private readonly toast: ToastService, private readonly i18n: TranslateService) {}
+  constructor(
+    private readonly toast: ToastService,
+    private readonly i18n: TranslateService,
+  ) {}
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!req.url.includes(this.restApiEndpoint)) {

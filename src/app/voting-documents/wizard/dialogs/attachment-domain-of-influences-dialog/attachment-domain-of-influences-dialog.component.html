@@ -10,7 +10,9 @@
 
       <ng-container columnDef="approved">
         <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES.APPROVED' | translate }}</bc-header-cell>
-        <bc-data-cell *dataCellDef="let element"><bc-checkbox class="m-0 my-1" [(checked)]="element.checked"></bc-checkbox></bc-data-cell>
+        <bc-data-cell *dataCellDef="let element"
+          ><bc-checkbox class="m-0 my-1" [(checked)]="element.checked" subscriptSizing="dynamic"></bc-checkbox
+        ></bc-data-cell>
       </ng-container>
 
       <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
@@ -25,7 +27,7 @@
       [hasDeleteButton]="false"
       [hasCancelButton]="loading || checkableDomainOfInfluences.length > 0"
       (save)="save()"
-      (cancel)="done()"
+      (cancelEvent)="done()"
     ></app-button-bar>
   </div>
 </app-dialog>

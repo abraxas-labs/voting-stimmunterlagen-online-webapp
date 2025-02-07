@@ -155,8 +155,7 @@ export class AttachmentEditDialogComponent implements OnInit {
   }
 
   public updateFormatConsultationRequired() {
-    this.formatConsultationRequired =
-      this.attachment.format === AttachmentFormat.ATTACHMENT_FORMAT_A4 || this.attachment.format === AttachmentFormat.ATTACHMENT_FORMAT_A6;
+    this.formatConsultationRequired = this.attachment.format === AttachmentFormat.ATTACHMENT_FORMAT_A4;
 
     if (!this.formatConsultationRequired) {
       this.formatConsultationChecked = false;

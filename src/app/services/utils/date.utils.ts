@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import * as moment from 'moment';
+import moment from 'moment';
 
 // util to convert dates to moment / strings required by the bc's.
 // according to bc-people bc should accept dates directly in the next release.

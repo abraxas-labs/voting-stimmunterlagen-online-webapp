@@ -26,7 +26,11 @@ export class WizardStepsComponent implements OnDestroy {
 
   private readonly approveChangeSubscription: Subscription;
 
-  constructor(wizardService: StepService, private readonly router: Router, private readonly route: ActivatedRoute) {
+  constructor(
+    wizardService: StepService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+  ) {
     this.approveChangeSubscription = wizardService.stepApproveChanged$.subscribe(({ approved, step }) => {
       const stepState = this.stepStates.find(x => x.step === step);
       if (!stepState) {

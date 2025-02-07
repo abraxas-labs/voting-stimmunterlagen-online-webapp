@@ -29,12 +29,17 @@ bc-app-layout main {
   color: $color-primary;
 }
 
-bc-checkbox.checkbox-break-text .mat-mdc-checkbox-label {
-  white-space: normal;
-  line-height: 1.1rem;
+// This is a workaround. Remove after fixed height issue has been fixed in BC.
+bc-checkbox,
+bc-radio-button {
+  height: auto !important;
 }
 
 // enable bc multiline hints on form fields.
 .formfield .mat-mdc-form-field-subscript-wrapper {
   position: relative;
+}
+
+bc-dropdown .mat-mdc-form-field-type-mat-select.mat-form-field-appearance-outline.has-label {
+  margin-top: 22px !important;
 }

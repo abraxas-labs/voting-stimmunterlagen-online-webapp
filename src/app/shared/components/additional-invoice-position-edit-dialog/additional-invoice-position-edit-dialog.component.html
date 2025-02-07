@@ -21,7 +21,8 @@
         displayExpr="displayText"
         valueExpr="number"
         [required]="true"
-        [(ngModel)]="additionalInvoicePosition.materialNumber"
+        [ngModel]="additionalInvoicePosition.materialNumber"
+        (ngModelChange)="updateMaterialNumber($event)"
       ></bc-dropdown>
 
       <bc-number
@@ -33,8 +34,16 @@
         [min]="0"
         [precision]="2"
         [error]="!validAmount"
-        [subscriptSizing]="'dynamic'"
       ></bc-number>
+
+      <bc-text
+        *ngIf="showComment"
+        [required]="true"
+        [label]="'ADDITIONAL_INVOICE_POSITION.COMMENT' | translate"
+        name="comment"
+        [(ngModel)]="additionalInvoicePosition.comment"
+        [subscriptSizing]="'dynamic'"
+      ></bc-text>
     </form>
   </div>
 
@@ -47,7 +56,7 @@
       [hasDeleteButton]="!isNew"
       (save)="save()"
       (delete)="delete()"
-      (cancel)="done()"
+      (cancelEvent)="done()"
     >
     </app-button-bar>
   </div>

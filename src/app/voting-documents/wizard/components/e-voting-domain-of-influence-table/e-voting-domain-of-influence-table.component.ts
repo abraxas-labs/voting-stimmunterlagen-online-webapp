@@ -7,7 +7,7 @@
 import { Component, AfterViewInit, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { EVotingDomainOfInfluenceEntry } from '../../../../models/e-voting-domain-of-influence.model';
-import { Filter, FilterDirective, Sort, SortDirective, TableDataSource } from '@abraxas/base-components';
+import { Filter, FilterDirective, Sort, SortDirective, TableDataSource, TableExportFormat } from '@abraxas/base-components';
 
 @Component({
   selector: 'app-e-voting-domain-of-influence-table',
@@ -79,6 +79,28 @@ export class EVotingDomainOfInfluenceTableComponent implements AfterViewInit {
   public onSortChange(active: Sort[]): void {
     this.isSortingActive = active.length !== 0;
     this.hideOrShowTotalRow();
+  }
+
+  public export(): void {
+    this.dataSource.export(
+      this.translate.instant('E_VOTING.EXPORT_DOMAIN_OF_INFLUENCE.EXPORT_FILENAME'),
+      TableExportFormat.CSV,
+      columName => {
+        if (columName === TableColumn.NAME) {
+          return this.translate.instant('E_VOTING.EXPORT_DOMAIN_OF_INFLUENCE.NAME');
+        }
+        if (columName === TableColumn.PARENT_POLITICAL_BUSINESSES_COUNT) {
+          return this.translate.instant('E_VOTING.DOMAIN_OF_INFLUENCE.PARENT_POLITICAL_BUSINESSES_COUNT');
+        }
+        if (columName === TableColumn.OWN_POLITICAL_BUSINESSES_COUNT) {
+          return this.translate.instant('E_VOTING.DOMAIN_OF_INFLUENCE.OWN_POLITICAL_BUSINESSES_COUNT');
+        }
+        if (columName === TableColumn.NUMBER_OF_EVOTERS) {
+          return this.translate.instant('E_VOTING.DOMAIN_OF_INFLUENCE.NUMBER_OF_E_VOTERS');
+        }
+        return null;
+      },
+    );
   }
 
   private mapTableRow(eVotingEntry: EVotingDomainOfInfluenceEntry): TableRow {

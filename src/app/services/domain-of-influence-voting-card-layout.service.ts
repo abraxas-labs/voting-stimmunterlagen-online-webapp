@@ -88,7 +88,7 @@ export class DomainOfInfluenceVotingCardLayoutService {
         new SetDomainOfInfluenceVotingCardLayoutRequest({
           ...layout,
           domainOfInfluenceId,
-          templateId: layout.domainOfInfluenceTemplate?.id ?? 0 > 0 ? { value: layout.domainOfInfluenceTemplate!.id } : undefined,
+          templateId: (layout.domainOfInfluenceTemplate?.id ?? 0 > 0) ? { value: layout.domainOfInfluenceTemplate!.id } : undefined,
         }),
       ),
     );
@@ -100,7 +100,7 @@ export class DomainOfInfluenceVotingCardLayoutService {
         new SetOverriddenDomainOfInfluenceVotingCardLayoutRequest({
           ...layout,
           domainOfInfluenceId,
-          templateId: layout.overriddenTemplate?.id ?? 0 > 0 ? { value: layout.overriddenTemplate!.id } : undefined,
+          templateId: (layout.overriddenTemplate?.id ?? 0 > 0) ? { value: layout.overriddenTemplate!.id } : undefined,
         }),
       ),
     );

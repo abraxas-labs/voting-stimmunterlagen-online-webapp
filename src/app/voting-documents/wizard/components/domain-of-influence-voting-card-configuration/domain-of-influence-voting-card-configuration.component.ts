@@ -40,7 +40,10 @@ export class DomainOfInfluenceVotingCardConfigurationComponent implements AfterV
   @Output()
   public configurationChanged: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private readonly doiVotingCardService: DomainOfInfluenceVotingCardService, enumUtil: EnumUtil) {
+  constructor(
+    private readonly doiVotingCardService: DomainOfInfluenceVotingCardService,
+    enumUtil: EnumUtil,
+  ) {
     this.votingCardGroups = enumUtil.getArrayWithDescriptions<VotingCardGroup>(VotingCardGroup, 'VOTING_CARD_GROUPS.');
     this.groupErrors = this.votingCardGroups.map(_ => false);
 

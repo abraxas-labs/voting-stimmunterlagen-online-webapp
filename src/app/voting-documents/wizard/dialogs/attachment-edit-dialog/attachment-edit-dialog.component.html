@@ -21,6 +21,7 @@
         [required]="true"
         [(ngModel)]="attachment.category"
         orientation="vertical"
+        subscriptSizing="dynamic"
       ></bc-radio-button-group>
 
       <bc-number
@@ -51,6 +52,7 @@
         [required]="true"
         [ngModel]="attachment.format"
         (ngModelChange)="attachment.format = $event; updateFormatConsultationRequired()"
+        subscriptSizing="dynamic"
       ></bc-radio-button-group>
 
       <div *ngIf="formatConsultationRequired">
@@ -59,6 +61,7 @@
           class="mt-1 mb-3"
           [(checked)]="formatConsultationChecked"
           [label]="'ATTACHMENT.FORMAT_CONSULTATION_CHECKED' | translate"
+          subscriptSizing="dynamic"
         ></bc-checkbox>
       </div>
 
@@ -109,6 +112,7 @@
             doiNameCheckablePoliticalBusinessesPair.value.allChecked = $event; attachment.checkablePoliticalBusinesses.refreshState()
           "
           [label]="'VOTER_LIST.SELECT_ALL' | translate"
+          subscriptSizing="dynamic"
         >
         </bc-checkbox>
         <bc-checkbox
@@ -120,8 +124,18 @@
             attachment.checkablePoliticalBusinesses.refreshState()
           "
           [label]="checkablePoliticalBusiness.item.shortDescription"
+          subscriptSizing="dynamic"
         ></bc-checkbox>
       </ng-container>
+
+      <label>{{ 'ATTACHMENT.SHIPPING_INSTRUCTIONS' | translate }}</label>
+      <bc-checkbox
+        class="m-0 my-1"
+        [(checked)]="attachment.sendOnlyToHouseholder"
+        [label]="'ATTACHMENT.SEND_ONLY_TO_HOUSEHOLDER' | translate"
+        subscriptSizing="dynamic"
+        [hint]="'ATTACHMENT.SEND_ONLY_TO_HOUSEHOLDER_HINT' | translate"
+      ></bc-checkbox>
     </form>
   </div>
 
@@ -139,7 +153,7 @@
       [hasDeleteButton]="!isNew"
       (save)="save()"
       (delete)="delete()"
-      (cancel)="done()"
+      (cancelEvent)="done()"
     >
     </app-button-bar>
   </div>

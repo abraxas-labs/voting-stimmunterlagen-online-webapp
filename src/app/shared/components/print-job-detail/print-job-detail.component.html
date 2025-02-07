@@ -5,6 +5,8 @@
     <div class="layout-content layout-center overflow-auto">
       <ng-container *ngIf="!loading; else spinner">
         <div class="buttons">
+          <bc-button (buttonClick)="back()" [label]="'APP.BACK' | translate"></bc-button>
+
           <bc-button
             *ngIf="printJob.state >= printJobStates.PRINT_JOB_STATE_PROCESS_STARTED && editable"
             [label]="
@@ -19,7 +21,11 @@
           ></bc-button>
 
           <bc-button
-            *ngIf="printJob.state < printJobStates.PRINT_JOB_STATE_DONE && editable"
+            *ngIf="
+              printJob.state >= printJobStates.PRINT_JOB_STATE_READY_FOR_PROCESS &&
+              printJob.state < printJobStates.PRINT_JOB_STATE_DONE &&
+              editable
+            "
             [label]="'PRINT_JOB.SET_STATE.NEXT_STATE.' + printJob.state + '.HEADER' | translate"
             (buttonClick)="setNextState()"
             variant="primary"

@@ -31,7 +31,10 @@ export class ContestOverviewPrintJobTabContentComponent implements OnInit {
   @Input()
   public forPrintJobManagement = false;
 
-  constructor(private readonly printJobService: PrintJobService, private readonly dialog: DialogService) {}
+  constructor(
+    private readonly printJobService: PrintJobService,
+    private readonly dialog: DialogService,
+  ) {}
 
   public ngOnInit(): Promise<void> {
     return this.loadPrintJobs();

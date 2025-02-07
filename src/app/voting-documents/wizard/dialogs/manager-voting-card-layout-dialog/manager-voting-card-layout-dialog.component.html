@@ -17,6 +17,8 @@
         [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.OVERWRITE' | translate"
         [ngModel]="layout.hasDomainOfInfluenceLayout"
         (ngModelChange)="updateHasDoiLayout(layout, $event)"
+        [disabled]="disabled"
+        subscriptSizing="dynamic"
       ></bc-checkbox>
     </div>
     <div *ngIf="layout.hasDomainOfInfluenceLayout">
@@ -28,6 +30,7 @@
         [required]="true"
         [ngModel]="layout.layout.domainOfInfluenceTemplate?.id"
         (ngModelChange)="updateDoiTemplate(layout, $event)"
+        [disabled]="disabled"
       ></bc-dropdown>
     </div>
     <div>
@@ -35,6 +38,8 @@
         [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.ALLOW_CUSTOM' | translate"
         [ngModel]="layout.layout.allowCustom"
         (ngModelChange)="updateAllowCustom(layout, $event)"
+        [disabled]="disabled"
+        subscriptSizing="dynamic"
       ></bc-checkbox>
     </div>
   </div>
@@ -52,5 +57,11 @@
 </div>
 
 <div class="layout-left layout-footer">
-  <app-button-bar [hasDeleteButton]="false" [hasCancelButton]="false" (save)="close()" [saving]="saving"></app-button-bar>
+  <app-button-bar
+    [hasDeleteButton]="false"
+    [hasCancelButton]="false"
+    (save)="close()"
+    [saving]="saving"
+    [saveLabel]="!disabled ? 'APP.SAVE' : 'APP.CLOSE'"
+  ></app-button-bar>
 </div>

@@ -22,7 +22,10 @@ export class ContestOverviewVoterListSettingsTableComponent {
 
   public saving: boolean = false;
 
-  constructor(private readonly domainOfInfluenceService: DomainOfInfluenceService, private readonly toast: ToastService) {}
+  constructor(
+    private readonly domainOfInfluenceService: DomainOfInfluenceService,
+    private readonly toast: ToastService,
+  ) {}
 
   public async setAllowManualVoterListUpload(doi: DomainOfInfluence, allowManualVoterListUpload: boolean): Promise<void> {
     if (allowManualVoterListUpload === doi.allowManualVoterListUpload) {

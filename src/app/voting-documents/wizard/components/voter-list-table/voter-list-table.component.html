@@ -7,7 +7,7 @@
       [label]="'VOTER_LIST_IMPORT.UPLOAD_ECH' | translate"
     ></bc-button>
     <bc-button
-      *ngIf="domainOfInfluenceVoterLists.domainOfInfluence.electoralRegistrationEnabled"
+      *ngIf="isElectoralRegistrationEnabled"
       variant="tertiary"
       (buttonClick)="create(voterListSources.VOTER_LIST_SOURCE_VOTING_STIMMREGISTER_FILTER_VERSION)"
       [label]="'VOTER_LIST_IMPORT.CREATE_FROM_SR' | translate"
@@ -44,6 +44,7 @@
           (checkedChange)="updatePoliticalBusinessChecked(voterList, checkablePoliticalBusiness, $event)"
           [disabled]="!canEdit || checkablePoliticalBusiness.disabled"
           (click)="$event.stopPropagation()"
+          subscriptSizing="dynamic"
         ></bc-checkbox>
       </app-grid-table-item-entry>
     </app-grid-table-item>

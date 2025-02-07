@@ -14,7 +14,10 @@ import { StepState } from '../../../../models/step.model';
   template: '',
 })
 export class RedirectFirstStepComponent implements OnInit {
-  constructor(private readonly route: ActivatedRoute, private readonly router: Router) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+  ) {}
 
   public ngOnInit(): Promise<void> {
     const steps = this.route.snapshot.data.steps;

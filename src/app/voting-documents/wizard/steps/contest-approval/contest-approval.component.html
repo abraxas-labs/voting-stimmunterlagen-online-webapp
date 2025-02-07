@@ -38,7 +38,7 @@
     [checks]="['STEP_CONTEST_APPROVAL.CHECK']"
     [approveStateLoading]="approveLoading"
     [canApprove]="validAttachmentDeliveryDeadline && validPrintingCenterSignUpDeadline && validGenerateVotingCardsDeadline"
-    [canRevert]="false"
+    [canRevert]="true"
     (approve)="approve()"
     (revert)="revert()"
     [hint]="'STEP_CONTEST_APPROVAL.HINT' + (stepInfo.contest.isSingleAttendeeContest ? '_SINGLE_ATTENDEE' : '')"
