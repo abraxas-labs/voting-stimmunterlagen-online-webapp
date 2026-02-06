@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoleService as IamRoleService } from '@abraxas/base-components';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Roles } from '../models/roles.model';
@@ -14,7 +14,7 @@ import { first } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class RoleService {
-  constructor(private readonly roles: IamRoleService) {}
+  private readonly roles = inject(IamRoleService);
 
   public get isElectionAdmin$(): Observable<boolean> {
     return this.roles.hasRole([Roles.ElectionAdmin]);

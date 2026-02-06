@@ -4,7 +4,7 @@
   <div content class="m-2">
     <bc-date
       [label]="'CONTEST.PRINTING_CENTER_SIGNUP_DEADLINE' | translate"
-      [value]="printingCenterSignUpDeadline"
+      [value]="printingCenterSignUpDeadlineDate"
       (valueChange)="updatePrintingCenterSignUpDeadline($event)"
       [required]="true"
       [hint]="showPrintingCenterSignUpDeadlineHint ? ('CONTEST.DEADLINE_CLOSE_TO_CONTEST_DATE_HINT' | translate) : ''"
@@ -12,15 +12,38 @@
       [subscriptSizing]="'dynamic'"
     ></bc-date>
 
+    @if (forPrintJobManagement) {
+      <bc-date
+        [label]="'CONTEST.ATTACHMENT_DELIVERY_DEADLINE' | translate"
+        [value]="attachmentDeliveryDeadlineDate"
+        (valueChange)="updateAttachmentDeliveryDeadline($event)"
+        [required]="true"
+        [hint]="showAttachmentDeliveryDeadlineHint ? ('CONTEST.DEADLINE_CLOSE_TO_CONTEST_DATE_HINT' | translate) : ''"
+        [error]="!validAttachmentDeliveryDeadline"
+        [subscriptSizing]="'dynamic'"
+      ></bc-date>
+    }
+
     <bc-date
       [label]="'CONTEST.GENERATE_VOTING_CARDS_DEADLINE' | translate"
-      [value]="generateVotingCardsDeadline"
+      [value]="generateVotingCardsDeadlineDate"
       (valueChange)="updateGenerateVotingCardsDeadline($event)"
       [required]="true"
       [hint]="showGenerateVotingCardsDeadlineHint ? ('CONTEST.DEADLINE_CLOSE_TO_CONTEST_DATE_HINT' | translate) : ''"
       [error]="!validGenerateVotingCardsDeadline"
       [subscriptSizing]="'dynamic'"
     ></bc-date>
+
+    @if (forPrintJobManagement) {
+      <bc-date
+        [label]="'CONTEST.DELIVERY_TO_POST_DEADLINE' | translate"
+        [value]="deliveryToPostDeadlineDate"
+        (valueChange)="updateDeliveryToPostDeadline($event)"
+        [required]="true"
+        [error]="!validDeliveryToPostDeadline"
+        [subscriptSizing]="'dynamic'"
+      ></bc-date>
+    }
 
     <h4 translate>CONTEST.PRINTING_CENTER_SIGN_UP_DEADLINE_DIALOG.PRINT_JOBS</h4>
 
@@ -51,7 +74,9 @@
       <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
     </bc-table>
 
-    <p class="italic ml-2" *ngIf="checkablePrintJobs.items.length === 0" translate>APP.NO_DATA</p>
+    @if (checkablePrintJobs.items.length === 0) {
+      <p class="italic ml-2" translate>APP.NO_DATA</p>
+    }
   </div>
 
   <div footer>

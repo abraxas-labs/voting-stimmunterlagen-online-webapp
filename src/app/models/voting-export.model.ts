@@ -8,4 +8,5 @@ export interface GenerateVotingExportRequest {
   key: string;
   contestId: string;
   domainOfInfluenceId: string;
+  voterListId?: string;
 }

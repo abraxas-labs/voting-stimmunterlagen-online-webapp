@@ -5,7 +5,7 @@
  */
 
 import { Step } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NEVER, Subscription } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
@@ -17,6 +17,7 @@ import { StepState } from '../../../../models/step.model';
   selector: 'app-wizard-overview-page',
   templateUrl: './wizard-overview-page.component.html',
   styleUrls: ['./wizard-overview-page.component.scss'],
+  standalone: false,
 })
 export class WizardOverviewPageComponent implements OnDestroy {
   public contest?: Contest;
@@ -27,7 +28,10 @@ export class WizardOverviewPageComponent implements OnDestroy {
   private readonly routerSubscription: Subscription;
   private readonly routerChildSubscription: Subscription;
 
-  constructor(route: ActivatedRoute, router: Router) {
+  constructor() {
+    const route = inject(ActivatedRoute);
+    const router = inject(Router);
+
     this.routerSubscription = route.data.subscribe(({ contest, domainOfInfluence, steps }) => {
       this.contest = contest;
       this.domainOfInfluence = domainOfInfluence;

@@ -23,5 +23,7 @@
     <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
   </bc-table>
 
-  <p class="italic ml-2" *ngIf="domainOfInfluences.length === 0" translate>APP.NO_DATA</p>
+  @if (domainOfInfluences.length === 0) {
+    <p class="italic ml-2" translate>APP.NO_DATA</p>
+  }
 </div>

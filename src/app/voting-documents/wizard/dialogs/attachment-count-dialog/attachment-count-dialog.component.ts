@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Attachment } from '../../../../models/attachment.model';
 import { AttachmentService } from '../../../../services/attachment.service';
@@ -14,18 +14,19 @@ import { ToastService } from '../../../../services/toast.service';
   selector: 'app-attachment-count-dialog',
   templateUrl: './attachment-count-dialog.component.html',
   styleUrls: ['./attachment-count-dialog.component.scss'],
+  standalone: false,
 })
 export class AttachmentCountDialogComponent {
+  public readonly data = inject<AttachmentCountDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<AttachmentCountDialogComponent>>(MatDialogRef);
+  private readonly attachmentService = inject(AttachmentService);
+  private readonly toast = inject(ToastService);
+
   public saving = false;
   public count?: number;
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<AttachmentCountDialogComponent>,
-    private readonly attachmentService: AttachmentService,
-    private readonly toast: ToastService,
-    @Inject(MAT_DIALOG_DATA) public data: AttachmentCountDialogData,
-  ) {
-    this.count = data.attachment.domainOfInfluenceAttachmentRequiredCount;
+  constructor() {
+    this.count = this.data.attachment.domainOfInfluenceAttachmentRequiredCount;
   }
 
   public async save(): Promise<void> {

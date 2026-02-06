@@ -4,32 +4,28 @@
  * For license information see LICENSE file.
  */
 
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { DomainOfInfluenceAttachmentCategorySummariesEntry } from '../../../../models/attachment.model';
 import { Step } from '../../../../models/step.model';
-import { StepService } from '../../../../services/step.service';
 import { StepBaseComponent } from '../step-base.component';
 
 @Component({
   selector: 'app-attachments',
   templateUrl: './attachments.component.html',
   styleUrls: ['./attachments.component.scss'],
+  standalone: false,
 })
 export class AttachmentsComponent extends StepBaseComponent {
+  private readonly attachmentService = inject(AttachmentService);
+
   public loading = false;
   public doiAttachmentCategorySummariesEntries: DomainOfInfluenceAttachmentCategorySummariesEntry[] = [];
   public checks: string[] = [];
   public canApprove = false;
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    stepService: StepService,
-    private readonly attachmentService: AttachmentService,
-  ) {
-    super(Step.STEP_ATTACHMENTS, router, route, stepService);
+  constructor() {
+    super(Step.STEP_ATTACHMENTS);
   }
 
   public updateCanApprove(): void {

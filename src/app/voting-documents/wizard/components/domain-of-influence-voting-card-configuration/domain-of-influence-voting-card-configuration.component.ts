@@ -5,15 +5,15 @@
  */
 
 import { VotingCardGroup, VotingCardSort } from '@abraxas/voting-stimmunterlagen-proto';
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DomainOfInfluenceVotingCardConfiguration } from '../../../../models/domain-of-influence-voting-card-configuration.model';
-import { DomainOfInfluenceVotingCardService } from '../../../../services/domain-of-influence-voting-card.service';
 import { EnumItemDescription, EnumUtil } from '../../../../services/enum.util';
 
 @Component({
   selector: 'app-domain-of-influence-voting-card-configuration',
   templateUrl: './domain-of-influence-voting-card-configuration.component.html',
   styleUrls: ['./domain-of-influence-voting-card-configuration.component.scss'],
+  standalone: false,
 })
 export class DomainOfInfluenceVotingCardConfigurationComponent implements AfterViewInit {
   public readonly votingCardGroups: EnumItemDescription<VotingCardGroup>[];
@@ -40,10 +40,9 @@ export class DomainOfInfluenceVotingCardConfigurationComponent implements AfterV
   @Output()
   public configurationChanged: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(
-    private readonly doiVotingCardService: DomainOfInfluenceVotingCardService,
-    enumUtil: EnumUtil,
-  ) {
+  constructor() {
+    const enumUtil = inject(EnumUtil);
+
     this.votingCardGroups = enumUtil.getArrayWithDescriptions<VotingCardGroup>(VotingCardGroup, 'VOTING_CARD_GROUPS.');
     this.groupErrors = this.votingCardGroups.map(_ => false);
 
@@ -64,18 +63,12 @@ export class DomainOfInfluenceVotingCardConfigurationComponent implements AfterV
     this.configurationChanged.emit();
   }
 
-  public async groupChanged(group: VotingCardGroup, index: number): Promise<void> {
-    this.votingCardConfiguration.votingCardGroups[index] = group;
-    this.refreshGroupErrors();
-    this.emitConfigurationChanged();
-  }
-
   public addSort(): void {
     this.votingCardConfiguration.votingCardSorts = [
       ...this.votingCardConfiguration.votingCardSorts,
       VotingCardSort.VOTING_CARD_SORT_UNSPECIFIED,
     ];
-    this.refreshGroupErrors();
+    this.refreshSortErrors();
     this.emitConfigurationChanged();
   }
 
@@ -90,7 +83,7 @@ export class DomainOfInfluenceVotingCardConfigurationComponent implements AfterV
 
   public removeSort(index: number): void {
     this.votingCardConfiguration.votingCardSorts.splice(index, 1);
-    this.refreshGroupErrors();
+    this.refreshSortErrors();
     this.emitConfigurationChanged();
   }
 
@@ -100,21 +93,27 @@ export class DomainOfInfluenceVotingCardConfigurationComponent implements AfterV
     this.emitConfigurationChanged();
   }
 
-  private refreshGroupErrors(): void {
-    this.groupErrors = this.votingCardConfiguration.votingCardGroups.map(
-      (g, i) => !g || this.votingCardConfiguration.votingCardGroups.indexOf(g) !== i,
-    );
-  }
-
   public async sortChanged(sort: VotingCardSort, index: number): Promise<void> {
     this.votingCardConfiguration.votingCardSorts[index] = sort;
     this.refreshSortErrors();
     this.emitConfigurationChanged();
   }
 
+  public async groupChanged(group: VotingCardGroup, index: number): Promise<void> {
+    this.votingCardConfiguration.votingCardGroups[index] = group;
+    this.refreshGroupErrors();
+    this.emitConfigurationChanged();
+  }
+
   private refreshSortErrors(): void {
     this.sortErrors = this.votingCardConfiguration.votingCardSorts.map(
       (s, i) => !s || this.votingCardConfiguration.votingCardSorts.indexOf(s) !== i,
+    );
+  }
+
+  private refreshGroupErrors(): void {
+    this.groupErrors = this.votingCardConfiguration.votingCardGroups.map(
+      (g, i) => !g || this.votingCardConfiguration.votingCardGroups.indexOf(g) !== i,
     );
   }
 }

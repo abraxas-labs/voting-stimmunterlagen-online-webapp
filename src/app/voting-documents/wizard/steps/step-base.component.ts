@@ -5,7 +5,7 @@
  */
 
 import { Step } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -13,25 +13,32 @@ import { Contest } from '../../../models/contest.model';
 import { DomainOfInfluence } from '../../../models/domain-of-influence.model';
 import { StepInfo, StepState } from '../../../models/step.model';
 import { StepService } from '../../../services/step.service';
+import { isCommunal } from '../../../services/utils/domain-of-influence.utils';
 
 // workaround for NG2007: pseudo component
 // this is needed since an angular annotation is needed to be able to implement an angular hook
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 export abstract class StepBaseComponent implements OnInit, OnDestroy {
+  protected readonly router = inject(Router);
+  protected readonly route = inject(ActivatedRoute);
+  protected readonly stepService = inject(StepService);
+
   public loading = true;
   public approveLoading = false;
   public stepInfo?: StepInfo;
   public steps: StepState[] = [];
   public canEdit = false;
+  public isCommunalContest = false;
+  public isEVotingContest = false;
+  public isEVotingDomainOfInfluence = false;
 
   private routeSubscription?: Subscription;
 
-  protected constructor(
-    public readonly step: Step,
-    protected readonly router: Router,
-    protected readonly route: ActivatedRoute,
-    protected readonly stepService: StepService,
-  ) {}
+  // eslint-disable-next-line @angular-eslint/prefer-inject
+  protected constructor(public readonly step: Step) {}
 
   public ngOnInit() {
     // subscribe to route changes in on init instead of the constructor,
@@ -127,5 +134,8 @@ export abstract class StepBaseComponent implements OnInit, OnDestroy {
         disabled: false,
       },
     };
+    this.isCommunalContest = isCommunal(contest.domainOfInfluence.type);
+    this.isEVotingContest = contest.eVoting;
+    this.isEVotingDomainOfInfluence = domainOfInfluence.eVoting ?? false;
   }
 }

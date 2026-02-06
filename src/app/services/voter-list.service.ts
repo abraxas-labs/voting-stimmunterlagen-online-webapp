@@ -12,7 +12,7 @@ import {
   UpdateVoterListsRequest,
   VoterListServiceClient,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { mapVoterLists, VoterList, VoterLists } from '../models/voter-list.model';
 import { firstValueFrom } from 'rxjs';
 import { BoolValue } from '@ngx-grpc/well-known-types';
@@ -21,9 +21,9 @@ import { BoolValue } from '@ngx-grpc/well-known-types';
   providedIn: 'root',
 })
 export class VoterListService {
-  private readonly restApiUrl: string = '';
+  private readonly client = inject(VoterListServiceClient);
 
-  constructor(private readonly client: VoterListServiceClient) {}
+  private readonly restApiUrl: string = '';
 
   public list(domainOfInfluenceId: string): Promise<VoterLists> {
     return firstValueFrom(this.client.list(new ListVoterListsRequest({ domainOfInfluenceId }))).then(x => mapVoterLists(x));

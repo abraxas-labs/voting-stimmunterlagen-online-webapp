@@ -1,9 +1,9 @@
 <h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_CONTEST_APPROVAL.TITLE</h1>
-<ng-container *ngIf="stepInfo && stepInfo.contest">
+@if (stepInfo && stepInfo.contest) {
   <div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
     <bc-date
       [label]="'CONTEST.PRINTING_CENTER_SIGNUP_DEADLINE' | translate"
-      [disabled]="!canEdit"
+      [disabled]="!canEdit || isCommunalContest"
       [value]="printingCenterSignUpDeadlineDate"
       (valueChange)="updatePrintingCenterSignUpDeadline($event)"
       [required]="true"
@@ -13,7 +13,7 @@
     ></bc-date>
     <bc-date
       [label]="'CONTEST.ATTACHMENT_DELIVERY_DEADLINE' | translate"
-      [disabled]="!canEdit"
+      [disabled]="!canEdit || isCommunalContest"
       [value]="attachmentDeliveryDeadlineDate"
       (valueChange)="updateAttachmentDeliveryDeadline($event)"
       [required]="true"
@@ -23,7 +23,7 @@
     ></bc-date>
     <bc-date
       [label]="'CONTEST.GENERATE_VOTING_CARDS_DEADLINE' | translate"
-      [disabled]="!canEdit"
+      [disabled]="!canEdit || isCommunalContest"
       [value]="generateVotingCardsDeadlineDate"
       (valueChange)="updateGenerateVotingCardsDeadline($event)"
       [required]="true"
@@ -31,17 +31,61 @@
       [error]="!validGenerateVotingCardsDeadline"
       [subscriptSizing]="'dynamic'"
     ></bc-date>
+    @if (stepInfo.contest.eVoting && !isCommunalContest) {
+      <bc-date
+        [label]="'CONTEST.ELECTORAL_REGISTER_E_VOTING_FROM' | translate"
+        [disabled]="!canEdit"
+        [value]="electoralRegisterEVotingFromDate"
+        (valueChange)="updateElectoralRegisterEVotingFromDate($event)"
+        [required]="true"
+        [error]="!validElectoralRegisterEVotingFrom"
+        [subscriptSizing]="'dynamic'"
+      ></bc-date>
+    }
+    <div class="inline-spinner-wrapper">
+      @if (isCommunalContest) {
+        <bc-date
+          [label]="'CONTEST.DELIVERY_TO_POST_DEADLINE' | translate"
+          [disabled]="!canEdit || loadingPreview"
+          [value]="deliveryToPostDeadlineDate"
+          (valueChange)="updateDeliveryToPostDeadline($event)"
+          [required]="true"
+          [error]="!validDeliveryToPostDeadline"
+          [subscriptSizing]="'dynamic'"
+        ></bc-date>
+      }
+      @if (loadingPreview) {
+        <bc-spinner class="ml-2"></bc-spinner>
+      }
+    </div>
+    @if (isCommunalContest) {
+      <bc-label
+        [label]="
+          (!printingCenterSignUpDeadlineDate || validStandardDeliveryToPostDeadline
+            ? 'CONTEST.COMMUNAL_DEADLINES_HINT'
+            : 'CONTEST.INVALID_STANDARD_COMMUNAL_DEADLINES_HINT'
+          ) | translate
+        "
+      ></bc-label>
+    }
   </div>
   <app-wizard-sidebar
     class="layout-right"
     [stepInfo]="stepInfo"
     [checks]="['STEP_CONTEST_APPROVAL.CHECK']"
     [approveStateLoading]="approveLoading"
-    [canApprove]="validAttachmentDeliveryDeadline && validPrintingCenterSignUpDeadline && validGenerateVotingCardsDeadline"
+    [canApprove]="
+      !isCommunalContest
+        ? validAttachmentDeliveryDeadline &&
+          validPrintingCenterSignUpDeadline &&
+          validGenerateVotingCardsDeadline &&
+          (!isEVotingContest || validElectoralRegisterEVotingFrom)
+        : validDeliveryToPostDeadline
+    "
     [canRevert]="true"
     (approve)="approve()"
     (revert)="revert()"
     [hint]="'STEP_CONTEST_APPROVAL.HINT' + (stepInfo.contest.isSingleAttendeeContest ? '_SINGLE_ATTENDEE' : '')"
   >
   </app-wizard-sidebar>
-</ng-container>
+}

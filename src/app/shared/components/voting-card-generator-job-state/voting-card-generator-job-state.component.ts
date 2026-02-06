@@ -13,6 +13,7 @@ type ForegroundColor = 'dark' | 'light';
   selector: 'app-voting-card-generator-job-state',
   templateUrl: './voting-card-generator-job-state.component.html',
   styleUrls: ['./voting-card-generator-job-state.component.scss'],
+  standalone: false,
 })
 export class VotingCardGeneratorJobStateComponent {
   public stateValue: VotingCardGeneratorJobState = VotingCardGeneratorJobState.VOTING_CARD_GENERATOR_JOB_STATE_READY;

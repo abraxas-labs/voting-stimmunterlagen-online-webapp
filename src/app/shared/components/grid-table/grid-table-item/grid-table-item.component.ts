@@ -11,6 +11,7 @@ import { GridTableItemEntryComponent } from '../grid-table-item-entry/grid-table
   selector: 'app-grid-table-item',
   templateUrl: './grid-table-item.component.html',
   styleUrls: ['./grid-table-item.component.scss'],
+  standalone: false,
 })
 export class GridTableItemComponent {
   @ContentChildren(GridTableItemEntryComponent)

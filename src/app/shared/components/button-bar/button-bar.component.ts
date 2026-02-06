@@ -4,16 +4,17 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { DialogService } from '../../../services/dialog.service';
 
 @Component({
   selector: 'app-button-bar',
   templateUrl: './button-bar.component.html',
   styleUrls: ['./button-bar.component.scss'],
+  standalone: false,
 })
 export class ButtonBarComponent {
-  constructor(private readonly dialog: DialogService) {}
+  private readonly dialog = inject(DialogService);
 
   @Input()
   public saveLabel = 'APP.SAVE';

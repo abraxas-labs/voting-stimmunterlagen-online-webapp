@@ -21,7 +21,7 @@ import {
   GetAttachmentsProgressRequest,
   IdValueRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Timestamp } from '@ngx-grpc/well-known-types';
 import {
   Attachment,
@@ -42,7 +42,7 @@ import { sortByCategory } from './utils/attachment.utils';
   providedIn: 'root',
 })
 export class AttachmentService {
-  constructor(private readonly client: AttachmentServiceClient) {}
+  private readonly client = inject(AttachmentServiceClient);
 
   public create(attachment: Attachment): Promise<string> {
     return firstValueFrom(

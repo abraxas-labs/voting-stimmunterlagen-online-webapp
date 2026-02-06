@@ -9,7 +9,7 @@ import {
   RetryVotingCardGeneratorJobsRequest,
   VotingCardGeneratorJobsServiceClient,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { VotingCardGeneratorJob } from '../models/voting-card-generator-job.model';
 import { firstValueFrom } from 'rxjs';
 
@@ -17,7 +17,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class VotingCardGeneratorJobService {
-  constructor(private readonly client: VotingCardGeneratorJobsServiceClient) {}
+  private readonly client = inject(VotingCardGeneratorJobsServiceClient);
 
   public async retryJobs(domainOfInfluenceId: string): Promise<void> {
     await firstValueFrom(this.client.retryJobs(new RetryVotingCardGeneratorJobsRequest({ domainOfInfluenceId })));

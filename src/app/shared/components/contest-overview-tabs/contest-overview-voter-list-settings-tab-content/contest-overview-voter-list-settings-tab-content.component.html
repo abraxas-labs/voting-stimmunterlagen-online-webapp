@@ -1,10 +1,8 @@
-<ng-container *ngIf="!loading; else spinner">
+@if (!loading) {
   <bc-search (searchClick)="filter($event)" [placeholder]="'APP.SEARCH' | translate"></bc-search>
   <app-contest-overview-voter-list-settings-table
     [domainOfInfluences]="filteredDomainOfInfluences"
   ></app-contest-overview-voter-list-settings-table>
-</ng-container>
-
-<ng-template #spinner>
+} @else {
   <bc-spinner size="large"></bc-spinner>
-</ng-template>
+}

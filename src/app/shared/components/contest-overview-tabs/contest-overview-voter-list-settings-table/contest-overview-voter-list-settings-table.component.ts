@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { DomainOfInfluence } from '../../../../models/domain-of-influence.model';
 import { DomainOfInfluenceService } from '../../../../services/domain-of-influence.service';
 import { ToastService } from '../../../../services/toast.service';
@@ -13,19 +13,18 @@ import { ToastService } from '../../../../services/toast.service';
   selector: 'app-contest-overview-voter-list-settings-table',
   templateUrl: './contest-overview-voter-list-settings-table.component.html',
   styleUrls: ['contest-overview-voter-list-settings-table.component.scss'],
+  standalone: false,
 })
 export class ContestOverviewVoterListSettingsTableComponent {
+  private readonly domainOfInfluenceService = inject(DomainOfInfluenceService);
+  private readonly toast = inject(ToastService);
+
   public readonly columns = ['name', 'allowManualVoterListUpload'];
 
   @Input()
   public domainOfInfluences: DomainOfInfluence[] = [];
 
   public saving: boolean = false;
-
-  constructor(
-    private readonly domainOfInfluenceService: DomainOfInfluenceService,
-    private readonly toast: ToastService,
-  ) {}
 
   public async setAllowManualVoterListUpload(doi: DomainOfInfluence, allowManualVoterListUpload: boolean): Promise<void> {
     if (allowManualVoterListUpload === doi.allowManualVoterListUpload) {

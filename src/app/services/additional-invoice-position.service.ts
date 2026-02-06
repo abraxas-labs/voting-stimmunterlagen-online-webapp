@@ -11,7 +11,7 @@ import {
   ListAdditionalInvoicePositionsRequest,
   IdValueRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
   AdditionalInvoicePosition,
@@ -25,7 +25,7 @@ import { Empty } from '@ngx-grpc/well-known-types';
   providedIn: 'root',
 })
 export class AdditionalInvoicePositionService {
-  constructor(private readonly client: AdditionalInvoicePositionServiceClient) {}
+  private readonly client = inject(AdditionalInvoicePositionServiceClient);
 
   public create(position: AdditionalInvoicePosition): Promise<string> {
     return firstValueFrom(

@@ -5,14 +5,12 @@
  */
 
 import { VotingCardGeneratorJobState } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { VotingCardGeneratorJob } from 'src/app/models/voting-card-generator-job.model';
 import { VotingCardGeneratorJobService } from 'src/app/services/voting-card-generator-job.service';
 import { AttachmentTableEntry, mapToAttachmentTableEntries } from '../../../../models/attachment.model';
 import { Step } from '../../../../models/step.model';
 import { AttachmentService } from '../../../../services/attachment.service';
-import { StepService } from '../../../../services/step.service';
 import { StepBaseComponent } from '../step-base.component';
 import { ToastService } from '../../../../services/toast.service';
 
@@ -20,8 +18,13 @@ import { ToastService } from '../../../../services/toast.service';
   selector: 'app-print-job-overview',
   templateUrl: './print-job-overview.component.html',
   styleUrls: ['./print-job-overview.component.scss'],
+  standalone: false,
 })
 export class PrintJobOverviewComponent extends StepBaseComponent {
+  private readonly votingCardGeneratorJobService = inject(VotingCardGeneratorJobService);
+  private readonly attachmentService = inject(AttachmentService);
+  private readonly toast = inject(ToastService);
+
   public attachmentTableEntries: AttachmentTableEntry[] = [];
   public jobs: VotingCardGeneratorJob[] = [];
   public hasFailedJobs = false;
@@ -29,15 +32,8 @@ export class PrintJobOverviewComponent extends StepBaseComponent {
   public loadingJobs = false;
   public externalPrintingCenter = false;
 
-  constructor(
-    private readonly votingCardGeneratorJobService: VotingCardGeneratorJobService,
-    private readonly attachmentService: AttachmentService,
-    private readonly toast: ToastService,
-    router: Router,
-    route: ActivatedRoute,
-    stepService: StepService,
-  ) {
-    super(Step.STEP_PRINT_JOB_OVERVIEW, router, route, stepService);
+  constructor() {
+    super(Step.STEP_PRINT_JOB_OVERVIEW);
   }
 
   public async retryJobs(): Promise<void> {

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AdditionalInvoicePosition, AdditionalInvoicePositionAvailableMaterial } from '../../../models/additional-invoice-position.model';
 import { DomainOfInfluence } from '../../../models/domain-of-influence.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -15,8 +15,16 @@ import { IamService } from '../../../services/iam.service';
 @Component({
   selector: 'app-additional-invoice-position-edit-dialog',
   templateUrl: './additional-invoice-position-edit-dialog.component.html',
+  standalone: false,
 })
 export class AdditionalInvoicePositionEditDialogComponent implements OnInit {
+  public readonly data = inject<AdditionalInvoicePositionEditDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef =
+    inject<MatDialogRef<AdditionalInvoicePositionEditDialogComponent, AdditionalInvoicePositionEditDialogResult>>(MatDialogRef);
+  private readonly additionalInvoicePositionService = inject(AdditionalInvoicePositionService);
+  private readonly toast = inject(ToastService);
+  private readonly iam = inject(IamService);
+
   public readonly domainOfInfluences: DomainOfInfluence[];
   public readonly additionalInvoicePosition!: AdditionalInvoicePosition;
   public readonly isNew: boolean = false;
@@ -26,17 +34,11 @@ export class AdditionalInvoicePositionEditDialogComponent implements OnInit {
   public validAmount: boolean = false;
   public showComment: boolean = false;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: AdditionalInvoicePositionEditDialogData,
-    private readonly dialogRef: MatDialogRef<AdditionalInvoicePositionEditDialogComponent, AdditionalInvoicePositionEditDialogResult>,
-    private readonly additionalInvoicePositionService: AdditionalInvoicePositionService,
-    private readonly toast: ToastService,
-    private readonly iam: IamService,
-  ) {
-    this.isNew = !data.additionalInvoicePosition.id;
-    this.additionalInvoicePosition = data.additionalInvoicePosition;
-    this.domainOfInfluences = data.selectableDomainOfInfluences;
-    this.availableMaterials = data.availableMaterials;
+  constructor() {
+    this.isNew = !this.data.additionalInvoicePosition.id;
+    this.additionalInvoicePosition = this.data.additionalInvoicePosition;
+    this.domainOfInfluences = this.data.selectableDomainOfInfluences;
+    this.availableMaterials = this.data.availableMaterials;
 
     if (this.isNew) {
       return;

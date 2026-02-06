@@ -1,3 +1,18 @@
+@use '@abraxas/voting-lib/style/table' as *;
+
 .bc-row.hidden {
   display: none;
+}
+
+::ng-deep .bc-column-e-voting-ready,
+::ng-deep .bc-column-name,
+::ng-deep .bc-column-bfs,
+::ng-deep .bc-column-parent-political-businesses-count,
+::ng-deep .bc-column-own-political-businesses-count,
+::ng-deep .bc-column-count-of-voting-cards-for-e-voters {
+  @include truncate-long-sortable-table-header();
+}
+
+.bc-column-parent-political-businesses-count {
+  width: 20%;
 }

@@ -28,14 +28,14 @@ export function mapVoterListImportResponseToImport(
     lastUpdate: voterListImport.lastUpdate,
     name: voterListImport.name,
     source: voterListImport.source,
-    hasVoterDuplicates: voterListResponse.voterDuplicates.length > 0,
+    countOfVotingCards: voterListResponse.numberOfVoters,
     politicalBusinessIds: previousVoterLists.find(vl => vl.votingCardType === voterListResponse.votingCardType)?.politicalBusinessIds ?? [],
     checkablePoliticalBusinesses: {} as CheckableItems<PoliticalBusiness>,
   }));
 
   for (const voterList of voterListImport.voterLists) {
     // set count to 0 because the REST response does not set this field.
-    voterList.countOfSendVotingCardsToDomainOfInfluenceReturnAddress ??= 0;
+    voterList.countOfVotingCardsForDomainOfInfluenceReturnAddress ??= 0;
   }
 
   addCheckablePoliticalBusinessesToVoterLists(voterListImport.voterLists, politicalBusinesses);

@@ -11,6 +11,7 @@ import { ContestEVotingExportJob } from '../../../../models/e-voting-export-job.
   selector: 'app-e-voting-export-job-table',
   templateUrl: './e-voting-export-job-table.component.html',
   styleUrls: ['./e-voting-export-job-table.component.scss'],
+  standalone: false,
 })
 export class EVotingExportJobTableComponent {
   public readonly columns = ['fileName', 'fileHash', 'state'];

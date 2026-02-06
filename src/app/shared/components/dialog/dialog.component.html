@@ -1,18 +1,15 @@
 <div class="dialog">
-  <ng-container *ngIf="contentLoading; else content">
+  @if (contentLoading) {
     <h1><bc-spinner size="large" class="mr-1"></bc-spinner>{{ 'APP.LOADING' | translate }}</h1>
-  </ng-container>
-  <ng-template #content>
+  } @else {
     <div class="dialog-header">
       <ng-content select="[header]"></ng-content>
     </div>
-
     <div class="dialog-content">
       <ng-content select="[content]"></ng-content>
     </div>
-
     <div class="dialog-footer">
       <ng-content select="[footer]"></ng-content>
     </div>
-  </ng-template>
+  }
 </div>

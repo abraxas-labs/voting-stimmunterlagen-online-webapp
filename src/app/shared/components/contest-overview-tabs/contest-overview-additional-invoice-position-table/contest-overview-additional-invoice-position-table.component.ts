@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import {
   AdditionalInvoicePosition,
   AdditionalInvoicePositionAvailableMaterial,
@@ -22,8 +22,11 @@ import { DomainOfInfluence } from '../../../../models/domain-of-influence.model'
 @Component({
   selector: 'app-contest-overview-additional-invoice-position-table',
   templateUrl: './contest-overview-additional-invoice-position-table.component.html',
+  standalone: false,
 })
 export class ContestOverviewAdditionalInvoicePositionTableComponent {
+  private readonly dialog = inject(DialogService);
+
   public readonly columns = ['authority', 'domainOfInfluence', 'description', 'amount', 'createdBy', 'created'];
 
   @Input()
@@ -34,8 +37,6 @@ export class ContestOverviewAdditionalInvoicePositionTableComponent {
 
   @Input()
   public selectableDomainOfInfluences: DomainOfInfluence[] = [];
-
-  constructor(private readonly dialog: DialogService) {}
 
   public async createOrEdit(additionalInvoicePosition?: AdditionalInvoicePosition): Promise<void> {
     additionalInvoicePosition = !additionalInvoicePosition ? newAdditionalInvoicePosition() : cloneDeep(additionalInvoicePosition);

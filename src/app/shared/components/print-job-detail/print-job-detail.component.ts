@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AttachmentTableEntry, mapToAttachmentTableEntries } from '../../../models/attachment.model';
@@ -33,8 +33,16 @@ import { ContestOverviewTab } from '../contest-overview-tabs/contest-overview-ta
   selector: 'app-print-job-detail',
   templateUrl: './print-job-detail.component.html',
   styleUrls: ['./print-job-detail.component.scss'],
+  standalone: false,
 })
 export class PrintJobDetailComponent implements OnDestroy {
+  private readonly route = inject(ActivatedRoute);
+  private readonly votingCardGeneratorJobService = inject(VotingCardGeneratorJobService);
+  private readonly votingCardPrintFileExportJobService = inject(VotingCardPrintFileExportJobService);
+  private readonly attachmentService = inject(AttachmentService);
+  private readonly dialog = inject(DialogService);
+  private readonly router = inject(Router);
+
   public readonly printJobStates: typeof PrintJobState = PrintJobState;
 
   public attachmentTableEntries: AttachmentTableEntry[] = [];
@@ -51,15 +59,8 @@ export class PrintJobDetailComponent implements OnDestroy {
   public loading = true;
   public editable = true;
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly votingCardGeneratorJobService: VotingCardGeneratorJobService,
-    private readonly votingCardPrintFileExportJobService: VotingCardPrintFileExportJobService,
-    private readonly attachmentService: AttachmentService,
-    private readonly dialog: DialogService,
-    private readonly router: Router,
-  ) {
-    this.routeSubscription = route.data.subscribe(async ({ printJob, contest, editable, roles }) => {
+  constructor() {
+    this.routeSubscription = this.route.data.subscribe(async ({ printJob, contest, editable, roles }) => {
       this.printJob = printJob;
       this.contest = contest;
       this.editable = editable && !this.contest.locked;

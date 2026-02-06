@@ -4,21 +4,20 @@
  * For license information see LICENSE file.
  */
 
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, DOCUMENT, inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FileSaveService {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  private document = inject<Document>(DOCUMENT);
 
   public savePdf(data: Uint8Array, fileName: string): void {
     this.saveFile(data, fileName, 'application/pdf');
   }
 
   public saveFile(data: Uint8Array, fileName: string, mimeType: string): void {
-    const blob = new Blob([data], {
+    const blob = new Blob([new Uint8Array(data)], {
       type: mimeType,
     });
     const url = window.URL.createObjectURL(blob);

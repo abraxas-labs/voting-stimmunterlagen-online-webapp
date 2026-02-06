@@ -1,62 +1,97 @@
-<ng-container *ngIf="domainOfInfluenceVoterLists">
-  <div class="table-header" *ngIf="canEdit">
-    <bc-button
-      *ngIf="domainOfInfluenceVoterLists.domainOfInfluence.canManuallyUploadVoterList"
-      variant="tertiary"
-      (buttonClick)="create(voterListSources.VOTER_LIST_SOURCE_MANUAL_ECH_45_UPLOAD)"
-      [label]="'VOTER_LIST_IMPORT.UPLOAD_ECH' | translate"
-    ></bc-button>
-    <bc-button
-      *ngIf="isElectoralRegistrationEnabled"
-      variant="tertiary"
-      (buttonClick)="create(voterListSources.VOTER_LIST_SOURCE_VOTING_STIMMREGISTER_FILTER_VERSION)"
-      [label]="'VOTER_LIST_IMPORT.CREATE_FROM_SR' | translate"
-    ></bc-button>
-    <bc-button
-      *ngIf="domainOfInfluenceVoterLists.voterLists.length > 0"
-      variant="tertiary"
-      (buttonClick)="edit()"
-      [label]="'VOTER_LIST_IMPORT.UPDATE_DATA' | translate"
-    ></bc-button>
-  </div>
-
-  <app-grid-table itemOrientation="vertical" *ngIf="domainOfInfluenceVoterLists.voterLists.length > 0">
-    <app-grid-table-item>
-      <app-grid-table-item-entry>{{ 'VOTER_LIST.NAME' | translate }}</app-grid-table-item-entry>
-      <app-grid-table-item-entry>{{ 'VOTER_LIST.VOTING_CARD_TYPE' | translate }}</app-grid-table-item-entry>
-      <app-grid-table-item-entry>{{ 'VOTER_LIST.LAST_UPDATE' | translate }}</app-grid-table-item-entry>
-      <app-grid-table-item-entry borderVariant="bold">{{ 'VOTER_LIST.NUMBER_OF_VOTERS' | translate }}</app-grid-table-item-entry>
-
-      <app-grid-table-item-entry *ngFor="let pbNumberOfVoters of domainOfInfluenceVoterLists.numberOfVoters">
-        {{ pbNumberOfVoters.politicalBusiness.shortDescription }}
-      </app-grid-table-item-entry>
-    </app-grid-table-item>
-
-    <app-grid-table-item *ngFor="let voterList of domainOfInfluenceVoterLists.voterLists">
-      <app-grid-table-item-entry>{{ voterList.name }}</app-grid-table-item-entry>
-      <app-grid-table-item-entry>{{ 'VOTING_CARD_TYPES.' + voterList.votingCardType | translate }}</app-grid-table-item-entry>
-      <app-grid-table-item-entry>{{ voterList.lastUpdate | date: 'dd.MM.yyyy' }}</app-grid-table-item-entry>
-      <app-grid-table-item-entry borderVariant="bold">{{ voterList.numberOfVoters | number }}</app-grid-table-item-entry>
-
-      <app-grid-table-item-entry *ngFor="let checkablePoliticalBusiness of voterList.checkablePoliticalBusinesses.items">
-        <bc-checkbox
-          [checked]="checkablePoliticalBusiness.checked"
-          (checkedChange)="updatePoliticalBusinessChecked(voterList, checkablePoliticalBusiness, $event)"
-          [disabled]="!canEdit || checkablePoliticalBusiness.disabled"
-          (click)="$event.stopPropagation()"
-          subscriptSizing="dynamic"
-        ></bc-checkbox>
-      </app-grid-table-item-entry>
-    </app-grid-table-item>
-
-    <app-grid-table-item>
-      <app-grid-table-item-entry borderVariant="none" *ngFor="let i of [].constructor(3)"></app-grid-table-item-entry>
-      <app-grid-table-item-entry borderVariant="bold">{{
-        domainOfInfluenceVoterLists.totalNumberOfVoters | number
-      }}</app-grid-table-item-entry>
-      <app-grid-table-item-entry *ngFor="let pbNumberOfVoters of domainOfInfluenceVoterLists.numberOfVoters">
-        {{ pbNumberOfVoters.numberOfVoters | number }}
-      </app-grid-table-item-entry>
-    </app-grid-table-item>
-  </app-grid-table>
-</ng-container>
+@if (domainOfInfluenceVoterLists) {
+  @if (canEdit) {
+    <div class="table-header">
+      @if (domainOfInfluenceVoterLists.domainOfInfluence.canManuallyUploadVoterList) {
+        <bc-button
+          variant="tertiary"
+          (buttonClick)="create(voterListSources.VOTER_LIST_SOURCE_MANUAL_ECH_45_UPLOAD)"
+          [label]="'VOTER_LIST_IMPORT.UPLOAD_ECH' | translate"
+        ></bc-button>
+      }
+      @if (isElectoralRegistrationEnabled) {
+        <bc-button
+          [disabled]="stepInfo.domainOfInfluence.eVoting && stepInfo.contest.electoralRegisterEVotingActive === false"
+          variant="tertiary"
+          (buttonClick)="create(voterListSources.VOTER_LIST_SOURCE_VOTING_STIMMREGISTER_FILTER_VERSION)"
+          [label]="'VOTER_LIST_IMPORT.CREATE_FROM_SR' | translate"
+        ></bc-button>
+      }
+      @if (!!stepInfo && stepInfo.domainOfInfluence.hasEmptyVotingCards && !stepInfo.contest.isPoliticalAssembly) {
+        <bc-button
+          variant="tertiary"
+          (buttonClick)="setCountOfEmptyVotingCards()"
+          [label]="'VOTER_LIST.SET_COUNT_OF_EMPTY_VOTING_CARDS' | translate"
+        ></bc-button>
+      }
+      @if (
+        !!stepInfo && domainOfInfluenceVoterLists.voterLists.length - (stepInfo.domainOfInfluence.countOfEmptyVotingCards > 0 ? 1 : 0) > 0
+      ) {
+        <bc-button variant="tertiary" (buttonClick)="edit()" [label]="'VOTER_LIST_IMPORT.UPDATE_DATA' | translate"></bc-button>
+      }
+    </div>
+  }
+  @if (domainOfInfluenceVoterLists.voterLists.length > 0) {
+    <app-grid-table itemOrientation="vertical">
+      <app-grid-table-item>
+        <app-grid-table-item-entry>{{ 'VOTER_LIST.NAME' | translate }}</app-grid-table-item-entry>
+        <app-grid-table-item-entry>{{ 'VOTER_LIST.VOTING_CARD_TYPE' | translate }}</app-grid-table-item-entry>
+        <app-grid-table-item-entry>{{ 'VOTER_LIST.LAST_UPDATE' | translate }}</app-grid-table-item-entry>
+        <app-grid-table-item-entry [borderVariant]="numberOfVotersBorderVariant">{{
+          'VOTER_LIST.NUMBER_OF_VOTERS' | translate
+        }}</app-grid-table-item-entry>
+        @if (showNumberOfVotingCards) {
+          <app-grid-table-item-entry borderVariant="bold">{{ 'VOTER_LIST.COUNT_OF_VOTING_CARDS' | translate }}</app-grid-table-item-entry>
+        }
+        @for (pbCountOfVotingCards of domainOfInfluenceVoterLists.countOfVotingCards; track pbCountOfVotingCards) {
+          <app-grid-table-item-entry>
+            {{ pbCountOfVotingCards.politicalBusiness.shortDescription }}
+          </app-grid-table-item-entry>
+        }
+      </app-grid-table-item>
+      @for (voterList of domainOfInfluenceVoterLists.voterLists; track voterList) {
+        <app-grid-table-item>
+          <app-grid-table-item-entry>{{ voterList.name }}</app-grid-table-item-entry>
+          <app-grid-table-item-entry>{{ 'VOTING_CARD_TYPES.' + voterList.votingCardType | translate }}</app-grid-table-item-entry>
+          <app-grid-table-item-entry>{{ voterList.lastUpdate | date: 'dd.MM.yyyy' }}</app-grid-table-item-entry>
+          <app-grid-table-item-entry [borderVariant]="numberOfVotersBorderVariant">{{
+            voterList.numberOfVoters | number
+          }}</app-grid-table-item-entry>
+          @if (showNumberOfVotingCards) {
+            <app-grid-table-item-entry borderVariant="bold">{{ voterList.countOfVotingCards | number }}</app-grid-table-item-entry>
+          }
+          @for (checkablePoliticalBusiness of voterList.checkablePoliticalBusinesses.items; track checkablePoliticalBusiness) {
+            <app-grid-table-item-entry>
+              <bc-checkbox
+                [checked]="checkablePoliticalBusiness.checked"
+                (checkedChange)="updatePoliticalBusinessChecked(voterList, checkablePoliticalBusiness, $event)"
+                [disabled]="
+                  !canEdit || checkablePoliticalBusiness.disabled || voterList.source === voterListSources.VOTER_LIST_SOURCE_UNSPECIFIED
+                "
+                (click)="$event.stopPropagation()"
+                subscriptSizing="dynamic"
+              ></bc-checkbox>
+            </app-grid-table-item-entry>
+          }
+        </app-grid-table-item>
+      }
+      <app-grid-table-item>
+        @for (i of [].constructor(3); track i) {
+          <app-grid-table-item-entry borderVariant="none"></app-grid-table-item-entry>
+        }
+        <app-grid-table-item-entry [borderVariant]="numberOfVotersBorderVariant">{{
+          domainOfInfluenceVoterLists.totalNumberOfVoters | number
+        }}</app-grid-table-item-entry>
+        @if (showNumberOfVotingCards) {
+          <app-grid-table-item-entry borderVariant="bold">{{
+            domainOfInfluenceVoterLists.totalCountOfVotingCards | number
+          }}</app-grid-table-item-entry>
+        }
+        @for (pbCountOfVotingCards of domainOfInfluenceVoterLists.countOfVotingCards; track pbCountOfVotingCards) {
+          <app-grid-table-item-entry>
+            {{ pbCountOfVotingCards.countOfVotingCards | number }}
+          </app-grid-table-item-entry>
+        }
+      </app-grid-table-item>
+    </app-grid-table>
+  }
+}

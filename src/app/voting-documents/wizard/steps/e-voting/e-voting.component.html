@@ -1,25 +1,42 @@
 <h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_E_VOTING.TITLE</h1>
 <div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
-  <ng-container *ngIf="!loading; else spinner">
-    <ng-container *ngIf="job">
+  @if (!loading) {
+    @if (job) {
       <p class="header" translate>STEP_E_VOTING.TITLE_EXPORT</p>
       <app-e-voting-export-job-table [jobs]="[job]"></app-e-voting-export-job-table>
-      <p class="color-error" *ngIf="!attachmentStationsSet">{{ 'E_VOTING.ATTACHMENT_STATIONS_NOT_SET' | translate }}</p>
+      <bc-radio-button-group
+        class="mb-3"
+        [disabled]="jobSaving"
+        [items]="ech0045VersionItems"
+        name="ech0045"
+        [label]="'ECH_0045.VERSION' | translate"
+        [required]="true"
+        [ngModel]="job.ech0045Version"
+        (ngModelChange)="updateEch0045Version($event)"
+        subscriptSizing="dynamic"
+      ></bc-radio-button-group>
+      @if (!attachmentStationsSet) {
+        <p class="color-error">{{ 'E_VOTING.ATTACHMENT_STATIONS_NOT_SET' | translate }}</p>
+      }
       <div class="buttons mb-5">
-        <bc-button
-          *ngIf="canRetryJob"
-          variant="tertiary"
-          [disabled]="retrying"
-          (buttonClick)="retryJob()"
-          [label]="'STEP_E_VOTING.RETRY' | translate"
-        ></bc-button>
-        <bc-spinner class="ml-1" *ngIf="retrying"></bc-spinner>
+        @if (canRetryJob) {
+          <bc-button
+            variant="tertiary"
+            [disabled]="jobSaving"
+            (buttonClick)="retryJob()"
+            [label]="'STEP_E_VOTING.RETRY' | translate"
+          ></bc-button>
+        }
+        @if (jobSaving) {
+          <bc-spinner class="ml-1"></bc-spinner>
+        }
       </div>
-    </ng-container>
-
+    }
     <p class="header" translate>STEP_E_VOTING.TITLE_DOMAIN_OF_INFLUENCE</p>
     <app-e-voting-domain-of-influence-table [eVotingEntries]="eVotingEntries"></app-e-voting-domain-of-influence-table>
-  </ng-container>
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 </div>
 
 <app-wizard-sidebar
@@ -34,7 +51,3 @@
   hint="STEP_E_VOTING.HINT"
 >
 </app-wizard-sidebar>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>

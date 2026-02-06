@@ -1,0 +1,12 @@
+@use '@abraxas/voting-lib/style/table' as *;
+
+::ng-deep .bc-column-date,
+::ng-deep .bc-column-type,
+::ng-deep .bc-column-domain-of-influence,
+::ng-deep .bc-column-authority,
+::ng-deep .bc-column-post-deadline,
+::ng-deep .bc-column-generate-voting-cards-deadline,
+::ng-deep .bc-column-attachment-delivery-deadline,
+::ng-deep .bc-column-print-job-state {
+  @include truncate-long-sortable-table-header();
+}

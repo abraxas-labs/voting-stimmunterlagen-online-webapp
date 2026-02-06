@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatableItem } from '../../../models/translatable-item.model';
@@ -13,15 +13,14 @@ import { TranslatableItem } from '../../../models/translatable-item.model';
   selector: 'app-select-role-dialog',
   templateUrl: './select-role-dialog.component.html',
   styleUrls: ['./select-role-dialog.component.scss'],
+  standalone: false,
 })
 export class SelectRoleDialogComponent implements OnInit {
-  public roleItems: TranslatableItem<string>[] = [];
+  public readonly roles: string[] = inject(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<string[], string>>(MatDialogRef);
+  private readonly i18n = inject(TranslateService);
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<string[], string>,
-    private readonly i18n: TranslateService,
-    @Inject(MAT_DIALOG_DATA) public readonly roles: string[],
-  ) {}
+  public roleItems: TranslatableItem<string>[] = [];
 
   public ngOnInit(): void {
     this.roleItems = this.roles.map(r => ({

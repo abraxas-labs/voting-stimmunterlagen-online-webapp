@@ -10,6 +10,6 @@ export interface EVotingDomainOfInfluenceEntry {
   eVotingReady: boolean;
   parentPoliticalBusinessesCount: number;
   ownPoliticalBusinessesCount: number;
-  numberOfEVoters: number;
+  countOfVotingCardsForEVoters: number;
   domainOfInfluence: DomainOfInfluence;
 }

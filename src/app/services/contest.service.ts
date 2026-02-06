@@ -9,19 +9,23 @@ import {
   ContestState,
   IdValueRequest,
   ListContestsRequest,
+  ResetGenerateVotingCardsAndUpdateContestDeadlinesRequest,
+  ResetGenerateVotingCardsAndUpdateCommunalContestDeadlinesRequest,
   SetContestDeadlinesRequest,
-  UpdateContestPrintingCenterSignupDeadlineRequest,
+  SetCommunalContestDeadlinesRequest,
+  GetPreviewCommunalDeadlinesRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Timestamp } from '@ngx-grpc/well-known-types';
-import { Contest, mapContest, mapContests } from '../models/contest.model';
+import { CommunalContestDeadlinesCalculationResult, Contest, mapContest, mapContests } from '../models/contest.model';
 import { firstValueFrom } from 'rxjs';
+import { newUTCDate } from './utils/date.utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContestService {
-  constructor(private readonly client: ContestServiceClient) {}
+  private readonly client = inject(ContestServiceClient);
 
   public get(id: string): Promise<Contest> {
     return firstValueFrom(this.client.get(new IdValueRequest({ id }))).then(x => mapContest(x));
@@ -36,6 +40,7 @@ export class ContestService {
     printingCenterSignUpDeadlineDate: Date,
     attachmentDeliveryDeadlineDate: Date,
     generateVotingCardsDeadlineDate: Date,
+    electoralRegisterEVotingFrom?: Date,
   ): Promise<void> {
     await firstValueFrom(
       this.client.setDeadlines(
@@ -44,23 +49,85 @@ export class ContestService {
           printingCenterSignUpDeadlineDate: Timestamp.fromDate(printingCenterSignUpDeadlineDate),
           attachmentDeliveryDeadlineDate: Timestamp.fromDate(attachmentDeliveryDeadlineDate),
           generateVotingCardsDeadlineDate: Timestamp.fromDate(generateVotingCardsDeadlineDate),
+          electoralRegisterEVotingFromDate: !!electoralRegisterEVotingFrom ? Timestamp.fromDate(electoralRegisterEVotingFrom) : undefined,
         }),
       ),
     );
   }
 
-  public async updatePrintingCenterSignUpDeadline(
+  public async getPreviewCommunalDeadlines(
+    id: string,
+    deliveryToPostDeadlineDate: Date,
+  ): Promise<CommunalContestDeadlinesCalculationResult> {
+    const response = await firstValueFrom(
+      this.client.getPreviewCommunalDeadlines(
+        new GetPreviewCommunalDeadlinesRequest({
+          id,
+          deliveryToPostDeadlineDate: Timestamp.fromDate(deliveryToPostDeadlineDate),
+        }),
+      ),
+    );
+
+    return {
+      attachmentDeliveryDeadlineDate: newUTCDate(response.attachmentDeliveryDeadline!.toDate()),
+      deliveryToPostDeadlineDate: newUTCDate(response.deliveryToPostDeadline!.toDate()),
+      generateVotingCardsDeadlineDate: newUTCDate(response.generateVotingCardsDeadline!.toDate()),
+      printingCenterSignUpDeadlineDate: newUTCDate(response.printingCenterSignUpDeadline!.toDate()),
+    };
+  }
+
+  public async setCommunalDeadlines(id: string, deliveryToPostDeadlineDate: Date): Promise<CommunalContestDeadlinesCalculationResult> {
+    const response = await firstValueFrom(
+      this.client.setCommunalDeadlines(
+        new SetCommunalContestDeadlinesRequest({
+          id,
+          deliveryToPostDeadlineDate: Timestamp.fromDate(deliveryToPostDeadlineDate),
+        }),
+      ),
+    );
+
+    return {
+      attachmentDeliveryDeadlineDate: newUTCDate(response.attachmentDeliveryDeadline!.toDate()),
+      deliveryToPostDeadlineDate: newUTCDate(response.deliveryToPostDeadline!.toDate()),
+      generateVotingCardsDeadlineDate: newUTCDate(response.generateVotingCardsDeadline!.toDate()),
+      printingCenterSignUpDeadlineDate: newUTCDate(response.printingCenterSignUpDeadline!.toDate()),
+    };
+  }
+
+  public async resetGenerateVotingCardsAndUpdateContestDeadlines(
     id: string,
     printingCenterSignUpDeadlineDate: Date,
     generateVotingCardsDeadlineDate: Date,
     resetGenerateVotingCardsTriggeredDomainOfInfluenceIds: string[],
   ) {
     await firstValueFrom(
-      this.client.updatePrintingCenterSignUpDeadline(
-        new UpdateContestPrintingCenterSignupDeadlineRequest({
+      this.client.resetGenerateVotingCardsAndUpdateContestDeadlines(
+        new ResetGenerateVotingCardsAndUpdateContestDeadlinesRequest({
           id,
           printingCenterSignUpDeadlineDate: Timestamp.fromDate(printingCenterSignUpDeadlineDate),
           generateVotingCardsDeadlineDate: Timestamp.fromDate(generateVotingCardsDeadlineDate),
+          resetGenerateVotingCardsTriggeredDomainOfInfluenceIds,
+        }),
+      ),
+    );
+  }
+
+  public async resetGenerateVotingCardsAndUpdateCommunalContestDeadlines(
+    id: string,
+    printingCenterSignUpDeadlineDate: Date,
+    generateVotingCardsDeadlineDate: Date,
+    attachmentDeliveryDeadlineDate: Date,
+    deliveryToPostDeadlineDate: Date,
+    resetGenerateVotingCardsTriggeredDomainOfInfluenceIds: string[],
+  ) {
+    await firstValueFrom(
+      this.client.resetGenerateVotingCardsAndUpdateCommunalContestDeadlines(
+        new ResetGenerateVotingCardsAndUpdateCommunalContestDeadlinesRequest({
+          id,
+          printingCenterSignUpDeadlineDate: Timestamp.fromDate(printingCenterSignUpDeadlineDate),
+          generateVotingCardsDeadlineDate: Timestamp.fromDate(generateVotingCardsDeadlineDate),
+          attachmentDeliveryDeadlineDate: Timestamp.fromDate(attachmentDeliveryDeadlineDate),
+          deliveryToPostDeadlineDate: Timestamp.fromDate(deliveryToPostDeadlineDate),
           resetGenerateVotingCardsTriggeredDomainOfInfluenceIds,
         }),
       ),

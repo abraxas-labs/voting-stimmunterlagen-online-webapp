@@ -5,9 +5,10 @@
  */
 
 import { ComponentType } from '@angular/cdk/portal';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {
+  ConfirmColor,
   ConfirmDialogComponent,
   ConfirmDialogData,
   ConfirmDialogResult,
@@ -18,7 +19,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class DialogService {
-  constructor(private dialog: MatDialog) {}
+  private dialog = inject(MatDialog);
 
   public open<T>(component: ComponentType<T>, data: any, additionalParams: any = {}): MatDialogRef<T> {
     return this.dialog.open(component, { data, maxHeight: '90vh', ...additionalParams });
@@ -34,8 +35,14 @@ export class DialogService {
     return result as R;
   }
 
-  public async confirm(title: string, message: string, confirmText?: string, cancelText?: string): Promise<boolean> {
-    const data: ConfirmDialogData = { title, message, confirmText, cancelText, showCancel: true };
+  public async confirm(
+    title: string,
+    message: string,
+    confirmText?: string,
+    cancelText?: string,
+    confirmColor?: ConfirmColor,
+  ): Promise<boolean> {
+    const data: ConfirmDialogData = { title, message, confirmText, cancelText, confirmColor, showCancel: true };
     const result = await this.openForResult<ConfirmDialogComponent, ConfirmDialogResult | undefined>(ConfirmDialogComponent, data);
     return result?.confirmed ?? false;
   }

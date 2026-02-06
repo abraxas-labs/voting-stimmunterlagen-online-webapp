@@ -10,5 +10,6 @@ import { Component } from '@angular/core';
   selector: 'app-no-steps',
   templateUrl: './no-steps.component.html',
   styleUrls: ['./no-steps.component.scss'],
+  standalone: false,
 })
 export class NoStepsComponent {}

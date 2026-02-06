@@ -4,37 +4,38 @@
  * For license information see LICENSE file.
  */
 
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { Step } from '../../../../models/step.model';
 import { DomainOfInfluenceVoterLists } from '../../../../models/voter-list.model';
 import { AttachmentService } from '../../../../services/attachment.service';
 import { DomainOfInfluenceVoterListsBuilder } from '../../../../services/builders/domain-of-influence-voter-lists.builder';
-import { StepService } from '../../../../services/step.service';
 import { StepBaseComponent } from '../step-base.component';
 import { environment } from '../../../../../environments/environment';
+import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-voter-lists',
   templateUrl: './voter-lists.component.html',
   styleUrls: ['./voter-lists.component.scss'],
+  standalone: false,
 })
 export class VoterListsComponent extends StepBaseComponent {
+  private readonly voterListsBuilder = inject(DomainOfInfluenceVoterListsBuilder);
+  private readonly attachmentService = inject(AttachmentService);
+  private readonly dateFormatter = inject(DatePipe);
+  private readonly i18n = inject(TranslateService);
+
   public voterLists!: DomainOfInfluenceVoterLists;
   public canEdit = false;
   public attachmentMaxAllowedCountByPoliticalBusiness: Record<string, number> = {};
   public showMissingAttachmentsWarn = false;
   public hasVoterDuplicates = false;
   public isElectoralRegistrationEnabled = false;
+  public electoralRegisterEVotingNotActiveHint = '';
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    stepService: StepService,
-    private readonly voterListsBuilder: DomainOfInfluenceVoterListsBuilder,
-    private readonly attachmentService: AttachmentService,
-  ) {
-    super(Step.STEP_VOTER_LISTS, router, route, stepService);
+  constructor() {
+    super(Step.STEP_VOTER_LISTS);
   }
 
   protected async loadData(): Promise<void> {
@@ -43,9 +44,13 @@ export class VoterListsComponent extends StepBaseComponent {
     }
 
     this.voterLists = await this.voterListsBuilder.build(this.stepInfo);
-    this.refreshHasVoterDuplicates();
     this.isElectoralRegistrationEnabled =
       this.stepInfo.domainOfInfluence.electoralRegistrationEnabled && environment.isElectoralRegistrationEnabled;
+
+    this.electoralRegisterEVotingNotActiveHint = this.i18n.instant('STEP_VOTER_LISTS.HINT_ELECTORAL_REGISTRATION_E_VOTING_DISABLED', {
+      electoralRegisterEVotingFromDate: this.dateFormatter.transform(this.stepInfo.contest.electoralRegisterEVotingFromDate, 'dd.MM.yyyy'),
+      generateVotingCardsDeadlineDate: this.dateFormatter.transform(this.stepInfo.contest.generateVotingCardsDeadlineDate, 'dd.MM.yyyy'),
+    });
 
     const attachmentsByPbId = await this.attachmentService.listAttachmentsGroupedByPoliticalBusiness(this.stepInfo.domainOfInfluence.id);
     this.attachmentMaxAllowedCountByPoliticalBusiness = {};
@@ -75,21 +80,27 @@ export class VoterListsComponent extends StepBaseComponent {
     this.canEdit = true;
   }
 
+  public async handleVoterListsChange(): Promise<void> {
+    this.loading = true;
+
+    try {
+      // Reload data because other voter lists could have changed when external duplicates were included.
+      await this.loadData();
+    } finally {
+      this.loading = false;
+    }
+  }
+
   public refreshWarn(): void {
     this.refreshAttachmentsWarn();
-    this.refreshHasVoterDuplicates();
   }
 
   private refreshAttachmentsWarn(): void {
     this.showMissingAttachmentsWarn =
       !!this.stepInfo &&
       !this.stepInfo.domainOfInfluence.externalPrintingCenter &&
-      this.voterLists.numberOfVoters.some(
-        n => (this.attachmentMaxAllowedCountByPoliticalBusiness[n.politicalBusiness.id] ?? Number.POSITIVE_INFINITY) < n.numberOfVoters,
+      this.voterLists.countOfVotingCards.some(
+        n => (this.attachmentMaxAllowedCountByPoliticalBusiness[n.politicalBusiness.id] ?? Number.POSITIVE_INFINITY) < n.countOfVotingCards,
       );
-  }
-
-  private refreshHasVoterDuplicates(): void {
-    this.hasVoterDuplicates = this.voterLists.voterLists.some(vl => vl.hasVoterDuplicates);
   }
 }

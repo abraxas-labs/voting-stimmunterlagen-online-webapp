@@ -4,10 +4,9 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GrpcEvent, GrpcMessage, GrpcRequest } from '@ngx-grpc/common';
-import { GrpcHandler } from '@ngx-grpc/core';
-import { GrpcInterceptor } from '@ngx-grpc/core/lib/grpc-interceptor';
+import { GrpcHandler, GrpcInterceptor } from '@ngx-grpc/core';
 import { Observable } from 'rxjs';
 import { LanguageService } from '../language.service';
 
@@ -17,7 +16,7 @@ const languageKey = 'x-language';
   providedIn: 'root',
 })
 export class GrpcLanguageInterceptor implements GrpcInterceptor {
-  constructor(private readonly languageService: LanguageService) {}
+  private readonly languageService = inject(LanguageService);
 
   public intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
     request.requestMetadata.set(languageKey, this.languageService.currentLanguage);

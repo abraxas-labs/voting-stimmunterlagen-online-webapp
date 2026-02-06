@@ -8,6 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'every',
+  standalone: false,
 })
 export class EveryPipe<T> implements PipeTransform {
   public transform(items: T[], key?: keyof T, value?: any): boolean {

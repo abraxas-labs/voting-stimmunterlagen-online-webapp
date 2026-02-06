@@ -11,6 +11,7 @@ import { PrintJob } from '../../../models/print-job.model';
   selector: 'app-print-job-info',
   templateUrl: './print-job-info.component.html',
   styleUrls: ['./print-job-info.component.scss'],
+  standalone: false,
 })
 export class PrintJobInfoComponent {
   @Input()

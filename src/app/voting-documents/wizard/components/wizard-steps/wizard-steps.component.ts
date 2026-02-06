@@ -5,7 +5,7 @@
  */
 
 import { Step } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StepState } from '../../../../models/step.model';
@@ -15,8 +15,12 @@ import { StepService } from '../../../../services/step.service';
   selector: 'app-wizard-steps',
   templateUrl: './wizard-steps.component.html',
   styleUrls: ['./wizard-steps.component.scss'],
+  standalone: false,
 })
 export class WizardStepsComponent implements OnDestroy {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
   @Input()
   public stepStates: StepState[] = [];
 
@@ -26,11 +30,9 @@ export class WizardStepsComponent implements OnDestroy {
 
   private readonly approveChangeSubscription: Subscription;
 
-  constructor(
-    wizardService: StepService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-  ) {
+  constructor() {
+    const wizardService = inject(StepService);
+
     this.approveChangeSubscription = wizardService.stepApproveChanged$.subscribe(({ approved, step }) => {
       const stepState = this.stepStates.find(x => x.step === step);
       if (!stepState) {

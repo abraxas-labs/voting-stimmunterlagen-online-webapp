@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { environment } from '../../../../../environments/environment';
@@ -19,8 +19,14 @@ const dmDocContentEmitFunction = 'getEditorContent';
   selector: 'app-voting-card-template-brick-edit-dialog',
   templateUrl: './voting-card-template-brick-edit-dialog.component.html',
   styleUrls: ['./voting-card-template-brick-edit-dialog.component.scss'],
+  standalone: false,
 })
 export class VotingCardTemplateBrickEditDialogComponent implements OnInit, OnDestroy {
+  private readonly brickService = inject(DomainOfInfluenceVotingCardBrickService);
+  private readonly dialog = inject<MatDialogRef<VotingCardTemplateBrickEditDialogComponent>>(MatDialogRef);
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly toast = inject(ToastService);
+
   public loading = true;
   public saving = false;
   public brick!: TemplateBrick;
@@ -31,13 +37,9 @@ export class VotingCardTemplateBrickEditDialogComponent implements OnInit, OnDes
   @ViewChild('editorIframe')
   public editorIframe?: ElementRef;
 
-  constructor(
-    private readonly brickService: DomainOfInfluenceVotingCardBrickService,
-    private readonly dialog: MatDialogRef<VotingCardTemplateBrickEditDialogComponent>,
-    private readonly sanitizer: DomSanitizer,
-    private readonly toast: ToastService,
-    @Inject(MAT_DIALOG_DATA) data: VotingCardTemplateBrickEditDialogData,
-  ) {
+  constructor() {
+    const data = inject<VotingCardTemplateBrickEditDialogData>(MAT_DIALOG_DATA);
+
     this.brick = data.brick;
     this.boundDmDocEditorEventHandler = this.dmDocEditorEventHandler.bind(this);
   }

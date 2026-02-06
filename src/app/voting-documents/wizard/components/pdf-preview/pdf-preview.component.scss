@@ -13,7 +13,9 @@ h1 {
   color: white;
 }
 
-iframe {
+/* Stylelint doesn't recognize the tag */
+/* stylelint-disable-next-line */
+ngx-extended-pdf-viewer {
   width: 100%;
   height: 100%;
 }

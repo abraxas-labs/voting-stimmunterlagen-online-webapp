@@ -13,7 +13,6 @@ import {
   IconModule,
   LabelModule,
   MaskedModule,
-  RadioButtonModule,
   TextareaModule,
 } from '@abraxas/base-components';
 import { NgModule } from '@angular/core';
@@ -30,7 +29,6 @@ import { WizardSidebarWarnComponent } from './components/wizard-sidebar/wizard-s
 import { WizardSidebarComponent } from './components/wizard-sidebar/wizard-sidebar.component';
 import { WizardStepsComponent } from './components/wizard-steps/wizard-steps.component';
 import { AttachmentCountDialogComponent } from './dialogs/attachment-count-dialog/attachment-count-dialog.component';
-import { AttachmentEditDialogComponent } from './dialogs/attachment-edit-dialog/attachment-edit-dialog.component';
 import { ManagerVotingCardLayoutDialogComponent } from './dialogs/manager-voting-card-layout-dialog/manager-voting-card-layout-dialog.component';
 import { WizardOverviewPageComponent } from './pages/wizard-overview-page/wizard-overview-page.component';
 import { AttachmentsComponent } from './steps/attachments/attachments.component';
@@ -65,6 +63,9 @@ import { VoterDuplicateTableComponent } from './components/voter-duplicate-table
 import { VoterListImportSelectionDialogComponent } from './dialogs/voter-list-import-selection-dialog/voter-list-import-selection-dialog.component';
 import { VotingJournalComponent } from './steps/voting-journal/voting-journal.component';
 import { EVotingDomainOfInfluenceTableComponent } from './components/e-voting-domain-of-influence-table/e-voting-domain-of-influence-table.component';
+import { VoterListEditFormComponent } from './components/voter-list-edit-form/voter-list-edit-form.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { VoterListEmptyVotingCardsEditDialogComponent } from './dialogs/voter-list-empty-voting-cards-edit-dialog/voter-list-empty-voting-cards-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,6 @@ import { EVotingDomainOfInfluenceTableComponent } from './components/e-voting-do
     LayoutVotingCardsDomainOfInfluencesComponent,
     AttachmentsComponent,
     AttachmentTableComponent,
-    AttachmentEditDialogComponent,
     VoterListsComponent,
     VoterListTableComponent,
     VoterListUploadEditDialogComponent,
@@ -108,17 +108,18 @@ import { EVotingDomainOfInfluenceTableComponent } from './components/e-voting-do
     AttachmentDomainOfInfluencesDialogComponent,
     VoterListElectoralRegisterEditDialogComponent,
     VoterListImportEditFormComponent,
+    VoterListEditFormComponent,
     VoterListElectoralRegisterFilterVersionTableComponent,
     VoterListsUpdateStepComponent,
     VoterDuplicateTableComponent,
     VoterListImportSelectionDialogComponent,
     VotingJournalComponent,
     EVotingDomainOfInfluenceTableComponent,
+    VoterListEmptyVotingCardsEditDialogComponent,
   ],
   imports: [
     SharedModule,
     WizardRoutingModule,
-    RadioButtonModule,
     FileInputModule,
     TextareaModule,
     MaskedModule,
@@ -128,6 +129,7 @@ import { EVotingDomainOfInfluenceTableComponent } from './components/e-voting-do
     CardModule,
     ExpansionPanelModule,
     AutocompleteModule,
+    NgxExtendedPdfViewerModule,
   ],
 })
 export class WizardModule {}

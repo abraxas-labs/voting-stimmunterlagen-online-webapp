@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CheckableItem } from '../../../../models/checkable-item.model';
 import { PoliticalBusiness } from '../../../../models/political-business.model';
 import { DomainOfInfluenceVoterLists, VoterList } from '../../../../models/voter-list.model';
@@ -26,19 +26,36 @@ import {
 } from '../../dialogs/voter-list-import-selection-dialog/voter-list-import-selection-dialog.component';
 import { VoterListImportEditDialogData } from '../../dialogs/voter-list-import-edit-dialog-base/voter-list-import-edit-dialog-base.component';
 import { environment } from '../../../../../environments/environment';
+import { StepInfo } from '../../../../models/step.model';
+import {
+  VoterListEmptyVotingCardsEditDialogComponent,
+  VoterListEmptyVotingCardsEditDialogData,
+  VoterListEmptyVotingCardsEditDialogResult,
+} from '../../dialogs/voter-list-empty-voting-cards-edit-dialog/voter-list-empty-voting-cards-edit-dialog.component';
 
 @Component({
   selector: 'app-voter-list-table',
   templateUrl: './voter-list-table.component.html',
   styleUrls: ['./voter-list-table.component.scss'],
+  standalone: false,
 })
 export class VoterListTableComponent {
+  private readonly voterListService = inject(VoterListService);
+  private readonly dialog = inject(DialogService);
+  private readonly voterListImportService = inject(VoterListImportService);
+
   public readonly voterListSources: typeof VoterListSource = VoterListSource;
   private domainOfInfluenceVoterListsValue!: DomainOfInfluenceVoterLists;
+
   public isElectoralRegistrationEnabled = false;
+  public showNumberOfVotingCards = false;
+  public numberOfVotersBorderVariant = '';
 
   @Input()
   public canEdit = false;
+
+  @Input()
+  public stepInfo!: StepInfo;
 
   public gridTemplateItemsDirectionStyle = '';
 
@@ -54,21 +71,43 @@ export class VoterListTableComponent {
 
     this.domainOfInfluenceVoterListsValue = v;
     this.isElectoralRegistrationEnabled = v.domainOfInfluence.electoralRegistrationEnabled && environment.isElectoralRegistrationEnabled;
+    this.showNumberOfVotingCards = v.domainOfInfluence.electoralRegisterMultipleEnabled;
+    this.numberOfVotersBorderVariant = this.showNumberOfVotingCards ? 'default' : 'bold';
     this.recalculateNumberOfVotersAndGridStyle();
   }
 
   @Output()
   public voterListsChange: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(
-    private readonly voterListService: VoterListService,
-    private readonly dialog: DialogService,
-    private readonly voterListImportService: VoterListImportService,
-  ) {}
+  @Output()
+  public politicalBusinessNumberOfVotersChange: EventEmitter<void> = new EventEmitter<void>();
 
   public async create(source: VoterListSource): Promise<void> {
     const voterListImport = newVoterListImport(source);
     await this.createOrEdit(voterListImport);
+  }
+
+  public async setCountOfEmptyVotingCards(): Promise<void> {
+    if (!this.canEdit || !this.stepInfo) {
+      return;
+    }
+
+    const dialogData: VoterListEmptyVotingCardsEditDialogData = {
+      domainOfInfluenceId: this.stepInfo.domainOfInfluence.id,
+      countOfEmptyVotingCards: this.stepInfo.domainOfInfluence.countOfEmptyVotingCards,
+    };
+
+    const result = await this.dialog.openForResult<VoterListEmptyVotingCardsEditDialogComponent, VoterListEmptyVotingCardsEditDialogResult>(
+      VoterListEmptyVotingCardsEditDialogComponent,
+      dialogData,
+    );
+
+    if (!result || result.countOfEmptyVotingCards === undefined) {
+      return;
+    }
+
+    this.stepInfo.domainOfInfluence.countOfEmptyVotingCards = result.countOfEmptyVotingCards;
+    ((this.stepInfo.domainOfInfluence.lastCountOfEmptyVotingCardsUpdate = new Date()), this.voterListsChange.emit());
   }
 
   public async edit(): Promise<void> {
@@ -84,7 +123,7 @@ export class VoterListTableComponent {
     const voterListImport = await this.voterListImportService.get(selectedVoterListImportId);
     addCheckablePoliticalBusinessesToVoterLists(
       voterListImport.voterLists,
-      this.domainOfInfluenceVoterLists.numberOfVoters.map(x => x.politicalBusiness),
+      this.domainOfInfluenceVoterLists.countOfVotingCards.map(x => x.politicalBusiness),
     );
     await this.createOrEdit(voterListImport);
   }
@@ -117,8 +156,9 @@ export class VoterListTableComponent {
 
     const dialogData: VoterListImportEditDialogData = {
       voterListImport,
-      domainOfInfluenceId: this.domainOfInfluenceVoterLists.domainOfInfluence.id,
-      politicalBusinesses: this.domainOfInfluenceVoterLists.numberOfVoters.map(n => n.politicalBusiness),
+      domainOfInfluence: this.domainOfInfluenceVoterLists.domainOfInfluence,
+      politicalBusinesses: this.domainOfInfluenceVoterLists.countOfVotingCards.map(n => n.politicalBusiness),
+      isPoliticalAssembly: this.stepInfo.contest.isPoliticalAssembly,
     };
 
     const dialogType: ComponentType<VoterListUploadEditDialogComponent | VoterListElectoralRegisterEditDialogComponent> =
@@ -127,32 +167,11 @@ export class VoterListTableComponent {
         : VoterListElectoralRegisterEditDialogComponent;
 
     const result = await this.dialog.openForResult(dialogType, dialogData);
-    if (!result) {
+    if (!result || result.voterListImportError) {
       return;
     }
 
-    voterListImport = result.voterListImport;
-
-    if (result.deleted) {
-      this.domainOfInfluenceVoterLists.voterLists = this.domainOfInfluenceVoterLists.voterLists.filter(
-        x => x.importId !== voterListImport.id,
-      );
-      this.recalculateNumberOfVotersAndGridStyle();
-      return;
-    }
-
-    const existingVoterLists = this.domainOfInfluenceVoterLists.voterLists.filter(vl => vl.importId == voterListImport.id);
-    if (existingVoterLists.length === 0) {
-      this.domainOfInfluenceVoterLists.voterLists = [...this.domainOfInfluenceVoterLists.voterLists, ...voterListImport.voterLists];
-      this.recalculateNumberOfVotersAndGridStyle();
-      return;
-    }
-
-    this.domainOfInfluenceVoterLists.voterLists = this.domainOfInfluenceVoterLists.voterLists.filter(
-      x => x.importId !== voterListImport.id,
-    );
-    this.domainOfInfluenceVoterLists.voterLists = [...this.domainOfInfluenceVoterLists.voterLists, ...voterListImport.voterLists];
-    this.recalculateNumberOfVotersAndGridStyle();
+    this.voterListsChange.emit();
   }
 
   private recalculateNumberOfVotersAndGridStyle(): void {
@@ -161,27 +180,32 @@ export class VoterListTableComponent {
     const numberOfVotersListByPbId = groupBy(
       flatten(
         this.domainOfInfluenceVoterLists.voterLists.map(x =>
-          x.checkablePoliticalBusinesses.items.map(cpb => ({ numberOfVoters: cpb.checked ? x.numberOfVoters : 0, pbId: cpb.item.id })),
+          x.checkablePoliticalBusinesses.items.map(cpb => ({
+            countOfVotingCards: cpb.checked ? x.countOfVotingCards : 0,
+            pbId: cpb.item.id,
+          })),
         ),
       ),
       x => x.pbId,
     );
 
     for (const [pbId, numberOfVotersList] of Object.entries(numberOfVotersListByPbId)) {
-      const pbNumberOfVoters = this.domainOfInfluenceVoterLists.numberOfVoters.find(n => n.politicalBusiness.id === pbId)!;
-      pbNumberOfVoters.numberOfVoters = sum(numberOfVotersList, x => x.numberOfVoters);
+      const pbCountOfVotingCards = this.domainOfInfluenceVoterLists.countOfVotingCards.find(n => n.politicalBusiness.id === pbId)!;
+      pbCountOfVotingCards.countOfVotingCards = sum(numberOfVotersList, x => x.countOfVotingCards);
     }
 
     this.domainOfInfluenceVoterLists.totalNumberOfVoters = sum(this.domainOfInfluenceVoterLists.voterLists, x => x.numberOfVoters);
     // explicit cd trigger, since cd does not work for single objects in arrays.
-    this.domainOfInfluenceVoterLists.numberOfVoters = [...this.domainOfInfluenceVoterLists.numberOfVoters];
-    this.voterListsChange.emit();
+    this.domainOfInfluenceVoterLists.countOfVotingCards = [...this.domainOfInfluenceVoterLists.countOfVotingCards];
+    this.politicalBusinessNumberOfVotersChange.emit();
   }
 
   private async selectVoterListImport(): Promise<string | undefined> {
+    const voterLists = this.domainOfInfluenceVoterLists.voterLists.filter(vl => !!vl.id);
+
     const voterListImports: VoterListImportSelection[] = Object.entries(
       groupBySingle(
-        this.domainOfInfluenceVoterLists.voterLists.map(vl => ({
+        voterLists.map(vl => ({
           name: vl.name,
           importId: vl.importId,
         })),

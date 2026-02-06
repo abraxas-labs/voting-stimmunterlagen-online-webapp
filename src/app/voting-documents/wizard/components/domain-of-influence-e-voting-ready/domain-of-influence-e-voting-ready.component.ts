@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-domain-of-influence-e-voting-ready',
   templateUrl: './domain-of-influence-e-voting-ready.component.html',
   styleUrls: ['./domain-of-influence-e-voting-ready.component.scss'],
+  standalone: false,
 })
 export class DomainOfInfluenceEVotingReadyComponent {
   @Input()

@@ -11,6 +11,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   templateUrl: './wizard-sidebar-info.component.html',
   styleUrls: ['./wizard-sidebar-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class WizardSidebarInfoComponent {
   @Input()

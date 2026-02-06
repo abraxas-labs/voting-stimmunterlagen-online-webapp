@@ -4,30 +4,26 @@
  * For license information see LICENSE file.
  */
 
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { PoliticalBusiness } from '../../../../models/political-business.model';
 import { Step } from '../../../../models/step.model';
 import { PoliticalBusinessService } from '../../../../services/political-business.service';
-import { StepService } from '../../../../services/step.service';
 import { StepBaseComponent } from '../step-base.component';
 
 @Component({
   selector: 'app-political-business-approval',
   templateUrl: './political-business-approval.component.html',
   styleUrls: ['./political-business-approval.component.scss'],
+  standalone: false,
 })
 export class PoliticalBusinessApprovalComponent extends StepBaseComponent {
+  private readonly politicalBusinessService = inject(PoliticalBusinessService);
+
   public politicalBusinesses: Record<string, PoliticalBusiness[]> = {};
   public check = '';
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    stepService: StepService,
-    private readonly politicalBusinessService: PoliticalBusinessService,
-  ) {
-    super(Step.STEP_POLITICAL_BUSINESSES_APPROVAL, router, route, stepService);
+  constructor() {
+    super(Step.STEP_POLITICAL_BUSINESSES_APPROVAL);
   }
 
   protected async loadData(): Promise<void> {
@@ -35,7 +31,12 @@ export class PoliticalBusinessApprovalComponent extends StepBaseComponent {
       return;
     }
 
-    this.politicalBusinesses = await this.politicalBusinessService.listGroupedByManager(this.stepInfo.contest.id);
+    const isContestManager = this.stepInfo.contest.domainOfInfluence.id === this.stepInfo.domainOfInfluence.id;
+
+    this.politicalBusinesses = await this.politicalBusinessService.listGroupedByManager(
+      isContestManager ? this.stepInfo.contest.id : undefined,
+      isContestManager ? undefined : this.stepInfo.domainOfInfluence.id,
+    );
     this.check = Object.values(this.politicalBusinesses).some(x =>
       x.some(y => y.domainOfInfluence.secureConnectId === this.stepInfo?.domainOfInfluence.secureConnectId),
     )

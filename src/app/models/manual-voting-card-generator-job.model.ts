@@ -14,5 +14,5 @@ export interface ManualVotingCardGeneratorJob {
   id: string;
   created: Date;
   createdBy: User;
-  voter: ManualVotingCardVoter;
+  voter?: ManualVotingCardVoter;
 }

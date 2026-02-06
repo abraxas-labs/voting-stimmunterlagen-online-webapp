@@ -1,10 +1,7 @@
 <div class="layout">
-  <app-wizard-steps
-    *ngIf="steps && steps.length > 0"
-    [stepStates]="steps"
-    [selectedStep]="selectedStep"
-    class="layout-header"
-  ></app-wizard-steps>
+  @if (steps && steps.length > 0) {
+    <app-wizard-steps [stepStates]="steps" [selectedStep]="selectedStep" class="layout-header"></app-wizard-steps>
+  }
   <div class="layout-start-content layout-end-footer">
     <router-outlet></router-outlet>
   </div>

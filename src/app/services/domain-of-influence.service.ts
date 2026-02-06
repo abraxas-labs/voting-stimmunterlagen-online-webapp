@@ -10,9 +10,10 @@ import {
   ListDomainOfInfluenceChildrenRequest,
   ListDomainOfInfluencesRequest,
   ListEVotingDomainOfInfluencesRequest,
+  SetCountOfEmptyVotingCardsDomainOfInfluenceRequest,
   UpdateDomainOfInfluenceSettingsRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DomainOfInfluence, mapDomainOfInfluence } from '../models/domain-of-influence.model';
 import { EVotingDomainOfInfluenceEntry } from '../models/e-voting-domain-of-influence.model';
 import { firstValueFrom, Observable, Subject } from 'rxjs';
@@ -21,9 +22,9 @@ import { firstValueFrom, Observable, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class DomainOfInfluenceService {
-  private _domainOfInfluenceWithIdSettingsUpdated: Subject<string> = new Subject<string>();
+  private readonly client = inject(DomainOfInfluenceServiceClient);
 
-  constructor(private readonly client: DomainOfInfluenceServiceClient) {}
+  private _domainOfInfluenceWithIdSettingsUpdated: Subject<string> = new Subject<string>();
 
   public get domainOfInfluenceWithIdSettingsUpdated(): Observable<string> {
     return this._domainOfInfluenceWithIdSettingsUpdated;
@@ -57,5 +58,13 @@ export class DomainOfInfluenceService {
     );
 
     this._domainOfInfluenceWithIdSettingsUpdated.next(domainOfInfluenceId);
+  }
+
+  public async setCountOfEmptyVotingCards(domainOfInfluenceId: string, countOfEmptyVotingCards: number): Promise<void> {
+    await firstValueFrom(
+      this.client.setCountOfEmptyVotingCards(
+        new SetCountOfEmptyVotingCardsDomainOfInfluenceRequest({ domainOfInfluenceId, countOfEmptyVotingCards }),
+      ),
+    );
   }
 }

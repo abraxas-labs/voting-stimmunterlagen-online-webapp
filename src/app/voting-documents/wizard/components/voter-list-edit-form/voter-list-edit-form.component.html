@@ -1,0 +1,60 @@
+<form>
+  <p>{{ 'VOTER_LIST.NUMBER_OF_VOTERS' | translate }}: {{ voterList.numberOfVoters }}</p>
+  @if (voterList.votingCardType !== votingCardTypes.VOTING_CARD_TYPE_E_VOTING) {
+    <p class="mb-3">
+      {{ 'VOTER_LIST.COUNT_OF_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS' | translate }}:
+      {{ voterList.countOfVotingCardsForDomainOfInfluenceReturnAddress }}
+    </p>
+  }
+
+  @if (
+    !autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit && voterList.votingCardType !== votingCardTypes.VOTING_CARD_TYPE_E_VOTING
+  ) {
+    <bc-checkbox
+      class="mb-3"
+      [label]="'VOTER_LIST.SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS' | translate"
+      [checked]="voterList.sendVotingCardsToDomainOfInfluenceReturnAddress"
+      (checkedChange)="updateSendVotingCardsToDomainOfInfluenceReturnAddress($event)"
+      [hint]="
+        voterList.sendVotingCardsToDomainOfInfluenceReturnAddress
+          ? ('VOTER_LIST.SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS_HINT' | translate)
+          : ''
+      "
+      subscriptSizing="dynamic"
+    ></bc-checkbox>
+  }
+
+  @if (electoralRegisterMultipleEnabled) {
+    @for (
+      doiNameCheckablePoliticalBusinessesPair of doiNameCheckablePoliticalBusinessesPairs | keyvalue;
+      track doiNameCheckablePoliticalBusinessesPair
+    ) {
+      <label class="mt-2">{{ 'VOTER_LIST.POLITICAL_BUSINESSES' | translate: { name: doiNameCheckablePoliticalBusinessesPair.key } }}</label>
+      <bc-checkbox
+        class="m-0 my-1"
+        [indeterminate]="
+          !doiNameCheckablePoliticalBusinessesPair.value.allChecked && doiNameCheckablePoliticalBusinessesPair.value.atLeastOneChecked
+        "
+        [checked]="doiNameCheckablePoliticalBusinessesPair.value.allChecked"
+        (checkedChange)="
+          doiNameCheckablePoliticalBusinessesPair.value.allChecked = $event; voterList.checkablePoliticalBusinesses.refreshState()
+        "
+        [label]="'VOTER_LIST.SELECT_ALL' | translate"
+        subscriptSizing="dynamic"
+      >
+      </bc-checkbox>
+      @for (checkablePoliticalBusiness of doiNameCheckablePoliticalBusinessesPair.value.items; track checkablePoliticalBusiness) {
+        <bc-checkbox
+          class="m-0 my-1"
+          [checked]="checkablePoliticalBusiness.checked"
+          (checkedChange)="
+            doiNameCheckablePoliticalBusinessesPair.value.updateChecked(checkablePoliticalBusiness, $event);
+            voterList.checkablePoliticalBusinesses.refreshState()
+          "
+          [label]="checkablePoliticalBusiness.item.shortDescription"
+          subscriptSizing="dynamic"
+        ></bc-checkbox>
+      }
+    }
+  }
+</form>

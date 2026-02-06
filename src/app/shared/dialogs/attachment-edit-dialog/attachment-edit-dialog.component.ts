@@ -5,26 +5,34 @@
  */
 
 import { RadioButton } from '@abraxas/base-components';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Attachment, AttachmentCategory, AttachmentFormat } from '../../../../models/attachment.model';
-import { EnumUtil } from '../../../../services/enum.util';
-import { AttachmentService } from '../../../../services/attachment.service';
-import { ToastService } from '../../../../services/toast.service';
-import { fromBcDate, toBcDate } from '../../../../services/utils/date.utils';
-import { PropertyRefresherService } from '../../../../services/property-refresher.service';
+import { Attachment, AttachmentCategory, AttachmentFormat, mapAttachmentPbIdsToCheckablePbs } from '../../../models/attachment.model';
+import { EnumUtil } from '../../../services/enum.util';
+import { AttachmentService } from '../../../services/attachment.service';
+import { ToastService } from '../../../services/toast.service';
+import { fromBcDate, toBcDate } from '../../../services/utils/date.utils';
 import { CheckableItems } from 'src/app/models/checkable-item.model';
-import { groupBy } from '../../../../services/utils/array.utils';
-import { PoliticalBusiness } from '../../../../models/political-business.model';
-import { DomainOfInfluenceType } from '../../../../models/domain-of-influence.model';
-import { sortByCategory } from '../../../../services/utils/attachment.utils';
+import { groupBy } from '../../../services/utils/array.utils';
+import { PoliticalBusiness } from '../../../models/political-business.model';
+import { DomainOfInfluenceType } from '../../../models/domain-of-influence.model';
+import { sortByCategory } from '../../../services/utils/attachment.utils';
+import { PoliticalBusinessService } from '../../../services/political-business.service';
+import { Contest } from '../../../models/contest.model';
 
 @Component({
   selector: 'app-attachment-edit-dialog',
   templateUrl: './attachment-edit-dialog.component.html',
   styleUrls: ['./attachment-edit-dialog.component.scss'],
+  standalone: false,
 })
 export class AttachmentEditDialogComponent implements OnInit {
+  public readonly data = inject<AttachmentEditDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<AttachmentEditDialogComponent, AttachmentEditDialogResult>>(MatDialogRef);
+  private readonly attachmentService = inject(AttachmentService);
+  private readonly politicalBusinessService = inject(PoliticalBusinessService);
+  private readonly toast = inject(ToastService);
+
   public readonly isNew: boolean = false;
   public readonly attachmentCategoryRadioButtons: RadioButton[] = [];
   public readonly attachmentFormatRadioButtons: RadioButton[] = [];
@@ -38,6 +46,7 @@ export class AttachmentEditDialogComponent implements OnInit {
   public validDeliveryDate = false;
   public isSingleAttendeeContest = false;
   public isPoliticalAssembly = false;
+  public canEdit = false;
 
   public formatConsultationRequired = false;
   public formatConsultationChecked = false;
@@ -46,26 +55,23 @@ export class AttachmentEditDialogComponent implements OnInit {
 
   private readonly oldCategory: AttachmentCategory;
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<AttachmentEditDialogComponent, AttachmentEditDialogResult>,
-    private readonly attachmentService: AttachmentService,
-    private readonly toast: ToastService,
-    private readonly propertyRefresher: PropertyRefresherService,
-    enumUtil: EnumUtil,
-    @Inject(MAT_DIALOG_DATA) public data: AttachmentEditDialogData,
-  ) {
-    this.attachment = data.attachment;
-    this.isSingleAttendeeContest = data.isSingleAttendeeContest;
-    this.isPoliticalAssembly = data.isPoliticalAssembly;
+  constructor() {
+    const enumUtil = inject(EnumUtil);
+
+    this.attachment = this.data.attachment;
+    this.isSingleAttendeeContest = this.data.isSingleAttendeeContest;
+    this.isPoliticalAssembly = this.data.isPoliticalAssembly;
     this.isNew = !this.attachment.id;
     this.deliveryPlannedOn = toBcDate(this.attachment.deliveryPlannedOn);
     this.oldCategory = this.attachment.category;
+    this.canEdit = this.data.canEdit;
 
     const doiType = this.attachment.domainOfInfluence.type;
     this.requireExplicitRequiredCount =
       doiType !== DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH &&
       doiType !== DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT &&
-      doiType !== DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_BZ;
+      doiType !== DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_BZ &&
+      this.canEdit;
 
     this.attachmentCategoryRadioButtons = enumUtil
       .getArrayWithDescriptions<AttachmentCategory>(AttachmentCategory, 'ATTACHMENT.CATEGORIES.')
@@ -76,20 +82,25 @@ export class AttachmentEditDialogComponent implements OnInit {
       .getArrayWithDescriptions<AttachmentFormat>(AttachmentFormat, 'ATTACHMENT.EDIT_FORMATS.')
       .map(i => ({ value: i.value, displayText: i.description }));
 
-    this.doiNameCheckablePoliticalBusinessesPairs = CheckableItems.buildFromRecords(
-      groupBy(this.attachment.checkablePoliticalBusinesses.items, x => x.item.domainOfInfluence.name),
-    );
-
     // A5 should be the first choice.
     const temp = this.attachmentFormatRadioButtons[0];
     this.attachmentFormatRadioButtons[0] = this.attachmentFormatRadioButtons[1];
     this.attachmentFormatRadioButtons[1] = temp;
   }
 
-  public ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {
     this.updateFormatConsultationRequired();
     this.formatConsultationChecked = this.formatConsultationRequired;
-    return this.updateValidDeliveryDate();
+    await this.updateValidDeliveryDate();
+
+    if (!this.canEdit) {
+      const pbs = await this.politicalBusinessService.listAttachmentAccessible(this.attachment.domainOfInfluence.id);
+      mapAttachmentPbIdsToCheckablePbs(this.attachment, pbs);
+    }
+
+    this.doiNameCheckablePoliticalBusinessesPairs = CheckableItems.buildFromRecords(
+      groupBy(this.attachment.checkablePoliticalBusinesses.items, x => x.item.domainOfInfluence.name),
+    );
   }
 
   public async save(): Promise<void> {
@@ -147,11 +158,7 @@ export class AttachmentEditDialogComponent implements OnInit {
     }
 
     const deliveryPlannedOn = fromBcDate(this.deliveryPlannedOn)!;
-    await this.propertyRefresher.updateBooleanProperty(
-      this,
-      'validDeliveryDate',
-      deliveryPlannedOn <= this.data.attachmentDeliveryDeadlineDate,
-    );
+    this.validDeliveryDate = deliveryPlannedOn <= this.data.attachmentDeliveryDeadlineDate;
   }
 
   public updateFormatConsultationRequired() {
@@ -168,10 +175,21 @@ export interface AttachmentEditDialogData {
   attachmentDeliveryDeadlineDate: Date;
   isSingleAttendeeContest: boolean;
   isPoliticalAssembly: boolean;
+  canEdit: boolean;
 }
 
 export interface AttachmentEditDialogResult {
   attachment: Attachment;
   deleted?: boolean;
   oldCategory: AttachmentCategory;
+}
+
+export function buildAttachmentEditDialogData(attachment: Attachment, contest: Contest, canEdit: boolean): AttachmentEditDialogData {
+  return {
+    attachment,
+    attachmentDeliveryDeadlineDate: contest.attachmentDeliveryDeadlineDate!,
+    isSingleAttendeeContest: contest.isSingleAttendeeContest,
+    isPoliticalAssembly: contest.isPoliticalAssembly,
+    canEdit,
+  };
 }

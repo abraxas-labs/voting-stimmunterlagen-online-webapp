@@ -41,6 +41,7 @@
           }
         ],
         "@typescript-eslint/no-non-null-assertion": "off",
+        "@angular-eslint/prefer-standalone": "off",
         "license-header/header": ["error", "license-header.js"]
       }
     },

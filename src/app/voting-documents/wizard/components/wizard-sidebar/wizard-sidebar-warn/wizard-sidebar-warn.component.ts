@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-wizard-sidebar-warn',
   templateUrl: './wizard-sidebar-warn.component.html',
   styleUrls: ['./wizard-sidebar-warn.component.scss'],
+  standalone: false,
 })
 export class WizardSidebarWarnComponent {
   @Input()

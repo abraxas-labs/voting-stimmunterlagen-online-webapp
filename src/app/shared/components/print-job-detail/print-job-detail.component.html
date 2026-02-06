@@ -1,69 +1,66 @@
-<ng-container *ngIf="printJob">
+@if (printJob) {
   <app-print-job-info [printJob]="printJob" class="layout-header"></app-print-job-info>
-
   <div class="layout layout-content">
     <div class="layout-content layout-center overflow-auto">
-      <ng-container *ngIf="!loading; else spinner">
+      @if (!loading) {
         <div class="buttons">
           <bc-button (buttonClick)="back()" [label]="'APP.BACK' | translate"></bc-button>
-
-          <bc-button
-            *ngIf="printJob.state >= printJobStates.PRINT_JOB_STATE_PROCESS_STARTED && editable"
-            [label]="
-              ('PRINT_JOB.SET_STATE.RESET_STATE.RESET_TO' | translate) +
-              ' \'' +
-              ('PRINT_JOB.STATES.' + (printJob.state - 1) | translate) +
-              '\''
-            "
-            color="warn"
-            variant="tertiary"
-            (buttonClick)="resetState()"
-          ></bc-button>
-
-          <bc-button
-            *ngIf="
-              printJob.state >= printJobStates.PRINT_JOB_STATE_READY_FOR_PROCESS &&
-              printJob.state < printJobStates.PRINT_JOB_STATE_DONE &&
-              editable
-            "
-            [label]="'PRINT_JOB.SET_STATE.NEXT_STATE.' + printJob.state + '.HEADER' | translate"
-            (buttonClick)="setNextState()"
-            variant="primary"
-            [disabled]="!vcJobsCompleted"
-          ></bc-button>
+          @if (printJob.state >= printJobStates.PRINT_JOB_STATE_PROCESS_STARTED && editable) {
+            <bc-button
+              [label]="
+                ('PRINT_JOB.SET_STATE.RESET_STATE.RESET_TO' | translate) +
+                ' \'' +
+                ('PRINT_JOB.STATES.' + (printJob.state - 1) | translate) +
+                '\''
+              "
+              color="warn"
+              variant="tertiary"
+              (buttonClick)="resetState()"
+            ></bc-button>
+          }
+          @if (
+            printJob.state >= printJobStates.PRINT_JOB_STATE_READY_FOR_PROCESS &&
+            printJob.state < printJobStates.PRINT_JOB_STATE_DONE &&
+            editable
+          ) {
+            <bc-button
+              [label]="'PRINT_JOB.SET_STATE.NEXT_STATE.' + printJob.state + '.HEADER' | translate"
+              (buttonClick)="setNextState()"
+              variant="primary"
+              [disabled]="!vcJobsCompleted"
+            ></bc-button>
+          }
         </div>
-
-        <div *ngIf="vcPrintFileExportJobs.length > 0" class="mb-4">
-          <p class="header">{{ 'VOTING_CARD_PRINT_FILE.TITLE' | translate }}</p>
-          <app-voting-card-print-file-export-job-table [jobs]="vcPrintFileExportJobs"></app-voting-card-print-file-export-job-table>
-
-          <bc-button
-            *ngIf="hasFailedPrintFileExportJobs && editable"
-            variant="tertiary"
-            [disabled]="retrying"
-            (buttonClick)="retryJobs()"
-            [label]="'VOTING_CARD_PRINT_FILE_EXPORT_JOB.RETRY_FAILED' | translate"
-          ></bc-button>
-          <bc-spinner class="ml-1" *ngIf="retrying"></bc-spinner>
-        </div>
-
-        <div *ngIf="vcJobs.length > 0" class="mb-2">
-          <p class="header">{{ 'VOTING_CARD.TITLE' | translate }}</p>
-          <app-voting-card-generator-job-table [jobs]="vcJobs"></app-voting-card-generator-job-table>
-        </div>
-
+        @if (vcPrintFileExportJobs.length > 0) {
+          <div class="mb-4">
+            <p class="header">{{ 'VOTING_CARD_PRINT_FILE.TITLE' | translate }}</p>
+            <app-voting-card-print-file-export-job-table [jobs]="vcPrintFileExportJobs"></app-voting-card-print-file-export-job-table>
+            @if (hasFailedPrintFileExportJobs && editable) {
+              <bc-button
+                variant="tertiary"
+                [disabled]="retrying"
+                (buttonClick)="retryJobs()"
+                [label]="'VOTING_CARD_PRINT_FILE_EXPORT_JOB.RETRY_FAILED' | translate"
+              ></bc-button>
+            }
+            @if (retrying) {
+              <bc-spinner class="ml-1"></bc-spinner>
+            }
+          </div>
+        }
+        @if (vcJobs.length > 0) {
+          <div class="mb-2">
+            <p class="header">{{ 'VOTING_CARD.TITLE' | translate }}</p>
+            <app-voting-card-generator-job-table [jobs]="vcJobs"></app-voting-card-generator-job-table>
+          </div>
+        }
         <div>
           <p class="header">{{ 'ATTACHMENT.TITLE' | translate }}</p>
-          <app-attachment-info-table
-            [entries]="attachmentTableEntries"
-            [hideRequiredCount]="contest.isSingleAttendeeContest"
-          ></app-attachment-info-table>
+          <app-attachment-info-table [entries]="attachmentTableEntries" [contest]="contest"></app-attachment-info-table>
         </div>
-      </ng-container>
-
-      <ng-template #spinner>
+      } @else {
         <bc-spinner size="large"></bc-spinner>
-      </ng-template>
+      }
     </div>
   </div>
-</ng-container>
+}

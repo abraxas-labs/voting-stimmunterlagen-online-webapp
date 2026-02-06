@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PrintJob, PrintJobState } from '../../../../models/print-job.model';
 
@@ -12,8 +12,12 @@ import { PrintJob, PrintJobState } from '../../../../models/print-job.model';
   selector: 'app-contest-overview-print-job-table',
   templateUrl: './contest-overview-print-job-table.component.html',
   styleUrls: ['./contest-overview-print-job-table.component.scss'],
+  standalone: false,
 })
 export class ContestOverviewPrintJobTableComponent {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
   public readonly printJobStates: typeof PrintJobState = PrintJobState;
 
   public readonly columns = [
@@ -36,11 +40,6 @@ export class ContestOverviewPrintJobTableComponent {
 
   @Input()
   public forPrintJobManagement = false;
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-  ) {}
 
   public async openDetail(printJob: PrintJob): Promise<void> {
     if (this.isSelectionDisabled(printJob)) {

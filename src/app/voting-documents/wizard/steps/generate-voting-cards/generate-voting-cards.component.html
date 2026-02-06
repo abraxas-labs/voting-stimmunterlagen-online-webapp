@@ -1,28 +1,36 @@
 <div class="layout-left overflow-auto px-4">
   <div class="layout-header layout-center pb-1 pt-4">
     <h1>{{ 'STEP_GENERATE_VOTING_CARDS.TITLE' | translate }}</h1>
-    <bc-spinner *ngIf="saving"></bc-spinner>
+    @if (saving) {
+      <bc-spinner></bc-spinner>
+    }
   </div>
-  <ng-container *ngIf="!loading; else spinner">
-    <app-domain-of-influence-voting-card-configuration
-      *ngIf="votingCardConfiguration"
-      [votingCardConfiguration]="votingCardConfiguration"
-      (configurationChanged)="saveConfigurationAndUpdatePreview()"
-      [canEdit]="canEdit && !saving && !previewLoading"
-    ></app-domain-of-influence-voting-card-configuration>
-    <p *ngIf="!votingCardConfiguration && !canEdit" class="italic" translate>STEP_GENERATE_VOTING_CARDS.NO_DATA</p>
-  </ng-container>
+  @if (!loading) {
+    @if (votingCardConfiguration) {
+      <app-domain-of-influence-voting-card-configuration
+        [votingCardConfiguration]="votingCardConfiguration"
+        (configurationChanged)="saveConfigurationAndUpdatePreview()"
+        [canEdit]="canEdit && !saving && !previewLoading"
+      ></app-domain-of-influence-voting-card-configuration>
+    }
+    @if (!votingCardConfiguration && !canEdit) {
+      <p class="italic" translate>STEP_GENERATE_VOTING_CARDS.NO_DATA</p>
+    }
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 </div>
-<app-voting-card-preview
-  class="layout-center layout-start-header layout-end-footer"
-  *ngIf="!loading"
-  [(selectedVotingCardType)]="previewVotingCardType"
-  (selectedVotingCardTypeChange)="updatePreview()"
-  [previewLoading]="previewLoading"
-  [previewData]="previewData"
-  [votingCardTypes]="votingCardTypes"
->
-</app-voting-card-preview>
+@if (!loading) {
+  <app-voting-card-preview
+    class="layout-center layout-start-header layout-end-footer"
+    [(selectedVotingCardType)]="previewVotingCardType"
+    (selectedVotingCardTypeChange)="updatePreview()"
+    [previewLoading]="previewLoading"
+    [previewData]="previewData"
+    [votingCardTypes]="votingCardTypes"
+  >
+  </app-voting-card-preview>
+}
 
 <app-wizard-sidebar
   class="layout-right"
@@ -34,13 +42,14 @@
     'STEP_GENERATE_VOTING_CARDS.PRINT_DATA_CHECKED',
   ]"
   [approveStateLoading]="approveLoading"
-  [canApprove]="true"
+  [canApprove]="!politicalBusinessesEVotingNotApproved"
   [canRevert]="false"
   (approve)="approve()"
   (revert)="revert()"
   hint="STEP_GENERATE_VOTING_CARDS.HINT"
+  [warn]="politicalBusinessesEVotingNotApproved ? 'STEP_GENERATE_VOTING_CARDS.E_VOTING_NOT_APPROVED_WARN' : ''"
 >
-  <ng-container *ngIf="stepInfo && stepInfo.domainOfInfluence.printData">
+  @if (stepInfo && stepInfo.domainOfInfluence.printData) {
     <p translate>WIZARD.PRINT_DATA_TITLE</p>
     <app-wizard-sidebar-info
       label="STEP_GENERATE_VOTING_CARDS.SHIPPING_AWAY"
@@ -54,9 +63,5 @@
       label="STEP_GENERATE_VOTING_CARDS.SHIPPING_METHOD"
       [content]="'VOTING_CARD_SHIPPING_METHOD.' + stepInfo.domainOfInfluence.printData.shippingMethod"
     ></app-wizard-sidebar-info>
-  </ng-container>
+  }
 </app-wizard-sidebar>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>

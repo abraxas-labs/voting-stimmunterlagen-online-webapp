@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DialogService } from '../../../services/dialog.service';
 import { SelectRoleDialogComponent } from '../../dialog/select-role-dialog/select-role-dialog.component';
 import { Router } from '@angular/router';
@@ -16,14 +16,13 @@ import { ThemeService } from '@abraxas/voting-lib';
   selector: 'app-redirect-by-role-page',
   templateUrl: './redirect-by-role-page.component.html',
   styleUrls: ['./redirect-by-role-page.component.scss'],
+  standalone: false,
 })
 export class RedirectByRolePageComponent implements OnInit {
-  constructor(
-    private readonly dialog: DialogService,
-    private readonly router: Router,
-    private readonly roleService: RoleService,
-    private readonly themeService: ThemeService,
-  ) {}
+  private readonly dialog = inject(DialogService);
+  private readonly router = inject(Router);
+  private readonly roleService = inject(RoleService);
+  private readonly themeService = inject(ThemeService);
 
   public async ngOnInit(): Promise<void> {
     const isElectionAdmin = await this.roleService.isElectionAdmin();

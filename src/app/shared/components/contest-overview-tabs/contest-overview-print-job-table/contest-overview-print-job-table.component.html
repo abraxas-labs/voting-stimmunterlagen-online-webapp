@@ -78,4 +78,6 @@
   >
 </bc-table>
 
-<p class="italic ml-2" *ngIf="printJobs.length === 0" translate>APP.NO_DATA</p>
+@if (printJobs.length === 0) {
+  <p class="italic ml-2" translate>APP.NO_DATA</p>
+}

@@ -5,15 +5,15 @@
  */
 
 import { VotingCardType } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { ContestVotingCardLayout } from '../../../../models/contest-voting-card-layout.model';
 import { Step } from '../../../../models/step.model';
 import { Template } from '../../../../models/template.model';
 import { ContestVotingCardLayoutService } from '../../../../services/contest-voting-card-layout.service';
-import { StepService } from '../../../../services/step.service';
 import { groupBySingle } from '../../../../services/utils/array.utils';
 import { StepBaseComponent } from '../step-base.component';
+import { VotingCardLayoutDataConfiguration } from '../../../../models/voting-card-layout.model';
+import { equalsVotingCardLayoutDataConfiguration } from '../../../../models/domain-of-influence-voting-card-layout.model';
 
 interface Layout {
   layout: ContestVotingCardLayout;
@@ -24,8 +24,11 @@ interface Layout {
   selector: 'app-layout-voting-cards-contest-manager',
   templateUrl: './layout-voting-cards-contest-manager.component.html',
   styleUrls: ['./layout-voting-cards-contest-manager.component.scss'],
+  standalone: false,
 })
 export class LayoutVotingCardsContestManagerComponent extends StepBaseComponent {
+  private readonly layoutVotingCardsService = inject(ContestVotingCardLayoutService);
+
   public templates: Template[] = [];
   public layouts: Layout[] = [];
   public votingCardTypes: VotingCardType[] = [];
@@ -37,13 +40,8 @@ export class LayoutVotingCardsContestManagerComponent extends StepBaseComponent 
   private layoutsByVotingCardType: Partial<Record<VotingCardType, ContestVotingCardLayout>> = {};
   private templatesById: Record<number, Template> = {};
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    stepService: StepService,
-    private readonly layoutVotingCardsService: ContestVotingCardLayoutService,
-  ) {
-    super(Step.STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER, router, route, stepService);
+  constructor() {
+    super(Step.STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER);
   }
 
   public async updateTemplate(layout: Layout, newTemplateId: string | number | undefined): Promise<void> {
@@ -70,6 +68,16 @@ export class LayoutVotingCardsContestManagerComponent extends StepBaseComponent 
 
     layout.layout.allowCustom = allowCustom;
     return this.updateLayout(layout);
+  }
+
+  public async updateDataConfiguration(layout: Layout, dataConfiguration: VotingCardLayoutDataConfiguration): Promise<void> {
+    if (equalsVotingCardLayoutDataConfiguration(dataConfiguration, layout.layout.dataConfiguration)) {
+      return;
+    }
+
+    layout.layout.dataConfiguration = dataConfiguration;
+    await this.updateLayout(layout);
+    await this.updatePreview();
   }
 
   public async updatePreview(): Promise<void> {

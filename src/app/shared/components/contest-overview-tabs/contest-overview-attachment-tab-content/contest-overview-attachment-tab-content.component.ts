@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { AttachmentState, AttachmentTableEntry, mapToAttachmentTableEntries } from '../../../../models/attachment.model';
 import { Contest } from '../../../../models/contest.model';
 import { AttachmentService } from '../../../../services/attachment.service';
@@ -14,8 +14,11 @@ import { AttachmentFilter } from '../../attachment-filter/attachment-filter.comp
   selector: 'app-contest-overview-attachment-tab-content',
   templateUrl: './contest-overview-attachment-tab-content.component.html',
   styleUrls: ['./contest-overview-attachment-tab-content.component.scss'],
+  standalone: false,
 })
 export class ContestOverviewAttachmentTabContentComponent implements OnInit {
+  private readonly attachmentService = inject(AttachmentService);
+
   public loading = true;
   public attachmentTableEntries: AttachmentTableEntry[] = [];
 
@@ -24,8 +27,6 @@ export class ContestOverviewAttachmentTabContentComponent implements OnInit {
 
   @Input()
   public forPrintJobManagement = false;
-
-  constructor(private readonly attachmentService: AttachmentService) {}
 
   public ngOnInit(): Promise<void> {
     return this.loadAttachments();

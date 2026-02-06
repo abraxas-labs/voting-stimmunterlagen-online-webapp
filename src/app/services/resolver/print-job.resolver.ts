@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { PrintJob } from '../../models/print-job.model';
@@ -14,7 +14,7 @@ import { PrintJobService } from '../print-job.service';
   providedIn: 'root',
 })
 export class PrintJobResolver {
-  constructor(private readonly printJobService: PrintJobService) {}
+  private readonly printJobService = inject(PrintJobService);
 
   public resolve: ResolveFn<PrintJob> = (route: ActivatedRouteSnapshot): Observable<PrintJob> => {
     const id = route.paramMap.get('domainOfInfluenceId');

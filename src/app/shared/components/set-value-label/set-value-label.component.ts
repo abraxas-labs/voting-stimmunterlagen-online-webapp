@@ -10,6 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'app-set-value-label',
   templateUrl: './set-value-label.component.html',
   styleUrls: ['./set-value-label.component.scss'],
+  standalone: false,
 })
 export class SetValueLabelComponent<T> {
   @Input()

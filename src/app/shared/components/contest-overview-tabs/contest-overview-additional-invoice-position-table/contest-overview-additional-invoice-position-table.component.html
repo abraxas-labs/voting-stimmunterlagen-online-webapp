@@ -44,4 +44,6 @@
   ></bc-data-row>
 </bc-table>
 
-<p class="italic ml-2" *ngIf="additionalInvoicePositions.length === 0" translate>APP.NO_DATA</p>
+@if (additionalInvoicePositions.length === 0) {
+  <p class="italic ml-2" translate>APP.NO_DATA</p>
+}

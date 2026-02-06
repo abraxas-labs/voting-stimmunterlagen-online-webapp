@@ -11,6 +11,7 @@ import { VotingCardGeneratorJob } from '../../../models/voting-card-generator-jo
   selector: 'app-voting-card-generator-job-table',
   templateUrl: './voting-card-generator-job-table.component.html',
   styleUrls: ['./voting-card-generator-job-table.component.scss'],
+  standalone: false,
 })
 export class VotingCardGeneratorJobTableComponent {
   @Input()

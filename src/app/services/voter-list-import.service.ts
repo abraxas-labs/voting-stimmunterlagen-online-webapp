@@ -5,7 +5,7 @@
  */
 
 import { IdValueRequest, VoterListImportServiceClient } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { MultipartFormDataHttpService } from './http/multipart-form-data-http.service';
 import { firstValueFrom } from 'rxjs';
@@ -15,12 +15,12 @@ import { VoterListImport, VoterListImportResponse, mapVoterListImport } from '..
   providedIn: 'root',
 })
 export class VoterListImportService {
+  private readonly client = inject(VoterListImportServiceClient);
+  private readonly http = inject(MultipartFormDataHttpService);
+
   private readonly restApiUrl: string = '';
 
-  constructor(
-    private readonly client: VoterListImportServiceClient,
-    private readonly http: MultipartFormDataHttpService,
-  ) {
+  constructor() {
     this.restApiUrl = `${environment.restApiEndpoint}/voter-list-import`;
   }
 

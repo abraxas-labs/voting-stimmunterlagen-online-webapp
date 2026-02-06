@@ -10,6 +10,7 @@ import {
   ManualVotingCardVoter as ManualVotingCardVoterProto,
   VotingCardType,
   VoterDuplicate as VoterDuplicateProto,
+  Religion,
 } from '@abraxas/voting-stimmunterlagen-proto';
 
 export { ManualVotingCardVoterProto, CountryProto };
@@ -43,5 +44,9 @@ export function newManualVotingCardVoter(): ManualVotingCardVoter {
     town: '',
     votingCardType: VotingCardType.VOTING_CARD_TYPE_SWISS,
     personId: '',
+    religion: Religion.RELIGION_UNSPECIFIED,
+    isHouseholder: true,
+    domainOfInfluenceIdentificationChurch: '',
+    domainOfInfluenceIdentificationSchool: '',
   };
 }

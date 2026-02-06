@@ -4,8 +4,8 @@
  * For license information see LICENSE file.
  */
 
-import { SegmentedControl } from '@abraxas/base-components/lib/components/formfields/segmented-control-group/segmented-control.model';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { SegmentedControl } from '@abraxas/base-components';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { PrintJobState } from '../../../models/print-job.model';
 import { EnumUtil } from '../../../services/enum.util';
 
@@ -13,6 +13,7 @@ import { EnumUtil } from '../../../services/enum.util';
   selector: 'app-print-job-filter',
   templateUrl: './print-job-filter.component.html',
   styleUrls: ['./print-job-filter.component.scss'],
+  standalone: false,
 })
 export class PrintJobFilterComponent {
   public readonly stateItems: SegmentedControl[];
@@ -25,7 +26,9 @@ export class PrintJobFilterComponent {
   @Output()
   public filterChange: EventEmitter<PrintJobFilter> = new EventEmitter<PrintJobFilter>();
 
-  constructor(enumUtil: EnumUtil) {
+  constructor() {
+    const enumUtil = inject(EnumUtil);
+
     this.stateItems = enumUtil
       .getArrayWithDescriptionsWithUnspecified(PrintJobState, 'PRINT_JOB.FILTER_STATES.')
       .map(x => ({ displayText: x.description, value: x.value, disabled: false }));

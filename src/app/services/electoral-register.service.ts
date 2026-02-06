@@ -12,7 +12,7 @@ import {
   ListElectoralRegisterFilterVersionsRequest,
   UpdateVoterListImportWithNewElectoralRegisterFilterVersionRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Empty, Timestamp } from '@ngx-grpc/well-known-types';
 import {
@@ -31,7 +31,7 @@ import {
   providedIn: 'root',
 })
 export class ElectoralRegisterService {
-  constructor(private readonly client: ElectoralRegisterServiceClient) {}
+  private readonly client = inject(ElectoralRegisterServiceClient);
 
   public async createVoterListImportWithNewFilterVersion(
     domainOfInfluenceId: string,

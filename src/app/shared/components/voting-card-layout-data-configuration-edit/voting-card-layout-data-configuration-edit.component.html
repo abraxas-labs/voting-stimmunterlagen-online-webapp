@@ -1,0 +1,59 @@
+@if (configuration) {
+  <div class="my-2">
+    <h4 translate class="mb-1">VOTING_CARD_LAYOUT.DATA_CONFIGURATION.TITLE</h4>
+    <div>
+      <bc-checkbox
+        [label]="'VOTING_CARD_LAYOUT.DATA_CONFIGURATION.INCLUDE_PERSON_ID' | translate"
+        [(ngModel)]="configuration.includePersonId"
+        (ngModelChange)="emitUpdate()"
+        [disabled]="disabled || (isStistat && !isPoliticalAssembly)"
+        subscriptSizing="dynamic"
+      ></bc-checkbox>
+    </div>
+    <div>
+      <bc-checkbox
+        [label]="'VOTING_CARD_LAYOUT.DATA_CONFIGURATION.INCLUDE_DATE_OF_BIRTH' | translate"
+        [(ngModel)]="configuration.includeDateOfBirth"
+        (ngModelChange)="emitUpdate()"
+        [disabled]="disabled || (isStistat && !isPoliticalAssembly)"
+        subscriptSizing="dynamic"
+      ></bc-checkbox>
+    </div>
+    <div>
+      <bc-checkbox
+        [label]="'VOTING_CARD_LAYOUT.DATA_CONFIGURATION.INCLUDE_RELIGION' | translate"
+        [(ngModel)]="configuration.includeReligion"
+        (ngModelChange)="emitUpdate()"
+        [disabled]="disabled || configuration.includeDomainOfInfluenceChurch"
+        subscriptSizing="dynamic"
+      ></bc-checkbox>
+    </div>
+    <div>
+      <bc-checkbox
+        [label]="'VOTING_CARD_LAYOUT.DATA_CONFIGURATION.INCLUDE_IS_HOUSEHOLDER' | translate"
+        [(ngModel)]="configuration.includeIsHouseholder"
+        (ngModelChange)="emitUpdate()"
+        [disabled]="disabled"
+        subscriptSizing="dynamic"
+      ></bc-checkbox>
+    </div>
+    <div>
+      <bc-checkbox
+        [label]="'VOTING_CARD_LAYOUT.DATA_CONFIGURATION.INCLUDE_DOMAIN_OF_INFLUENCE_CHURCH' | translate"
+        [(ngModel)]="configuration.includeDomainOfInfluenceChurch"
+        (ngModelChange)="emitUpdate()"
+        [disabled]="disabled"
+        subscriptSizing="dynamic"
+      ></bc-checkbox>
+    </div>
+    <div>
+      <bc-checkbox
+        [label]="'VOTING_CARD_LAYOUT.DATA_CONFIGURATION.INCLUDE_DOMAIN_OF_INFLUENCE_SCHOOL' | translate"
+        [(ngModel)]="configuration.includeDomainOfInfluenceSchool"
+        (ngModelChange)="emitUpdate()"
+        [disabled]="disabled"
+        subscriptSizing="dynamic"
+      ></bc-checkbox>
+    </div>
+  </div>
+}

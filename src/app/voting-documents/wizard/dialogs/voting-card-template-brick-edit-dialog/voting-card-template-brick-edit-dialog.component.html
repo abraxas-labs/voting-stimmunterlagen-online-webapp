@@ -2,11 +2,13 @@
   <h1 header>{{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_SINGLE_TEMPLATE_DATA' | translate: brick }}</h1>
 
   <div content class="m-2">
-    <ng-container *ngIf="!!brickEditSrc">
+    @if (!!brickEditSrc) {
       <iframe #editorIframe [src]="brickEditSrc"></iframe>
-    </ng-container>
+    }
 
-    <bc-spinner *ngIf="loading"></bc-spinner>
+    @if (loading) {
+      <bc-spinner></bc-spinner>
+    }
   </div>
 
   <div footer>

@@ -13,6 +13,7 @@ type ForegroundColor = 'dark' | 'light';
   selector: 'app-export-job-state',
   templateUrl: './export-job-state.component.html',
   styleUrls: ['./export-job-state.component.scss'],
+  standalone: false,
 })
 export class ExportJobStateComponent {
   public stateValue: ExportJobState = ExportJobState.EXPORT_JOB_STATE_READY_TO_RUN;

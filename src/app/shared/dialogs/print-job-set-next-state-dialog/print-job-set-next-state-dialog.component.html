@@ -5,14 +5,16 @@
     <p class="whitespace-pre-wrap">{{ nextStateTranslationPrefix + '.TEXT' | translate }}</p>
 
     <form #form="ngForm">
-      <ng-container *ngIf="printJob.state === printJobStates.PRINT_JOB_STATE_READY_FOR_PROCESS">
+      @if (printJob.state === printJobStates.PRINT_JOB_STATE_READY_FOR_PROCESS) {
         <p>{{ nextStateTranslationPrefix + '.ACTIONS_LIST.HEADER' | translate }}</p>
         <ul>
-          <li *ngFor="let i of [1, 2, 3, 4]">{{ nextStateTranslationPrefix + '.ACTIONS_LIST.ITEMS.' + i | translate }}</li>
+          @for (i of [1, 2, 3, 4]; track i) {
+            <li>{{ nextStateTranslationPrefix + '.ACTIONS_LIST.ITEMS.' + i | translate }}</li>
+          }
         </ul>
-      </ng-container>
+      }
 
-      <ng-container *ngIf="printJob.state === printJobStates.PRINT_JOB_STATE_PROCESS_STARTED">
+      @if (printJob.state === printJobStates.PRINT_JOB_STATE_PROCESS_STARTED) {
         <bc-number
           [label]="'PRINT_JOB.VOTING_CARDS_PRINTED_AND_PACKED_COUNT' | translate"
           name="votingCardsPrintedAndPackedCount"
@@ -21,7 +23,6 @@
           [min]="0"
           [subscriptSizing]="'dynamic'"
         ></bc-number>
-
         <bc-number
           [label]="'PRINT_JOB.VOTING_CARDS_SHIPMENT_WEIGHT' | translate"
           name="votingCardsShipmentWeight"
@@ -31,12 +32,12 @@
           [precision]="2"
           [subscriptSizing]="'dynamic'"
         ></bc-number>
-      </ng-container>
+      }
 
-      <ng-container *ngIf="printJob.state === printJobStates.PRINT_JOB_STATE_PROCESS_ENDED">
+      @if (printJob.state === printJobStates.PRINT_JOB_STATE_PROCESS_ENDED) {
         <bc-textarea [label]="'PRINT_JOB.COMMENT' | translate" name="comment" [(ngModel)]="comment" [subscriptSizing]="'dynamic'">
         </bc-textarea>
-      </ng-container>
+      }
     </form>
   </div>
 

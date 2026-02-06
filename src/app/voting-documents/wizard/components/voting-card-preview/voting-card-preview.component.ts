@@ -11,6 +11,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'app-voting-card-preview',
   templateUrl: './voting-card-preview.component.html',
   styleUrls: ['./voting-card-preview.component.scss'],
+  standalone: false,
 })
 export class VotingCardPreviewComponent {
   @Input()

@@ -5,7 +5,7 @@
  */
 
 import { ContestState } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Contest } from '../../../../models/contest.model';
 import { DomainOfInfluence } from '../../../../models/domain-of-influence.model';
@@ -13,27 +13,30 @@ import { ContestService } from '../../../../services/contest.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { DomainOfInfluenceService } from '../../../../services/domain-of-influence.service';
 import { SelectDomainOfInfluenceDialogComponent } from '../../dialogs/select-domain-of-influence-dialog/select-domain-of-influence-dialog.component';
+import { TableColumn, TableRow } from 'src/app/shared/components/contest-table/contest-table.component';
+import { Sort } from '@abraxas/base-components';
 
 @Component({
   selector: 'app-contest-list',
   templateUrl: './contest-list.component.html',
   styleUrls: ['./contest-list.component.scss'],
+  standalone: false,
 })
 export class ContestListComponent implements OnInit {
+  private readonly contestService = inject(ContestService);
+  private readonly doiService = inject(DomainOfInfluenceService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly dialog = inject(DialogService);
+
   public loading = true;
   public loadingDetail = false;
 
   public contests: Contest[] = [];
   public pastContests: Contest[] = [];
   public archivedContests: Contest[] = [];
-
-  constructor(
-    private readonly contestService: ContestService,
-    private readonly doiService: DomainOfInfluenceService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly dialog: DialogService,
-  ) {}
+  public tableColums = TableColumn;
+  public sorting: Sort[] = [{ id: this.tableColums.DATE, direction: 'asc' }];
 
   public async ngOnInit(): Promise<void> {
     try {
@@ -47,7 +50,7 @@ export class ContestListComponent implements OnInit {
     }
   }
 
-  public async open(contest: Contest): Promise<void> {
+  public async open(contest: TableRow): Promise<void> {
     if (this.loadingDetail) {
       return;
     }
@@ -59,14 +62,14 @@ export class ContestListComponent implements OnInit {
         return;
       }
 
-      await this.router.navigate([contest.id, doi.id], { relativeTo: this.route });
+      await this.router.navigate([contest[this.tableColums.CONTEST_ID], doi.id], { relativeTo: this.route });
     } finally {
       this.loadingDetail = false;
     }
   }
 
-  private async selectDomainOfInfluence(contest: Contest): Promise<DomainOfInfluence | undefined> {
-    const dois = await this.doiService.listManagedByCurrentTenant(contest.id);
+  private async selectDomainOfInfluence(contest: TableRow): Promise<DomainOfInfluence | undefined> {
+    const dois = await this.doiService.listManagedByCurrentTenant(contest[this.tableColums.CONTEST_ID]);
 
     if (dois.length > 1) {
       return await this.dialog.openForResult(SelectDomainOfInfluenceDialogComponent, dois);

@@ -4,36 +4,40 @@
  * For license information see LICENSE file.
  */
 
-import { Directive, Inject } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastService } from '../../../../services/toast.service';
 import { VoterListService } from '../../../../services/voter-list.service';
-import { VoterListImport } from '../../../../models/voter-list-import.model';
+import { VoterListImport, VoterListImportError } from '../../../../models/voter-list-import.model';
 import { PoliticalBusiness } from '../../../../models/political-business.model';
 import { VoterListImportService } from '../../../../services/voter-list-import.service';
 import { VoterList } from '../../../../models/voter-list.model';
 import { cloneDeep } from 'lodash';
+import { DomainOfInfluence } from '../../../../models/domain-of-influence.model';
 
 @Directive()
 export abstract class VoterListImportEditDialogBaseComponent<TDialogComponent> {
+  protected readonly dialogRef = inject<MatDialogRef<TDialogComponent, VoterListImportEditDialogResult>>(MatDialogRef);
+  protected readonly toast = inject(ToastService);
+  protected readonly voterListService = inject(VoterListService);
+  protected readonly voterListImportService = inject(VoterListImportService);
+  protected readonly data = inject<VoterListImportEditDialogData>(MAT_DIALOG_DATA);
+
   public readonly isNew: boolean = false;
   public readonly voterListImport: VoterListImport;
   public readonly politicalBusinesses: PoliticalBusiness[];
+  public readonly isPoliticalAssembly: boolean = false;
+  public voterListImportError?: VoterListImportError;
   public deleting = false;
   public persistedVoterLists?: VoterList[];
   public step = 1;
   public saving = false;
 
-  protected constructor(
-    protected readonly dialogRef: MatDialogRef<TDialogComponent, VoterListImportEditDialogResult>,
-    protected readonly toast: ToastService,
-    protected readonly voterListService: VoterListService,
-    protected readonly voterListImportService: VoterListImportService,
-    @Inject(MAT_DIALOG_DATA) protected data: VoterListImportEditDialogData,
-  ) {
-    this.isNew = !data.voterListImport.id;
-    this.voterListImport = data.voterListImport;
-    this.politicalBusinesses = data.politicalBusinesses;
+  protected constructor() {
+    this.isNew = !this.data.voterListImport.id;
+    this.voterListImport = this.data.voterListImport;
+    this.politicalBusinesses = this.data.politicalBusinesses;
+    this.isPoliticalAssembly = this.data.isPoliticalAssembly;
   }
 
   public abstract saveFirstStep(): Promise<void>;
@@ -44,7 +48,11 @@ export abstract class VoterListImportEditDialogBaseComponent<TDialogComponent> {
     if (this.step === 1) {
       try {
         await this.saveFirstStep();
-        this.persistedVoterLists = this.voterListImport.voterLists.map(vl => cloneDeep(vl));
+
+        if (!this.voterListImportError) {
+          this.persistedVoterLists = this.voterListImport.voterLists.map(vl => cloneDeep(vl));
+        }
+
         this.step = 2;
       } finally {
         this.saving = false;
@@ -78,7 +86,10 @@ export abstract class VoterListImportEditDialogBaseComponent<TDialogComponent> {
       return;
     }
 
-    this.voterListImport.voterLists = this.persistedVoterLists!;
+    if (!this.voterListImportError) {
+      this.voterListImport.voterLists = this.persistedVoterLists!;
+    }
+
     this.done();
   }
 
@@ -86,17 +97,20 @@ export abstract class VoterListImportEditDialogBaseComponent<TDialogComponent> {
     this.dialogRef.close({
       voterListImport: this.voterListImport,
       deleted,
+      voterListImportError: this.voterListImportError,
     });
   }
 }
 
 export interface VoterListImportEditDialogData {
   voterListImport: VoterListImport;
-  domainOfInfluenceId: string;
+  domainOfInfluence: DomainOfInfluence;
   politicalBusinesses: PoliticalBusiness[];
+  isPoliticalAssembly: boolean;
 }
 
 export interface VoterListImportEditDialogResult {
   voterListImport: VoterListImport;
   deleted?: boolean;
+  voterListImportError?: VoterListImportError;
 }

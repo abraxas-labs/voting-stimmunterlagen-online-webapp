@@ -11,6 +11,7 @@
         [(ngModel)]="attachment.name"
         [subscriptSizing]="'dynamic'"
         [maxlength]="300"
+        [disabled]="!canEdit"
       ></bc-text>
 
       <bc-radio-button-group
@@ -22,27 +23,32 @@
         [(ngModel)]="attachment.category"
         orientation="vertical"
         subscriptSizing="dynamic"
+        [disabled]="!canEdit"
       ></bc-radio-button-group>
 
-      <bc-number
-        *ngIf="!requireExplicitRequiredCount"
-        [label]="'ATTACHMENT.ORDERED_COUNT' | translate"
-        [min]="1"
-        name="orderedCount"
-        [required]="true"
-        [(ngModel)]="attachment.orderedCount"
-        [subscriptSizing]="'dynamic'"
-      ></bc-number>
+      @if (!requireExplicitRequiredCount) {
+        <bc-number
+          [label]="'ATTACHMENT.ORDERED_COUNT' | translate"
+          [min]="1"
+          name="orderedCount"
+          [required]="true"
+          [(ngModel)]="attachment.orderedCount"
+          [subscriptSizing]="'dynamic'"
+          [disabled]="!canEdit"
+        ></bc-number>
+      }
 
-      <bc-number
-        *ngIf="requireExplicitRequiredCount"
-        [label]="'ATTACHMENT.REQUIRED_COUNT' | translate"
-        [min]="1"
-        name="requiredCount"
-        [required]="true"
-        [(ngModel)]="attachment.domainOfInfluenceAttachmentRequiredCount"
-        [subscriptSizing]="'dynamic'"
-      ></bc-number>
+      @if (requireExplicitRequiredCount) {
+        <bc-number
+          [label]="'ATTACHMENT.REQUIRED_COUNT' | translate"
+          [min]="1"
+          name="requiredCount"
+          [required]="true"
+          [(ngModel)]="attachment.domainOfInfluenceAttachmentRequiredCount"
+          [subscriptSizing]="'dynamic'"
+          [disabled]="!canEdit"
+        ></bc-number>
+      }
 
       <bc-radio-button-group
         class="mb-3"
@@ -53,17 +59,21 @@
         [ngModel]="attachment.format"
         (ngModelChange)="attachment.format = $event; updateFormatConsultationRequired()"
         subscriptSizing="dynamic"
+        [disabled]="!canEdit"
       ></bc-radio-button-group>
 
-      <div *ngIf="formatConsultationRequired">
-        <label>{{ 'ATTACHMENT.FORMAT_CONSULTATION_HINT' | translate }}</label>
-        <bc-checkbox
-          class="mt-1 mb-3"
-          [(checked)]="formatConsultationChecked"
-          [label]="'ATTACHMENT.FORMAT_CONSULTATION_CHECKED' | translate"
-          subscriptSizing="dynamic"
-        ></bc-checkbox>
-      </div>
+      @if (formatConsultationRequired) {
+        <div>
+          <label>{{ 'ATTACHMENT.FORMAT_CONSULTATION_HINT' | translate }}</label>
+          <bc-checkbox
+            class="mt-1 mb-3"
+            [(checked)]="formatConsultationChecked"
+            [label]="'ATTACHMENT.FORMAT_CONSULTATION_CHECKED' | translate"
+            subscriptSizing="dynamic"
+            [disabled]="!canEdit"
+          ></bc-checkbox>
+        </div>
+      }
 
       <bc-text
         [label]="'ATTACHMENT.COLOR' | translate"
@@ -71,6 +81,7 @@
         [hint]="'ATTACHMENT.COLOR_HINT' | translate"
         [(ngModel)]="attachment.color"
         [subscriptSizing]="'dynamic'"
+        [disabled]="!canEdit"
       ></bc-text>
 
       <bc-text
@@ -81,6 +92,7 @@
         [required]="true"
         [subscriptSizing]="'dynamic'"
         [maxlength]="300"
+        [disabled]="!canEdit"
       ></bc-text>
 
       <bc-date
@@ -96,9 +108,13 @@
           ) | translate
         "
         [subscriptSizing]="'dynamic'"
+        [disabled]="!canEdit"
       ></bc-date>
 
-      <ng-container *ngFor="let doiNameCheckablePoliticalBusinessesPair of doiNameCheckablePoliticalBusinessesPairs | keyvalue">
+      @for (
+        doiNameCheckablePoliticalBusinessesPair of doiNameCheckablePoliticalBusinessesPairs | keyvalue;
+        track doiNameCheckablePoliticalBusinessesPair
+      ) {
         <label class="mt-2">{{
           'ATTACHMENT.POLITICAL_BUSINESSES' | translate: { name: doiNameCheckablePoliticalBusinessesPair.key }
         }}</label>
@@ -113,20 +129,23 @@
           "
           [label]="'VOTER_LIST.SELECT_ALL' | translate"
           subscriptSizing="dynamic"
+          [disabled]="!canEdit"
         >
         </bc-checkbox>
-        <bc-checkbox
-          class="m-0 my-1"
-          *ngFor="let checkablePoliticalBusiness of doiNameCheckablePoliticalBusinessesPair.value.items"
-          [checked]="checkablePoliticalBusiness.checked"
-          (checkedChange)="
-            doiNameCheckablePoliticalBusinessesPair.value.updateChecked(checkablePoliticalBusiness, $event);
-            attachment.checkablePoliticalBusinesses.refreshState()
-          "
-          [label]="checkablePoliticalBusiness.item.shortDescription"
-          subscriptSizing="dynamic"
-        ></bc-checkbox>
-      </ng-container>
+        @for (checkablePoliticalBusiness of doiNameCheckablePoliticalBusinessesPair.value.items; track checkablePoliticalBusiness) {
+          <bc-checkbox
+            class="m-0 my-1"
+            [checked]="checkablePoliticalBusiness.checked"
+            (checkedChange)="
+              doiNameCheckablePoliticalBusinessesPair.value.updateChecked(checkablePoliticalBusiness, $event);
+              attachment.checkablePoliticalBusinesses.refreshState()
+            "
+            [label]="checkablePoliticalBusiness.item.shortDescription"
+            subscriptSizing="dynamic"
+            [disabled]="!canEdit"
+          ></bc-checkbox>
+        }
+      }
 
       <label>{{ 'ATTACHMENT.SHIPPING_INSTRUCTIONS' | translate }}</label>
       <bc-checkbox
@@ -135,6 +154,7 @@
         [label]="'ATTACHMENT.SEND_ONLY_TO_HOUSEHOLDER' | translate"
         subscriptSizing="dynamic"
         [hint]="'ATTACHMENT.SEND_ONLY_TO_HOUSEHOLDER_HINT' | translate"
+        [disabled]="!canEdit"
       ></bc-checkbox>
     </form>
   </div>
@@ -144,14 +164,17 @@
       deleteConfirmLabel="ATTACHMENT.DELETE_CONFIRM"
       [saving]="saving"
       [deleting]="deleting"
+      [saveLabel]="canEdit ? 'APP.SAVE' : 'APP.CLOSE'"
       [canSave]="
-        form.valid &&
-        validDeliveryDate &&
-        (attachment.checkablePoliticalBusinesses.atLeastOneChecked || isPoliticalAssembly) &&
-        (!formatConsultationRequired || formatConsultationChecked)
+        !canEdit ||
+        (form.valid &&
+          validDeliveryDate &&
+          (attachment.checkablePoliticalBusinesses.atLeastOneChecked || isPoliticalAssembly) &&
+          (!formatConsultationRequired || formatConsultationChecked))
       "
-      [hasDeleteButton]="!isNew"
-      (save)="save()"
+      [hasCancelButton]="canEdit"
+      [hasDeleteButton]="!isNew && canEdit"
+      (save)="canEdit ? save() : done()"
       (delete)="delete()"
       (cancelEvent)="done()"
     >

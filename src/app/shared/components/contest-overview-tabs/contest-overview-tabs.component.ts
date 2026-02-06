@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, inject } from '@angular/core';
 import { Contest } from '../../../models/contest.model';
 import { EnumItemDescription, EnumUtil } from '../../../services/enum.util';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +15,7 @@ import { environment } from '../../../../environments/environment';
   selector: 'app-contest-overview-tabs',
   templateUrl: './contest-overview-tabs.component.html',
   styleUrls: ['./contest-overview-tabs.component.scss'],
+  standalone: false,
 })
 export class ContestOverviewTabsComponent implements OnChanges, OnDestroy {
   private routeQueryParamsSubscription: Subscription;
@@ -36,7 +37,10 @@ export class ContestOverviewTabsComponent implements OnChanges, OnDestroy {
   @Input()
   public contest?: Contest;
 
-  constructor(enumUtil: EnumUtil, route: ActivatedRoute) {
+  constructor() {
+    const enumUtil = inject(EnumUtil);
+    const route = inject(ActivatedRoute);
+
     this.defaultTabItems = enumUtil.getArrayWithDescriptionsWithUnspecified(ContestOverviewTab, 'PRINT_JOB_MANAGEMENT.CONTEST.TABS.');
 
     this.routeQueryParamsSubscription = route.queryParams.subscribe(p => {
@@ -64,7 +68,7 @@ export class ContestOverviewTabsComponent implements OnChanges, OnDestroy {
     }
 
     this.tabItems = this.defaultTabItems.filter(i => i.value !== ContestOverviewTab.INVOICES);
-    if (this.contest?.domainOfInfluence.electoralRegistrationEnabled === false || environment.isElectoralRegistrationEnabled === false) {
+    if (environment.isElectoralRegistrationEnabled === false) {
       this.tabItems = this.tabItems.filter(i => i.value !== ContestOverviewTab.VOTER_LIST_SETTINGS);
     }
   }

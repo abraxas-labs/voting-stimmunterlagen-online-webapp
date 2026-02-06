@@ -13,6 +13,7 @@ type ForegroundColor = 'dark' | 'light';
   selector: 'app-attachment-state',
   templateUrl: './attachment-state.component.html',
   styleUrls: ['./attachment-state.component.scss'],
+  standalone: false,
 })
 export class AttachmentStateComponent {
   public stateValue: AttachmentState = AttachmentState.ATTACHMENT_STATE_DEFINED;

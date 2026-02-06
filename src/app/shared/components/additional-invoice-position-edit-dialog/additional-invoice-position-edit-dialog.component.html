@@ -36,14 +36,15 @@
         [error]="!validAmount"
       ></bc-number>
 
-      <bc-text
-        *ngIf="showComment"
-        [required]="true"
-        [label]="'ADDITIONAL_INVOICE_POSITION.COMMENT' | translate"
-        name="comment"
-        [(ngModel)]="additionalInvoicePosition.comment"
-        [subscriptSizing]="'dynamic'"
-      ></bc-text>
+      @if (showComment) {
+        <bc-text
+          [required]="true"
+          [label]="'ADDITIONAL_INVOICE_POSITION.COMMENT' | translate"
+          name="comment"
+          [(ngModel)]="additionalInvoicePosition.comment"
+          [subscriptSizing]="'dynamic'"
+        ></bc-text>
+      }
     </form>
   </div>
 

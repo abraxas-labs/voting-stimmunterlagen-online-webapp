@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { Contest } from '../../../../models/contest.model';
 import { AdditionalInvoicePositionService } from '../../../../services/additional-invoice-position.service';
 import {
@@ -19,8 +19,13 @@ import { InvoiceExportService } from '../../../../services/invoice-export.servic
   selector: 'app-contest-overview-invoice-tab-content',
   templateUrl: './contest-overview-invoice-tab-content.component.html',
   styleUrls: ['./contest-overview-invoice-tab-content.component.scss'],
+  standalone: false,
 })
 export class ContestOverviewInvoiceTabContentComponent implements OnInit {
+  private readonly additionalPositionInvoiceService = inject(AdditionalInvoicePositionService);
+  private readonly printJobService = inject(PrintJobService);
+  private readonly invoiceExportService = inject(InvoiceExportService);
+
   public loading = true;
   public additionalInvoicePositions: AdditionalInvoicePosition[] = [];
   public availableMaterials: AdditionalInvoicePositionAvailableMaterial[] = [];
@@ -32,12 +37,6 @@ export class ContestOverviewInvoiceTabContentComponent implements OnInit {
 
   @Input()
   public forPrintJobManagement = false;
-
-  constructor(
-    private readonly additionalPositionInvoiceService: AdditionalInvoicePositionService,
-    private readonly printJobService: PrintJobService,
-    private readonly invoiceExportService: InvoiceExportService,
-  ) {}
 
   public async ngOnInit(): Promise<void> {
     try {

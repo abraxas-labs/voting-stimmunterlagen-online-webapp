@@ -1,24 +1,30 @@
 <app-dialog>
   <h3 header translate>ATTACHMENT.UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES.TITLE</h3>
 
-  <div content class="m-2" *ngIf="!loading; else spinner">
-    <bc-table class="w-full" [dataSource]="checkableDomainOfInfluences" *ngIf="checkableDomainOfInfluences.length > 0; else noData">
-      <ng-container columnDef="name">
-        <bc-header-cell *headerCellDef>{{ 'DOMAIN_OF_INFLUENCE.NAME' | translate }}</bc-header-cell>
-        <bc-data-cell *dataCellDef="let element">{{ element.item.name }}</bc-data-cell>
-      </ng-container>
-
-      <ng-container columnDef="approved">
-        <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES.APPROVED' | translate }}</bc-header-cell>
-        <bc-data-cell *dataCellDef="let element"
-          ><bc-checkbox class="m-0 my-1" [(checked)]="element.checked" subscriptSizing="dynamic"></bc-checkbox
-        ></bc-data-cell>
-      </ng-container>
-
-      <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-      <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
-    </bc-table>
-  </div>
+  @if (!loading) {
+    <div content class="m-2">
+      @if (checkableDomainOfInfluences.length > 0) {
+        <bc-table class="w-full" [dataSource]="checkableDomainOfInfluences">
+          <ng-container columnDef="name">
+            <bc-header-cell *headerCellDef>{{ 'DOMAIN_OF_INFLUENCE.NAME' | translate }}</bc-header-cell>
+            <bc-data-cell *dataCellDef="let element">{{ element.item.name }}</bc-data-cell>
+          </ng-container>
+          <ng-container columnDef="approved">
+            <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES.APPROVED' | translate }}</bc-header-cell>
+            <bc-data-cell *dataCellDef="let element"
+              ><bc-checkbox class="m-0 my-1" [(checked)]="element.checked" subscriptSizing="dynamic"></bc-checkbox
+            ></bc-data-cell>
+          </ng-container>
+          <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+          <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+        </bc-table>
+      } @else {
+        <p>{{ 'APP.NO_DATA' | translate }}</p>
+      }
+    </div>
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 
   <div footer>
     <app-button-bar
@@ -31,11 +37,3 @@
     ></app-button-bar>
   </div>
 </app-dialog>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>
-
-<ng-template #noData>
-  <p>{{ 'APP.NO_DATA' | translate }}</p>
-</ng-template>

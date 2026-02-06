@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
 import { from, Observable } from 'rxjs';
 import { StepState } from '../../models/step.model';
@@ -14,7 +14,7 @@ import { StepService } from '../step.service';
   providedIn: 'root',
 })
 export class StepsResolver {
-  constructor(private readonly stepService: StepService) {}
+  private readonly stepService = inject(StepService);
 
   public resolve: ResolveFn<StepState[]> = (route: ActivatedRouteSnapshot): Observable<StepState[]> => {
     const id = route.paramMap.get('domainOfInfluenceId');

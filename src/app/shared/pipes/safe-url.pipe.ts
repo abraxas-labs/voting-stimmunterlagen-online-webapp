@@ -4,14 +4,15 @@
  * For license information see LICENSE file.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Pipe({
   name: 'safeUrl',
+  standalone: false,
 })
 export class SafeUrlPipe implements PipeTransform {
-  constructor(private readonly sanitizer: DomSanitizer) {}
+  private readonly sanitizer = inject(DomSanitizer);
 
   public transform(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);

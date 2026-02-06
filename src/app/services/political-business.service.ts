@@ -4,8 +4,12 @@
  * For license information see LICENSE file.
  */
 
-import { ListPoliticalBusinessesRequest, PoliticalBusinessServiceClient } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import {
+  ListAttachmentAccessiblePoliticalBusinessesRequest,
+  ListPoliticalBusinessesRequest,
+  PoliticalBusinessServiceClient,
+} from '@abraxas/voting-stimmunterlagen-proto';
+import { Injectable, inject } from '@angular/core';
 import { mapPoliticalBusiness, PoliticalBusiness } from '../models/political-business.model';
 import { groupBy } from './utils/array.utils';
 import { firstValueFrom } from 'rxjs';
@@ -14,7 +18,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class PoliticalBusinessService {
-  constructor(private readonly client: PoliticalBusinessServiceClient) {}
+  private readonly client = inject(PoliticalBusinessServiceClient);
 
   public listForContest(contestId?: string): Promise<PoliticalBusiness[]> {
     contestId ??= '';
@@ -29,7 +33,15 @@ export class PoliticalBusinessService {
     );
   }
 
-  public listGroupedByManager(contestId?: string): Promise<Record<string, PoliticalBusiness[]>> {
-    return this.listForContest(contestId).then(x => groupBy(x, x => x.domainOfInfluence.authorityName));
+  public listGroupedByManager(contestId?: string, domainOfInfluenceId?: string): Promise<Record<string, PoliticalBusiness[]>> {
+    return firstValueFrom(this.client.list(new ListPoliticalBusinessesRequest({ contestId, domainOfInfluenceId })))
+      .then(x => (x.politicalBusinesses ?? []).map(x => mapPoliticalBusiness(x)))
+      .then(x => groupBy(x, x => x.domainOfInfluence.authorityName));
+  }
+
+  public listAttachmentAccessible(domainOfInfluenceId: string): Promise<PoliticalBusiness[]> {
+    return firstValueFrom(
+      this.client.listAttachmentAccessible(new ListAttachmentAccessiblePoliticalBusinessesRequest({ domainOfInfluenceId })),
+    ).then(x => (x.politicalBusinesses ?? []).map(x => mapPoliticalBusiness(x)));
   }
 }

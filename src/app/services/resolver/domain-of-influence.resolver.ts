@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { from, Observable, of, Subscription } from 'rxjs';
 import { DomainOfInfluence } from '../../models/domain-of-influence.model';
@@ -15,10 +15,10 @@ import { filter, switchMap, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DomainOfInfluenceResolver implements OnDestroy {
+  private readonly domainOfInfluenceService = inject(DomainOfInfluenceService);
+
   private domainOfInfluenceUpdatedSubscription?: Subscription;
   private cachedDomainOfInfluence?: DomainOfInfluence;
-
-  constructor(private readonly domainOfInfluenceService: DomainOfInfluenceService) {}
 
   public resolve: ResolveFn<DomainOfInfluence> = (
     route: ActivatedRouteSnapshot,

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Attachment, AttachmentState } from '../../../models/attachment.model';
 import { AttachmentService } from '../../../services/attachment.service';
@@ -14,8 +14,14 @@ import { ToastService } from '../../../services/toast.service';
   selector: 'app-attachment-state-dialog',
   templateUrl: './attachment-state-dialog.component.html',
   styleUrls: ['./attachment-state-dialog.component.scss'],
+  standalone: false,
 })
 export class AttachmentStateDialogComponent {
+  public readonly data = inject<AttachmentStateDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<AttachmentStateDialogComponent>>(MatDialogRef);
+  private readonly attachmentService = inject(AttachmentService);
+  private readonly toast = inject(ToastService);
+
   public readonly attachmentStates: typeof AttachmentState = AttachmentState;
   public saving = false;
   public comment = '';
@@ -23,13 +29,8 @@ export class AttachmentStateDialogComponent {
   public saveButtonData!: AttachmentStateButtonData;
   public isDefinedState = false;
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<AttachmentStateDialogComponent>,
-    private readonly attachmentService: AttachmentService,
-    private readonly toast: ToastService,
-    @Inject(MAT_DIALOG_DATA) public data: AttachmentStateDialogData,
-  ) {
-    switch (data.attachment.state) {
+  constructor() {
+    switch (this.data.attachment.state) {
       case AttachmentState.ATTACHMENT_STATE_DEFINED:
         this.deleteButtonData = { label: 'SET_TO_REJECTED', state: AttachmentState.ATTACHMENT_STATE_REJECTED };
         this.saveButtonData = { label: 'SET_TO_DELIVERED', state: AttachmentState.ATTACHMENT_STATE_DELIVERED };

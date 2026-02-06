@@ -9,8 +9,12 @@ import { DomainOfInfluence as DomainOfInfluenceProto, DomainOfInfluenceType } fr
 export { DomainOfInfluenceType };
 
 export interface DomainOfInfluence
-  extends Omit<Required<DomainOfInfluenceProto.AsObject>, 'lastVoterUpdate' | 'generateVotingCardsTriggered' | 'eVoting'> {
+  extends Omit<
+    Required<DomainOfInfluenceProto.AsObject>,
+    'lastVoterUpdate' | 'lastCountOfEmptyVotingCardsUpdate' | 'generateVotingCardsTriggered' | 'eVoting'
+  > {
   lastVoterUpdate?: Date;
+  lastCountOfEmptyVotingCardsUpdate?: Date;
   generateVotingCardsTriggered?: Date;
   eVoting?: boolean;
 }
@@ -19,6 +23,7 @@ export function mapDomainOfInfluence(doiProto: DomainOfInfluenceProto): DomainOf
   return {
     ...(<Required<DomainOfInfluenceProto.AsObject>>doiProto.toObject()),
     lastVoterUpdate: doiProto.lastVoterUpdate?.toDate(),
+    lastCountOfEmptyVotingCardsUpdate: doiProto.lastCountOfEmptyVotingCardsUpdate?.toDate(),
     generateVotingCardsTriggered: doiProto.generateVotingCardsTriggered?.toDate(),
     eVoting: doiProto.eVoting?.value,
   };

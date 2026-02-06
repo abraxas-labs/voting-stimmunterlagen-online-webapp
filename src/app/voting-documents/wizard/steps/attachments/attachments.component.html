@@ -1,20 +1,23 @@
 <h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_ATTACHMENTS.TITLE</h1>
 <div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
-  <ng-container *ngIf="!loading && !!stepInfo; else spinner">
-    <ng-container *ngIf="doiAttachmentCategorySummariesEntries.length > 0; else noData">
-      <div *ngFor="let doiAttachmentCategorySummariesEntry of doiAttachmentCategorySummariesEntries">
-        <app-attachment-table
-          [domainOfInfluenceAttachmentCategorySummariesEntry]="doiAttachmentCategorySummariesEntry"
-          [stepInfo]="stepInfo"
-          (updated)="updateCanApprove()"
-          [canEdit]="canEdit"
-        ></app-attachment-table>
-      </div>
-    </ng-container>
-    <ng-template #noData>
+  @if (!loading && !!stepInfo) {
+    @if (doiAttachmentCategorySummariesEntries.length > 0) {
+      @for (doiAttachmentCategorySummariesEntry of doiAttachmentCategorySummariesEntries; track doiAttachmentCategorySummariesEntry) {
+        <div>
+          <app-attachment-table
+            [domainOfInfluenceAttachmentCategorySummariesEntry]="doiAttachmentCategorySummariesEntry"
+            [stepInfo]="stepInfo"
+            (updated)="updateCanApprove()"
+            [canEdit]="canEdit"
+          ></app-attachment-table>
+        </div>
+      }
+    } @else {
       <p class="italic" translate>ATTACHMENT.NO_ATTACHMENTS</p>
-    </ng-template>
-  </ng-container>
+    }
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 </div>
 
 <app-wizard-sidebar
@@ -29,7 +32,3 @@
   hint="STEP_ATTACHMENTS.HINT"
 >
 </app-wizard-sidebar>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>

@@ -10,7 +10,7 @@ import {
   ListDomainOfInfluenceVotingCardBrickRequest,
   UpdateDomainOfInfluenceVotingCardBrickContentRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { TemplateBrick, UpdateTemplateBrickContentResponse } from '../models/template.model';
 
@@ -18,7 +18,7 @@ import { TemplateBrick, UpdateTemplateBrickContentResponse } from '../models/tem
   providedIn: 'root',
 })
 export class DomainOfInfluenceVotingCardBrickService {
-  constructor(private readonly client: DomainOfInfluenceVotingCardBrickServiceClient) {}
+  private readonly client = inject(DomainOfInfluenceVotingCardBrickServiceClient);
 
   public list(templateId: number): Promise<TemplateBrick[]> {
     return firstValueFrom(this.client.list(new ListDomainOfInfluenceVotingCardBrickRequest({ templateId }))).then(

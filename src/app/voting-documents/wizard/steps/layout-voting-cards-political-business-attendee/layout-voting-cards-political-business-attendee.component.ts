@@ -5,20 +5,22 @@
  */
 
 import { VotingCardType } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DomainOfInfluenceVotingCardLayout } from '../../../../models/domain-of-influence-voting-card-layout.model';
+import { Component, inject } from '@angular/core';
+import {
+  DomainOfInfluenceVotingCardLayout,
+  equalsVotingCardLayoutDataConfiguration,
+} from '../../../../models/domain-of-influence-voting-card-layout.model';
 import { Step } from '../../../../models/step.model';
 import { Template } from '../../../../models/template.model';
 import { DialogService } from '../../../../services/dialog.service';
 import { DomainOfInfluenceVotingCardLayoutService } from '../../../../services/domain-of-influence-voting-card-layout.service';
-import { StepService } from '../../../../services/step.service';
 import { groupBySingle } from '../../../../services/utils/array.utils';
 import {
   VotingCardTemplateBricksDialogComponent,
   VotingCardTemplateBricksDialogData,
 } from '../../dialogs/voting-card-template-bricks-dialog/voting-card-template-bricks-dialog.component';
 import { StepBaseComponent } from '../step-base.component';
+import { VotingCardLayoutDataConfiguration } from '../../../../models/voting-card-layout.model';
 
 interface Layout {
   layout: DomainOfInfluenceVotingCardLayout;
@@ -30,8 +32,12 @@ interface Layout {
   selector: 'app-layout-voting-cards-political-business-attendee',
   templateUrl: './layout-voting-cards-political-business-attendee.component.html',
   styleUrls: ['./layout-voting-cards-political-business-attendee.component.scss'],
+  standalone: false,
 })
 export class LayoutVotingCardsPoliticalBusinessAttendeeComponent extends StepBaseComponent {
+  private readonly dialog = inject(DialogService);
+  private readonly layoutVotingCardsService = inject(DomainOfInfluenceVotingCardLayoutService);
+
   public templates: Template[] = [];
   public layouts: Layout[] = [];
   public votingCardTypes: VotingCardType[] = [];
@@ -44,14 +50,8 @@ export class LayoutVotingCardsPoliticalBusinessAttendeeComponent extends StepBas
   private layoutsByVotingCardType: Partial<Record<VotingCardType, DomainOfInfluenceVotingCardLayout>> = {};
   private templatesById: Record<number, Template> = {};
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    stepService: StepService,
-    private readonly dialog: DialogService,
-    private readonly layoutVotingCardsService: DomainOfInfluenceVotingCardLayoutService,
-  ) {
-    super(Step.STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE, router, route, stepService);
+  constructor() {
+    super(Step.STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE);
   }
 
   public async updateHasOverriddenLayout(layout: Layout, hasOverriddenLayout: boolean): Promise<void> {
@@ -90,6 +90,16 @@ export class LayoutVotingCardsPoliticalBusinessAttendeeComponent extends StepBas
 
     await this.updateLayout(layout);
     this.previewVotingCardType = layout.layout.votingCardType;
+    await this.updatePreview();
+  }
+
+  public async updateDataConfiguration(layout: Layout, dataConfiguration: VotingCardLayoutDataConfiguration): Promise<void> {
+    if (equalsVotingCardLayoutDataConfiguration(dataConfiguration, layout.layout.dataConfiguration)) {
+      return;
+    }
+
+    layout.layout.dataConfiguration = dataConfiguration;
+    await this.updateLayout(layout);
     await this.updatePreview();
   }
 

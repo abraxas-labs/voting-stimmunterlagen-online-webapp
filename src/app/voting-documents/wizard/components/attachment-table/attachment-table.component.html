@@ -1,12 +1,9 @@
-<ng-container *ngIf="!!domainOfInfluenceAttachmentCategorySummariesEntry && !!stepInfo">
+@if (!!domainOfInfluenceAttachmentCategorySummariesEntry && !!stepInfo) {
   <div class="table-header">
     <p class="table-title">{{ domainOfInfluenceAttachmentCategorySummariesEntry.domainOfInfluence.name }}</p>
-    <bc-button
-      *ngIf="canEdit && domainOfInfluenceAttachmentCategorySummariesEntry.domainOfInfluence.id === stepInfo.domainOfInfluence.id"
-      (buttonClick)="createOrEdit()"
-      variant="tertiary"
-      [label]="'ATTACHMENT.CREATE' | translate"
-    ></bc-button>
+    @if (canEdit && domainOfInfluenceAttachmentCategorySummariesEntry.domainOfInfluence.id === stepInfo.domainOfInfluence.id) {
+      <bc-button (buttonClick)="createOrEdit()" variant="tertiary" [label]="'ATTACHMENT.CREATE' | translate"></bc-button>
+    }
   </div>
 
   <bc-table selection class="w-full mt-2 mb-4" [dataSource]="entries">
@@ -30,16 +27,17 @@
     <ng-container columnDef="requiredCount">
       <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_COUNT' | translate }}</bc-header-cell>
       <bc-data-cell *dataCellDef="let element">
-        <span *ngIf="showRequiredCount(element); else setCountTemplate">
-          {{ (!isAttachment(element) ? element.totalRequiredCount : element.domainOfInfluenceAttachmentRequiredCount) | number }}
-        </span>
-        <ng-template #setCountTemplate>
+        @if (showRequiredCount(element)) {
+          <span>
+            {{ (!isAttachment(element) ? element.totalRequiredCount : element.domainOfInfluenceAttachmentRequiredCount) | number }}
+          </span>
+        } @else {
           <app-set-value-label
             [value]="element.domainOfInfluenceAttachmentRequiredCount"
             [label]="element.domainOfInfluenceAttachmentRequiredCount | number"
             (setValue)="setOrderedCount(element)"
           ></app-set-value-label>
-        </ng-template>
+        }
       </bc-data-cell>
     </ng-container>
 
@@ -53,41 +51,45 @@
       <bc-data-cell *dataCellDef="let element">{{ element.supplier }}</bc-data-cell>
     </ng-container>
 
-    <ng-container
-      *ngFor="let politicalBusiness of domainOfInfluenceAttachmentCategorySummariesEntry.politicalBusinesses; let index = index"
-    >
+    @for (
+      politicalBusiness of domainOfInfluenceAttachmentCategorySummariesEntry.politicalBusinesses;
+      track politicalBusiness;
+      let index = $index
+    ) {
       <ng-container [columnDef]="politicalBusiness.id">
         <bc-header-cell *headerCellDef>{{ politicalBusiness.shortDescription }}</bc-header-cell>
         <bc-data-cell *dataCellDef="let element">
-          <bc-checkbox
-            *ngIf="isAttachment(element)"
-            [checked]="element.checkablePoliticalBusinesses.items[index].checked"
-            (checkedChange)="updatePoliticalBusinessChecked(element, index, $event)"
-            [disabled]="
-              !canEdit ||
-              element.domainOfInfluence.id !== stepInfo.domainOfInfluence.id ||
-              element.checkablePoliticalBusinesses.items[index].disabled
-            "
-            (click)="$event.stopPropagation()"
-            subscriptSizing="dynamic"
-          ></bc-checkbox>
+          @if (isAttachment(element)) {
+            <bc-checkbox
+              [checked]="element.checkablePoliticalBusinesses.items[index].checked"
+              (checkedChange)="updatePoliticalBusinessChecked(element, index, $event)"
+              [disabled]="
+                !canEdit ||
+                element.domainOfInfluence.id !== stepInfo.domainOfInfluence.id ||
+                element.checkablePoliticalBusinesses.items[index].disabled
+              "
+              (click)="$event.stopPropagation()"
+              subscriptSizing="dynamic"
+            ></bc-checkbox>
+          }
         </bc-data-cell>
       </ng-container>
-    </ng-container>
+    }
 
     <ng-container columnDef="domainOfInfluencesExclude">
       <bc-header-cell *headerCellDef></bc-header-cell>
       <bc-data-cell *dataCellDef="let element">
-        <bc-button
-          *ngIf="
-            isAttachment(element) &&
-            canEdit &&
-            domainOfInfluenceAttachmentCategorySummariesEntry.domainOfInfluence.id === stepInfo.domainOfInfluence.id
-          "
-          (buttonClick)="updateDomainOfInfluenceEntries(element)"
-          variant="tertiary"
-          [label]="'ATTACHMENT.UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES.EXCLUDE' | translate"
-        ></bc-button>
+        @if (
+          isAttachment(element) &&
+          canEdit &&
+          domainOfInfluenceAttachmentCategorySummariesEntry.domainOfInfluence.id === stepInfo.domainOfInfluence.id
+        ) {
+          <bc-button
+            (buttonClick)="updateDomainOfInfluenceEntries(element)"
+            variant="tertiary"
+            [label]="'ATTACHMENT.UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES.EXCLUDE' | translate"
+          ></bc-button>
+        }
       </bc-data-cell>
     </ng-container>
 
@@ -102,4 +104,4 @@
       (click)="createOrEdit(row)"
     ></bc-data-row>
   </bc-table>
-</ng-container>
+}

@@ -10,7 +10,7 @@
 >
   <ng-container [columnDef]="columns.EVOTING_READY">
     <bc-header-cell filter sort *headerCellDef>
-      {{ 'E_VOTING.DOMAIN_OF_INFLUENCE.READY' | translate }}
+      <span truncateWithTooltip tooltip>{{ 'E_VOTING.DOMAIN_OF_INFLUENCE.READY' | translate }}</span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
       <app-domain-of-influence-e-voting-ready [ready]="element[columns.EVOTING_READY]"></app-domain-of-influence-e-voting-ready>
@@ -19,16 +19,25 @@
 
   <ng-container [columnDef]="columns.NAME">
     <bc-header-cell filter sort *headerCellDef>
-      {{ 'E_VOTING.DOMAIN_OF_INFLUENCE.NAME' | translate }}
+      <span truncateWithTooltip tooltip>{{ 'E_VOTING.DOMAIN_OF_INFLUENCE.NAME' | translate }}</span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
       {{ element[columns.NAME] }}
     </bc-data-cell>
   </ng-container>
 
+  <ng-container [columnDef]="columns.BFS">
+    <bc-header-cell filter sort *headerCellDef>
+      <span truncateWithTooltip tooltip>{{ 'E_VOTING.DOMAIN_OF_INFLUENCE.BFS' | translate }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">
+      {{ element[columns.BFS] }}
+    </bc-data-cell>
+  </ng-container>
+
   <ng-container [columnDef]="columns.PARENT_POLITICAL_BUSINESSES_COUNT">
     <bc-header-cell filter sort *headerCellDef>
-      {{ 'E_VOTING.DOMAIN_OF_INFLUENCE.PARENT_POLITICAL_BUSINESSES_COUNT' | translate }}
+      <span truncateWithTooltip tooltip>{{ 'E_VOTING.DOMAIN_OF_INFLUENCE.PARENT_POLITICAL_BUSINESSES_COUNT' | translate }}</span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
       {{ element[columns.PARENT_POLITICAL_BUSINESSES_COUNT] }}
@@ -37,19 +46,19 @@
 
   <ng-container [columnDef]="columns.OWN_POLITICAL_BUSINESSES_COUNT">
     <bc-header-cell filter sort *headerCellDef>
-      {{ 'E_VOTING.DOMAIN_OF_INFLUENCE.OWN_POLITICAL_BUSINESSES_COUNT' | translate }}
+      <span truncateWithTooltip tooltip>{{ 'E_VOTING.DOMAIN_OF_INFLUENCE.OWN_POLITICAL_BUSINESSES_COUNT' | translate }}</span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
       {{ element[columns.OWN_POLITICAL_BUSINESSES_COUNT] | number }}
     </bc-data-cell>
   </ng-container>
 
-  <ng-container [columnDef]="columns.NUMBER_OF_EVOTERS">
+  <ng-container [columnDef]="columns.COUNT_OF_VOTING_CARDS_FOR_E_VOTERS">
     <bc-header-cell filter sort *headerCellDef>
-      {{ 'E_VOTING.DOMAIN_OF_INFLUENCE.NUMBER_OF_E_VOTERS' | translate }}
+      <span truncateWithTooltip tooltip>{{ 'E_VOTING.DOMAIN_OF_INFLUENCE.COUNT_OF_VOTING_CARDS_FOR_E_VOTERS' | translate }}</span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      {{ element[columns.NUMBER_OF_EVOTERS] | number }}
+      {{ element[columns.COUNT_OF_VOTING_CARDS_FOR_E_VOTERS] | number }}
     </bc-data-cell>
   </ng-container>
 

@@ -7,7 +7,7 @@
 import { AuthenticationService, AuthorizationService, SnackbarComponent } from '@abraxas/base-components';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { SnackbarService, ThemeService } from '@abraxas/voting-lib';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import 'moment/locale/de';
@@ -19,8 +19,15 @@ import { filter } from 'rxjs/operators';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private readonly translations = inject(TranslateService);
+  private readonly oauthService = inject(OAuthService);
+  private readonly authentication = inject(AuthenticationService);
+  private readonly authorization = inject(AuthorizationService);
+  private readonly title = inject(Title);
+
   public authenticated = false;
   public hasTenant = false;
   public loading = true;
@@ -33,15 +40,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private readonly subscriptions: Subscription[] = [];
 
-  constructor(
-    themeService: ThemeService,
-    snackbarService: SnackbarService,
-    private readonly translations: TranslateService,
-    private readonly oauthService: OAuthService,
-    private readonly authentication: AuthenticationService,
-    private readonly authorization: AuthorizationService,
-    private readonly title: Title,
-  ) {
+  constructor() {
+    const themeService = inject(ThemeService);
+    const snackbarService = inject(SnackbarService);
+
     // enable automatic silent refresh
     this.oauthService.setupAutomaticSilentRefresh({}, 'access_token');
 

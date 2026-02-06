@@ -4,8 +4,8 @@
  * For license information see LICENSE file.
  */
 
-import { SegmentedControl } from '@abraxas/base-components/lib/components/formfields/segmented-control-group/segmented-control.model';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { SegmentedControl } from '@abraxas/base-components';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { AttachmentState } from '../../../models/attachment.model';
 import { EnumUtil } from '../../../services/enum.util';
 
@@ -13,6 +13,7 @@ import { EnumUtil } from '../../../services/enum.util';
   selector: 'app-attachment-filter',
   templateUrl: './attachment-filter.component.html',
   styleUrls: ['./attachment-filter.component.scss'],
+  standalone: false,
 })
 export class AttachmentFilterComponent {
   public readonly stateItems: SegmentedControl[];
@@ -25,7 +26,9 @@ export class AttachmentFilterComponent {
   @Output()
   public filterChange: EventEmitter<AttachmentFilter> = new EventEmitter<AttachmentFilter>();
 
-  constructor(enumUtil: EnumUtil) {
+  constructor() {
+    const enumUtil = inject(EnumUtil);
+
     this.stateItems = enumUtil
       .getArrayWithDescriptionsWithUnspecified(AttachmentState, 'ATTACHMENT.STATES.')
       .map(x => ({ displayText: x.description, value: x.value, disabled: false }));

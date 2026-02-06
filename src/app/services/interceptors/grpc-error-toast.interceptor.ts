@@ -4,10 +4,9 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GrpcEvent, GrpcMessage, GrpcRequest, GrpcStatusEvent } from '@ngx-grpc/common';
-import { GrpcHandler } from '@ngx-grpc/core';
-import { GrpcInterceptor } from '@ngx-grpc/core/lib/grpc-interceptor';
+import { GrpcHandler, GrpcInterceptor } from '@ngx-grpc/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -17,10 +16,8 @@ import { ToastService } from '../toast.service';
   providedIn: 'root',
 })
 export class GrpcErrorToastInterceptor implements GrpcInterceptor {
-  constructor(
-    private readonly i18n: TranslateService,
-    private readonly toast: ToastService,
-  ) {}
+  private readonly i18n = inject(TranslateService);
+  private readonly toast = inject(ToastService);
 
   public intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
     return next

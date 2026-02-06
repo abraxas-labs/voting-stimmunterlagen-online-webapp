@@ -5,15 +5,15 @@
  */
 
 import { VoterListImportWithElectoralRegisterResponse as VoterListImportWithElectoralRegisterResponseProto } from '@abraxas/voting-stimmunterlagen-proto';
-import { VoterListImportVoterListResponse } from './voter-list-import.model';
+import { VoterListImportError, VoterListImportVoterListResponse } from './voter-list-import.model';
 import { VoterDuplicate } from './voter.model';
 
 export { VoterListImportWithElectoralRegisterResponseProto };
 
 export interface VoterListImportWithElectoralRegisterResponse
-  extends Omit<Required<VoterListImportWithElectoralRegisterResponseProto.AsObject>, 'voterLists' | 'voterDuplicates'> {
+  extends Omit<Required<VoterListImportWithElectoralRegisterResponseProto.AsObject>, 'voterLists' | 'error'> {
   voterLists: VoterListImportVoterListResponse[];
-  voterDuplicates: VoterDuplicate[];
+  error?: VoterListImportError;
 }
 
 export function mapVoterListImportWithElectoralRegisterResponse(

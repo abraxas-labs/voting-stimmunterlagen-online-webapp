@@ -31,6 +31,18 @@ export function addHours(date: Date, hours: number): void {
 
 // removes UTC Hours (ex: 2022-06-30T22:00:00Z => 2022-06-30T00:00:00Z).
 // is required if the backend returns datetime but the front end handles it as date without time info.
+export function newUTCDate(date?: Date): Date | undefined {
+  if (!date) {
+    return undefined;
+  }
+
+  const dateClone = new Date(date);
+  toUTCDate(dateClone);
+  return dateClone;
+}
+
+// removes UTC Hours (ex: 2022-06-30T22:00:00Z => 2022-06-30T00:00:00Z).
+// is required if the backend returns datetime but the front end handles it as date without time info.
 export function toUTCDate(date: Date): void {
   addHours(date, -date.getUTCHours());
 }

@@ -1,0 +1,23 @@
+<app-dialog>
+  <h1 header translate>VOTER_LIST.EMPTY_VOTING_CARDS.TITLE</h1>
+
+  <div content class="m-2">
+    <form #form="ngForm">
+      <p>{{ 'VOTER_LIST.EMPTY_VOTING_CARDS.DESCRIPTION' | translate }}</p>
+
+      <bc-number
+        [label]="'VOTER_LIST.EMPTY_VOTING_CARDS.COUNT' | translate"
+        name="amount"
+        [required]="true"
+        [(ngModel)]="countOfEmptyVotingCards"
+        [min]="0"
+        [max]="100000"
+      ></bc-number>
+    </form>
+  </div>
+
+  <div footer>
+    <app-button-bar [saving]="saving" [canSave]="form.valid" [hasDeleteButton]="false" (save)="save()" (cancelEvent)="done()">
+    </app-button-bar>
+  </div>
+</app-dialog>

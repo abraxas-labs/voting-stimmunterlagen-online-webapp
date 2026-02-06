@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { Contest } from '../../models/contest.model';
@@ -15,9 +15,9 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ContestResolver {
-  private cachedContest?: Contest;
+  private readonly contestService = inject(ContestService);
 
-  constructor(private readonly contestService: ContestService) {}
+  private cachedContest?: Contest;
 
   public resolve: ResolveFn<Contest> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Contest> => {
     const id = route.paramMap.get('contestId');

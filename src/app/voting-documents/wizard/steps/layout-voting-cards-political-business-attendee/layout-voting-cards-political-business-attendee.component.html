@@ -1,39 +1,54 @@
 <div class="layout-left overflow-auto px-4">
   <h1 class="pb-1 pt-4" translate>STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.TITLE</h1>
-  <ng-container *ngIf="stepInfo && !loading; else spinner">
-    <div *ngFor="let layout of layouts">
-      <div class="mt-5 mb-1 title">
-        <h4>{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h4>
-        <bc-spinner *ngIf="layout.loading"></bc-spinner>
-      </div>
-      <ng-container *ngIf="layout.layout.contestTemplate">
-        <div>
-          <span class="block">{{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.DEFAULT' | translate }}</span>
-          <span class="default-name">{{ layout.layout.domainOfInfluenceTemplate?.name || layout.layout.contestTemplate.name }}</span>
+  @if (stepInfo && !loading) {
+    @for (layout of layouts; track layout) {
+      <div>
+        <div class="mt-5 mb-1 title">
+          <h4>{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h4>
+          @if (layout.loading) {
+            <bc-spinner></bc-spinner>
+          }
         </div>
-        <div *ngIf="layout.layout.allowCustom" class="mt-2">
-          <bc-checkbox
-            [label]="'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.OVERWRITE' | translate"
-            [ngModel]="layout.hasOverriddenLayout"
-            (ngModelChange)="updateHasOverriddenLayout(layout, $event)"
-            [disabled]="!canEdit"
-            subscriptSizing="dynamic"
-          ></bc-checkbox>
-        </div>
-      </ng-container>
-      <div *ngIf="layout.hasOverriddenLayout || !layout.layout.contestTemplate">
-        <bc-dropdown
-          class="w-full mt-1"
-          [items]="templates"
-          displayExpr="name"
-          valueExpr="id"
-          [required]="true"
-          [disabled]="!canEdit"
-          [ngModel]="layout.layout.overriddenTemplate?.id"
-          (ngModelChange)="updateOverriddenTemplate(layout, $event)"
-        ></bc-dropdown>
+        @if (layout.layout.contestTemplate) {
+          <div>
+            <span class="block">{{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.DEFAULT' | translate }}</span>
+            <span class="default-name">{{ layout.layout.domainOfInfluenceTemplate?.name || layout.layout.contestTemplate.name }}</span>
+          </div>
+          @if (layout.layout.allowCustom) {
+            <div class="mt-2">
+              <bc-checkbox
+                [label]="'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.OVERWRITE' | translate"
+                [ngModel]="layout.hasOverriddenLayout"
+                (ngModelChange)="updateHasOverriddenLayout(layout, $event)"
+                [disabled]="!canEdit"
+                subscriptSizing="dynamic"
+              ></bc-checkbox>
+            </div>
+          }
+        }
+        @if (layout.hasOverriddenLayout || !layout.layout.contestTemplate) {
+          <div>
+            <bc-dropdown
+              class="w-full mt-1"
+              [items]="templates"
+              displayExpr="name"
+              valueExpr="id"
+              [required]="true"
+              [disabled]="!canEdit"
+              [ngModel]="layout.layout.overriddenTemplate?.id"
+              (ngModelChange)="updateOverriddenTemplate(layout, $event)"
+            ></bc-dropdown>
+          </div>
+        }
+        <app-voting-card-layout-data-configuration-edit
+          [disabled]="!canEdit || !layout.layout.allowCustom"
+          [configuration]="layout.layout.dataConfiguration"
+          [isStistat]="stepInfo.domainOfInfluence.stistatMunicipality"
+          [isPoliticalAssembly]="stepInfo.contest.isPoliticalAssembly"
+          (configurationChange)="updateDataConfiguration(layout, $event)"
+        ></app-voting-card-layout-data-configuration-edit>
       </div>
-    </div>
+    }
     <div class="mt-4">
       <bc-button
         variant="tertiary"
@@ -41,26 +56,30 @@
         [label]="'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATA' | translate"
         (buttonClick)="editTemplateData()"
       ></bc-button>
-
-      <div *ngIf="stepInfo.domainOfInfluence.eVoting" class="e-voting-hint">
-        {{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_HINT' | translate }}
-        <a [href]="'mailto:' + ('STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_EMAIL' | translate)">
-          {{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_EMAIL' | translate }}
-        </a>
-      </div>
+      @if (stepInfo.domainOfInfluence.eVoting && !stepInfo.contest.isPoliticalAssembly) {
+        <div class="e-voting-hint">
+          {{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_HINT' | translate }}
+          <a [href]="'mailto:' + ('STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_EMAIL' | translate)">
+            {{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_EMAIL' | translate }}
+          </a>
+        </div>
+      }
     </div>
-  </ng-container>
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 </div>
 <div class="layout-center">
-  <app-voting-card-preview
-    *ngIf="!loading"
-    [(selectedVotingCardType)]="previewVotingCardType"
-    (selectedVotingCardTypeChange)="updatePreview()"
-    [previewLoading]="previewLoading"
-    [previewData]="previewData"
-    [votingCardTypes]="votingCardTypes"
-  >
-  </app-voting-card-preview>
+  @if (!loading) {
+    <app-voting-card-preview
+      [(selectedVotingCardType)]="previewVotingCardType"
+      (selectedVotingCardTypeChange)="updatePreview()"
+      [previewLoading]="previewLoading"
+      [previewData]="previewData"
+      [votingCardTypes]="votingCardTypes"
+    >
+    </app-voting-card-preview>
+  }
 </div>
 
 <app-wizard-sidebar
@@ -78,7 +97,3 @@
   hint="STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.HINT"
 >
 </app-wizard-sidebar>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>

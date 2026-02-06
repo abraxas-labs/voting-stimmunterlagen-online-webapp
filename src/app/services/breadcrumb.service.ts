@@ -5,7 +5,7 @@
  */
 
 import { DatePipe, LocationStrategy } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -16,16 +16,17 @@ import { ThemeService } from '@abraxas/voting-lib';
   providedIn: 'root',
 })
 export class BreadcrumbService {
+  private readonly dateFormatter = inject(DatePipe);
+
   private readonly breadcrumbItems: Subject<BreadcrumbItem[]> = new BehaviorSubject<BreadcrumbItem[]>([]);
   private theme?: string;
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    private readonly dateFormatter: DatePipe,
-    locationStrategy: LocationStrategy,
-    themeService: ThemeService,
-  ) {
+  constructor() {
+    const router = inject(Router);
+    const route = inject(ActivatedRoute);
+    const locationStrategy = inject(LocationStrategy);
+    const themeService = inject(ThemeService);
+
     themeService.theme$.subscribe(theme => (this.theme = theme));
 
     router.events

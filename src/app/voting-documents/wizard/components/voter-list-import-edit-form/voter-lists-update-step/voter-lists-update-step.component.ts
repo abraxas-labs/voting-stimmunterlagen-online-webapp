@@ -12,11 +12,9 @@ import { VoterList } from '../../../../../models/voter-list.model';
   selector: 'app-voter-lists-update-step',
   templateUrl: './voter-lists-update-step.component.html',
   styleUrls: ['./voter-lists-update-step.component.scss'],
+  standalone: false,
 })
 export class VoterListsUpdateStepComponent implements OnChanges {
-  public readonly voterListSources: typeof VoterListSource = VoterListSource;
-  public readonly votingCardTypes: typeof VotingCardType = VotingCardType;
-
   @Input()
   public voterLists: VoterList[] = [];
 
@@ -25,6 +23,9 @@ export class VoterListsUpdateStepComponent implements OnChanges {
 
   @Input()
   public autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit = false;
+
+  @Input()
+  public electoralRegisterMultipleEnabled = false;
 
   public ngOnChanges(): void {
     if (!this.voterLists) {
@@ -36,14 +37,5 @@ export class VoterListsUpdateStepComponent implements OnChanges {
         voterList.sendVotingCardsToDomainOfInfluenceReturnAddress = undefined;
       }
     }
-  }
-
-  public updateSendVotingCardsToDomainOfInfluenceReturnAddress(voterList: VoterList, v: boolean): void {
-    if (voterList.sendVotingCardsToDomainOfInfluenceReturnAddress === v) {
-      return;
-    }
-
-    voterList.sendVotingCardsToDomainOfInfluenceReturnAddress = v;
-    voterList.countOfSendVotingCardsToDomainOfInfluenceReturnAddress = v ? voterList.numberOfVoters : 0;
   }
 }

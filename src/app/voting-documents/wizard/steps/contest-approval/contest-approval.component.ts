@@ -4,14 +4,12 @@
  * For license information see LICENSE file.
  */
 
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { Step } from '../../../../models/step.model';
 import { ContestService } from '../../../../services/contest.service';
-import { PropertyRefresherService } from '../../../../services/property-refresher.service';
-import { StepService } from '../../../../services/step.service';
 import { addDays, fromBcDate, toBcDate } from '../../../../services/utils/date.utils';
 import { StepBaseComponent } from '../step-base.component';
+import { refreshContestDeadlineStates } from '../../../../models/contest.model';
 
 const daysBeforeTheContestForHint = 21;
 
@@ -19,44 +17,75 @@ const daysBeforeTheContestForHint = 21;
   selector: 'app-contest-approval',
   templateUrl: './contest-approval.component.html',
   styleUrls: ['./contest-approval.component.scss'],
+  standalone: false,
 })
 export class ContestApprovalComponent extends StepBaseComponent {
+  private readonly contestService = inject(ContestService);
+
   public printingCenterSignUpDeadlineDate?: string;
   public attachmentDeliveryDeadlineDate?: string;
   public generateVotingCardsDeadlineDate?: string;
+  public electoralRegisterEVotingFromDate?: string;
+  public deliveryToPostDeadlineDate?: string;
+  public loadingPreview = false;
 
   public validPrintingCenterSignUpDeadline = false;
   public validAttachmentDeliveryDeadline = false;
   public validGenerateVotingCardsDeadline = false;
+  public validDeliveryToPostDeadline = false;
+  public validElectoralRegisterEVotingFrom = false;
   public showPrintingCenterSignUpDeadlineHint = false;
   public showAttachmentDeliveryDeadlineHint = false;
   public showGenerateVotingCardsDeadlineHint = false;
+  public validStandardDeliveryToPostDeadline = false;
 
   private readonly dateToday = fromBcDate(new Date().toISOString().split('T')[0])!;
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    stepService: StepService,
-    private readonly contestService: ContestService,
-    private readonly propertyRefresher: PropertyRefresherService,
-  ) {
-    super(Step.STEP_CONTEST_APPROVAL, router, route, stepService);
+  constructor() {
+    super(Step.STEP_CONTEST_APPROVAL);
   }
 
   public async approve(): Promise<void> {
-    if (
-      !this.stepInfo ||
-      !this.printingCenterSignUpDeadlineDate ||
-      !this.attachmentDeliveryDeadlineDate ||
-      !this.generateVotingCardsDeadlineDate
-    ) {
+    if (!this.stepInfo) {
+      return;
+    }
+
+    if (this.isCommunalContest) {
+      if (!this.deliveryToPostDeadlineDate) {
+        return;
+      }
+
+      const deliveryToPostDate = fromBcDate(this.deliveryToPostDeadlineDate!);
+      this.approveLoading = true;
+
+      try {
+        const communalDeadlinesResponse = await this.contestService.setCommunalDeadlines(this.stepInfo.contest.id, deliveryToPostDate!);
+        await super.approve();
+        this.stepInfo.contest.printingCenterSignUpDeadlineDate = communalDeadlinesResponse.printingCenterSignUpDeadlineDate;
+        this.stepInfo.contest.attachmentDeliveryDeadlineDate = communalDeadlinesResponse.attachmentDeliveryDeadlineDate;
+        this.stepInfo.contest.generateVotingCardsDeadlineDate = communalDeadlinesResponse.generateVotingCardsDeadlineDate;
+        this.stepInfo.contest.deliveryToPostDeadlineDate = communalDeadlinesResponse.deliveryToPostDeadlineDate;
+        this.stepInfo.contest.electoralRegisterEVotingFromDate = undefined; // is never set on communal contest
+        this.stepInfo.contest.approved = new Date();
+        this.stepInfo.contest.isApproved = true;
+        refreshContestDeadlineStates(this.stepInfo.contest);
+      } catch (err) {
+        this.stepInfo.state.approved = false;
+      } finally {
+        this.approveLoading = false;
+      }
+
+      return;
+    }
+
+    if (!this.printingCenterSignUpDeadlineDate || !this.attachmentDeliveryDeadlineDate || !this.generateVotingCardsDeadlineDate) {
       return;
     }
 
     const printingCenterSignUpDeadlineDate = fromBcDate(this.printingCenterSignUpDeadlineDate)!;
     const attachmentDeliveryDeadlineDate = fromBcDate(this.attachmentDeliveryDeadlineDate)!;
     const generateVotingCardsDeadlineDate = fromBcDate(this.generateVotingCardsDeadlineDate)!;
+    const electoralRegisterEVotingFromDate = fromBcDate(this.electoralRegisterEVotingFromDate);
 
     this.approveLoading = true;
     try {
@@ -65,34 +94,84 @@ export class ContestApprovalComponent extends StepBaseComponent {
         printingCenterSignUpDeadlineDate,
         attachmentDeliveryDeadlineDate,
         generateVotingCardsDeadlineDate,
+        electoralRegisterEVotingFromDate,
       );
       await super.approve();
       this.stepInfo.contest.printingCenterSignUpDeadlineDate = printingCenterSignUpDeadlineDate;
       this.stepInfo.contest.attachmentDeliveryDeadlineDate = attachmentDeliveryDeadlineDate;
       this.stepInfo.contest.generateVotingCardsDeadlineDate = generateVotingCardsDeadlineDate;
+      this.stepInfo.contest.electoralRegisterEVotingFromDate = electoralRegisterEVotingFromDate;
+      this.stepInfo.contest.deliveryToPostDeadlineDate = undefined; // is never set on non-communal contests
       this.stepInfo.contest.approved = new Date();
       this.stepInfo.contest.isApproved = true;
+      refreshContestDeadlineStates(this.stepInfo.contest);
+    } catch (err) {
+      this.stepInfo.state.approved = false;
     } finally {
       this.approveLoading = false;
     }
   }
 
-  public async updatePrintingCenterSignUpDeadline(e: string): Promise<void> {
+  public updatePrintingCenterSignUpDeadline(e: string): void {
     this.printingCenterSignUpDeadlineDate = e;
-    await this.updateValidPrintingCenterSignUpDeadline();
+    const printingCenterSignUpDeadline = fromBcDate(this.printingCenterSignUpDeadlineDate);
+    this.validPrintingCenterSignUpDeadline = !!printingCenterSignUpDeadline && printingCenterSignUpDeadline >= this.dateToday;
     this.updateShowPrintingCenterSignUpDeadlineHint();
   }
 
-  public async updateAttachmentDeliveryDeadline(e: string): Promise<void> {
+  public updateAttachmentDeliveryDeadline(e: string): void {
     this.attachmentDeliveryDeadlineDate = e;
-    await this.updateValidAttachmentDeliveryDeadline();
+    const attachmentDeliveryDeadline = fromBcDate(this.attachmentDeliveryDeadlineDate);
+    this.validAttachmentDeliveryDeadline = !!attachmentDeliveryDeadline && attachmentDeliveryDeadline >= this.dateToday;
     this.updateShowAttachmentDeliveryDeadlineHint();
   }
 
-  public async updateGenerateVotingCardsDeadline(e: string): Promise<void> {
+  public updateGenerateVotingCardsDeadline(e: string): void {
     this.generateVotingCardsDeadlineDate = e;
-    await this.updateValidGenerateVotingCardsDeadline();
+    const generateVotingCardsDeadline = fromBcDate(this.generateVotingCardsDeadlineDate);
+    const printingCenterSignUpDeadline = fromBcDate(this.printingCenterSignUpDeadlineDate);
+    this.validGenerateVotingCardsDeadline =
+      !!printingCenterSignUpDeadline && !!generateVotingCardsDeadline && generateVotingCardsDeadline >= printingCenterSignUpDeadline;
     this.updateShowGenerateVotingCardsDeadlineHint();
+  }
+
+  public updateElectoralRegisterEVotingFromDate(e: string): void {
+    this.electoralRegisterEVotingFromDate = e;
+    const electoralRegisterEVotingFrom = fromBcDate(e);
+    const generateVotingCardsDeadline = fromBcDate(this.generateVotingCardsDeadlineDate);
+    this.validElectoralRegisterEVotingFrom =
+      !!electoralRegisterEVotingFrom &&
+      !!generateVotingCardsDeadline &&
+      electoralRegisterEVotingFrom >= this.dateToday &&
+      electoralRegisterEVotingFrom <= generateVotingCardsDeadline;
+  }
+
+  public async updateDeliveryToPostDeadline(e: string): Promise<void> {
+    if (e === this.deliveryToPostDeadlineDate) {
+      return;
+    }
+
+    this.deliveryToPostDeadlineDate = e;
+    const deliveryToPostDeadline = fromBcDate(e);
+
+    const maxDate = this.stepInfo!.contest.date;
+    const minDate = new Date(this.dateToday);
+    this.validDeliveryToPostDeadline = !!deliveryToPostDeadline && deliveryToPostDeadline < maxDate && deliveryToPostDeadline >= minDate;
+    this.updateValidStandardDeliveryToPostDeadline();
+
+    if (!this.validDeliveryToPostDeadline) {
+      return;
+    }
+
+    try {
+      this.loadingPreview = true;
+      const calculationResult = await this.contestService.getPreviewCommunalDeadlines(this.stepInfo!.contest.id, deliveryToPostDeadline!);
+      this.printingCenterSignUpDeadlineDate = toBcDate(calculationResult.printingCenterSignUpDeadlineDate);
+      this.attachmentDeliveryDeadlineDate = toBcDate(calculationResult.attachmentDeliveryDeadlineDate);
+      this.generateVotingCardsDeadlineDate = toBcDate(calculationResult.generateVotingCardsDeadlineDate);
+    } finally {
+      this.loadingPreview = false;
+    }
   }
 
   private updateShowPrintingCenterSignUpDeadlineHint(): void {
@@ -122,32 +201,19 @@ export class ContestApprovalComponent extends StepBaseComponent {
     this.showGenerateVotingCardsDeadlineHint = this.showDeadlineHint(this.generateVotingCardsDeadlineDate);
   }
 
-  private async updateValidPrintingCenterSignUpDeadline(): Promise<void> {
-    const printingCenterSignUpDeadline = fromBcDate(this.printingCenterSignUpDeadlineDate)!;
-    await this.propertyRefresher.updateBooleanProperty(
-      this,
-      'validPrintingCenterSignUpDeadline',
-      printingCenterSignUpDeadline > this.dateToday,
-    );
-  }
+  private updateValidStandardDeliveryToPostDeadline(): void {
+    if (!this.deliveryToPostDeadlineDate) {
+      this.validStandardDeliveryToPostDeadline = false;
+      return;
+    }
 
-  private async updateValidAttachmentDeliveryDeadline(): Promise<void> {
-    const attachmentDeliveryDeadline = fromBcDate(this.attachmentDeliveryDeadlineDate)!;
-    await this.propertyRefresher.updateBooleanProperty(
-      this,
-      'validAttachmentDeliveryDeadline',
-      attachmentDeliveryDeadline > this.dateToday,
-    );
-  }
+    const deliveryToPostDeadline = fromBcDate(this.deliveryToPostDeadlineDate)!;
 
-  private async updateValidGenerateVotingCardsDeadline(): Promise<void> {
-    const generateVotingCardsDeadline = fromBcDate(this.generateVotingCardsDeadlineDate)!;
-    const printingCenterSignUpDeadline = fromBcDate(this.printingCenterSignUpDeadlineDate);
-    await this.propertyRefresher.updateBooleanProperty(
-      this,
-      'validGenerateVotingCardsDeadline',
-      !!printingCenterSignUpDeadline && generateVotingCardsDeadline >= printingCenterSignUpDeadline,
-    );
+    const maxDate = this.stepInfo!.contest.date;
+    const minDate = new Date(this.dateToday);
+
+    addDays(minDate, 31);
+    this.validStandardDeliveryToPostDeadline = deliveryToPostDeadline < maxDate && deliveryToPostDeadline >= minDate;
   }
 
   protected loadData(): Promise<void> {
@@ -155,9 +221,12 @@ export class ContestApprovalComponent extends StepBaseComponent {
     this.printingCenterSignUpDeadlineDate = toBcDate(this.stepInfo?.contest.printingCenterSignUpDeadlineDate);
     this.attachmentDeliveryDeadlineDate = toBcDate(this.stepInfo?.contest.attachmentDeliveryDeadlineDate);
     this.generateVotingCardsDeadlineDate = toBcDate(this.stepInfo?.contest.generateVotingCardsDeadlineDate);
+    this.electoralRegisterEVotingFromDate = toBcDate(this.stepInfo?.contest.electoralRegisterEVotingFromDate);
+    this.deliveryToPostDeadlineDate = toBcDate(this.stepInfo?.contest.deliveryToPostDeadlineDate);
     this.updateShowPrintingCenterSignUpDeadlineHint();
     this.updateShowAttachmentDeliveryDeadlineHint();
     this.updateShowGenerateVotingCardsDeadlineHint();
+    this.updateValidStandardDeliveryToPostDeadline();
     return Promise.resolve();
   }
 

@@ -10,6 +10,7 @@ import {
   DateModule,
   DropdownModule,
   NumberModule,
+  RadioButtonModule,
   SearchModule,
   SegmentedControlGroupModule,
   SpinnerModule,
@@ -18,6 +19,7 @@ import {
   TabsModule,
   TextareaModule,
   TextModule,
+  TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { VotingStimmunterlagenProtoModule } from '@abraxas/voting-stimmunterlagen-proto';
 import { CommonModule } from '@angular/common';
@@ -64,6 +66,8 @@ import { ContestOverviewVoterListSettingsTableComponent } from './components/con
 import { ContestOverviewInvoiceTabContentComponent } from './components/contest-overview-tabs/contest-overview-invoice-tab-content/contest-overview-invoice-tab-content.component';
 import { ContestOverviewAdditionalInvoicePositionTableComponent } from './components/contest-overview-tabs/contest-overview-additional-invoice-position-table/contest-overview-additional-invoice-position-table.component';
 import { AdditionalInvoicePositionEditDialogComponent } from './components/additional-invoice-position-edit-dialog/additional-invoice-position-edit-dialog.component';
+import { VotingCardLayoutDataConfigurationEditComponent } from './components/voting-card-layout-data-configuration-edit/voting-card-layout-data-configuration-edit.component';
+import { AttachmentEditDialogComponent } from './dialogs/attachment-edit-dialog/attachment-edit-dialog.component';
 
 const modules = [
   CommonModule,
@@ -87,6 +91,8 @@ const modules = [
   SearchModule,
   SegmentedControlGroupModule,
   TextareaModule,
+  TruncateWithTooltipModule,
+  RadioButtonModule,
 ];
 
 const components = [
@@ -111,6 +117,7 @@ const components = [
   AttachmentFilterComponent,
   PrintJobFilterComponent,
   PrintJobStateComponent,
+  AttachmentEditDialogComponent,
   AttachmentStateDialogComponent,
   AttachmentStationDialogComponent,
   ContestPrintingCenterSignUpDeadlineDialogComponent,
@@ -125,6 +132,7 @@ const components = [
   ContestOverviewInvoiceTabContentComponent,
   ContestOverviewAdditionalInvoicePositionTableComponent,
   AdditionalInvoicePositionEditDialogComponent,
+  VotingCardLayoutDataConfigurationEditComponent,
 ];
 
 const pipes = [EveryPipe, SafeUrlPipe];

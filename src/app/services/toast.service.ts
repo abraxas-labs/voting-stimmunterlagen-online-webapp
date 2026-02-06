@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackbarService } from '@abraxas/voting-lib';
 
@@ -12,10 +12,8 @@ import { SnackbarService } from '@abraxas/voting-lib';
   providedIn: 'root',
 })
 export class ToastService {
-  constructor(
-    private readonly snackbarService: SnackbarService,
-    private readonly i18n: TranslateService,
-  ) {}
+  private readonly snackbarService = inject(SnackbarService);
+  private readonly i18n = inject(TranslateService);
 
   public success(message: string): void {
     this.snackbarService.success(this.i18n.instant(message));

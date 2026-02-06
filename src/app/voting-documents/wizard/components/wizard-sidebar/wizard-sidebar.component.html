@@ -1,9 +1,10 @@
-<ng-container *ngIf="!stepInfo.domainOfInfluence.externalPrintingCenter">
-  <app-wizard-sidebar-info
-    *ngIf="stepInfo.contest.domainOfInfluence && stepInfo.contest.domainOfInfluence.id !== stepInfo.domainOfInfluence.id"
-    label="DOMAIN_OF_INFLUENCE.CONTEST_MANAGER_TITLE"
-    [content]="stepInfo.contest.domainOfInfluence.authorityName"
-  ></app-wizard-sidebar-info>
+@if (!stepInfo.domainOfInfluence.externalPrintingCenter) {
+  @if (stepInfo.contest.domainOfInfluence && stepInfo.contest.domainOfInfluence.id !== stepInfo.domainOfInfluence.id) {
+    <app-wizard-sidebar-info
+      label="DOMAIN_OF_INFLUENCE.CONTEST_MANAGER_TITLE"
+      [content]="stepInfo.contest.domainOfInfluence.authorityName"
+    ></app-wizard-sidebar-info>
+  }
   <app-wizard-sidebar-info
     label="CONTEST.PRINTING_CENTER_SIGNUP_DEADLINE"
     [content]="
@@ -28,55 +29,76 @@
         : (stepInfo.contest.attachmentDeliveryDeadlineDate | date: 'dd.MM.yyyy')
     "
   ></app-wizard-sidebar-info>
-</ng-container>
+  @if (!isCommunalContest && stepInfo.contest.eVoting && (isContestOwnerDomainOfInfluence || stepInfo.domainOfInfluence.eVoting)) {
+    <app-wizard-sidebar-info
+      label="CONTEST.ELECTORAL_REGISTER_E_VOTING_FROM"
+      [content]="
+        !stepInfo.contest.electoralRegisterEVotingFromDate
+          ? ('CONTEST.DEADLINE_NOT_SET' | translate)
+          : (stepInfo.contest.electoralRegisterEVotingFromDate | date: 'dd.MM.yyyy')
+      "
+    ></app-wizard-sidebar-info>
+  }
+  @if (isCommunalContest) {
+    <app-wizard-sidebar-info
+      label="CONTEST.DELIVERY_TO_POST_DEADLINE"
+      [content]="
+        !stepInfo.contest.deliveryToPostDeadlineDate
+          ? ('CONTEST.DEADLINE_NOT_SET' | translate)
+          : (stepInfo.contest.deliveryToPostDeadlineDate | date: 'dd.MM.yyyy')
+      "
+    ></app-wizard-sidebar-info>
+  }
+}
 
-<app-wizard-sidebar-hint *ngIf="hint" [hint]="hint"></app-wizard-sidebar-hint>
-<app-wizard-sidebar-warn *ngIf="warn" [warn]="warn"></app-wizard-sidebar-warn>
+@if (hint) {
+  <app-wizard-sidebar-hint [hint]="hint"></app-wizard-sidebar-hint>
+}
+@if (warn) {
+  <app-wizard-sidebar-warn [warn]="warn"></app-wizard-sidebar-warn>
+}
 
 <ng-content></ng-content>
 <div class="spacer"></div>
 
-<bc-checkbox
-  class="m-0 my-1 checkbox-break-text"
-  *ngFor="let check of checks; let index = index"
-  [disabled]="approveStateLoading || stepInfo.state.approved || !canApprove || stepInfo.contest.locked || !stepIsWithinContestDeadlines"
-  [checked]="stepInfo.state.approved || checkStates[index]"
-  (checkedChange)="updateChecked(index, $event)"
-  [label]="check | translate"
-  subscriptSizing="dynamic"
-></bc-checkbox>
+@for (check of checks; track check; let index = $index) {
+  <bc-checkbox
+    class="m-0 my-1 checkbox-break-text"
+    [disabled]="approveStateLoading || stepInfo.state.approved || !canApprove || stepInfo.contest.locked || !stepIsWithinContestDeadlines"
+    [checked]="stepInfo.state.approved || checkStates[index]"
+    (checkedChange)="updateChecked(index, $event)"
+    [label]="check | translate"
+    subscriptSizing="dynamic"
+  ></bc-checkbox>
+}
 
 <div class="mt-2">
-  <ng-container *ngIf="!approveStateLoading; else spinner">
-    <bc-button
-      *ngIf="showApprove"
-      (buttonClick)="stepInfo.state.approved = true; approve.emit()"
-      [disabled]="
-        !stepInfo.state.canApprove ||
-        stepInfo.contest.locked ||
-        !stepIsWithinContestDeadlines ||
-        !canApprove ||
-        stepInfo.state.approved ||
-        checkStates.length !== checks.length ||
-        !(checkStates | every)
-      "
-      [label]="'WIZARD.APPROVE_STEP' | translate"
-    ></bc-button>
-    <bc-button
-      *ngIf="
-        stepInfo.state.canRevert &&
-        stepInfo.state.approved &&
-        canRevert &&
-        !stepInfo.contest.locked &&
-        !stepInfo.contest.isPastPrintingCenterSignUpDeadline
-      "
-      variant="tertiary"
-      (buttonClick)="revertStep()"
-      [label]="'WIZARD.REVERT_STEP' | translate"
-    ></bc-button>
-  </ng-container>
+  @if (!approveStateLoading) {
+    @if (showApprove) {
+      <bc-button
+        (buttonClick)="stepInfo.state.approved = true; approve.emit()"
+        [disabled]="
+          !stepInfo.state.canApprove ||
+          stepInfo.contest.locked ||
+          !stepIsWithinContestDeadlines ||
+          !canApprove ||
+          stepInfo.state.approved ||
+          checkStates.length !== checks.length ||
+          !(checkStates | every)
+        "
+        [label]="'WIZARD.APPROVE_STEP' | translate"
+      ></bc-button>
+    }
+    @if (
+      stepInfo.state.canRevert &&
+      stepInfo.state.approved &&
+      canRevert &&
+      !stepInfo.contest.locked &&
+      !stepInfo.contest.isPastPrintingCenterSignUpDeadline
+    ) {
+      <bc-button variant="tertiary" (buttonClick)="revertStep()" [label]="'WIZARD.REVERT_STEP' | translate"></bc-button>
+    }
+  } @else {
+    <bc-spinner></bc-spinner>
+  }
 </div>
-
-<ng-template #spinner>
-  <bc-spinner></bc-spinner>
-</ng-template>

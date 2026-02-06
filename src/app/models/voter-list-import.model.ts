@@ -11,10 +11,7 @@ import { VoterDuplicate } from './voter.model';
 
 export { VoterListImportProto, VoterListImportVoterListResponseProto };
 
-export interface VoterListImportVoterListResponse
-  extends Omit<Required<VoterListImportVoterListResponseProto.AsObject>, 'voterDuplicates'> {
-  voterDuplicates: VoterDuplicate[];
-}
+export interface VoterListImportVoterListResponse extends Required<VoterListImportVoterListResponseProto.AsObject> {}
 
 export interface VoterListImport extends Omit<Required<VoterListImportProto.AsObject>, 'lastUpdate' | 'voterLists'> {
   lastUpdate: Date;
@@ -25,6 +22,12 @@ export interface VoterListImportResponse {
   importId: string;
   voterLists: VoterListImportVoterListResponse[];
   autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit: boolean;
+  error?: VoterListImportError;
+}
+
+export interface VoterListImportError {
+  voterDuplicates: VoterDuplicate[];
+  voterDuplicatesCount: number;
 }
 
 export function mapVoterListImport(proto: VoterListImportProto): VoterListImport {

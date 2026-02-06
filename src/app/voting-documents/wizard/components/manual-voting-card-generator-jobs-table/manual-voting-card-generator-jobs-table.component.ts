@@ -11,6 +11,7 @@ import { ManualVotingCardGeneratorJob } from '../../../../models/manual-voting-c
   selector: 'app-manual-voting-card-generator-jobs-table',
   templateUrl: './manual-voting-card-generator-jobs-table.component.html',
   styleUrls: ['./manual-voting-card-generator-jobs-table.component.scss'],
+  standalone: false,
 })
 export class ManualVotingCardGeneratorJobsTableComponent {
   @Input()

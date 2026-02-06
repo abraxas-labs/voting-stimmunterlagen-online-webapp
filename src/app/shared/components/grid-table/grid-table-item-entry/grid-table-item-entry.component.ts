@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-grid-table-item-entry',
   templateUrl: './grid-table-item-entry.component.html',
   styleUrls: ['./grid-table-item-entry.component.scss'],
+  standalone: false,
 })
 export class GridTableItemEntryComponent {
   @Input()

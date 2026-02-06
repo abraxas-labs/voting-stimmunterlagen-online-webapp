@@ -5,7 +5,7 @@
  */
 
 import { VotingCardType } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Contest } from '../../../../models/contest.model';
 import { DomainOfInfluenceVotingCardLayouts } from '../../../../models/domain-of-influence-voting-card-layout.model';
 import { Template } from '../../../../models/template.model';
@@ -20,8 +20,11 @@ import {
   selector: 'app-layout-voting-cards-domain-of-influence-table',
   templateUrl: './layout-voting-cards-domain-of-influence-table.component.html',
   styleUrls: ['./layout-voting-cards-domain-of-influence-table.component.scss'],
+  standalone: false,
 })
 export class LayoutVotingCardsDomainOfInfluenceTableComponent {
+  private readonly dialogService = inject(DialogService);
+
   public readonly colNameDoi = 'doiName';
   public readonly colNameVotingCardTemplateSuffix = 'Template';
   public readonly colNameVotingCardAllowCustomSuffix = 'AllowCustom';
@@ -38,8 +41,6 @@ export class LayoutVotingCardsDomainOfInfluenceTableComponent {
   public layoutGroups: DomainOfInfluenceVotingCardLayouts[] = [];
   public columns: string[] = [];
   public votingCardTypes: VotingCardType[] = [];
-
-  constructor(private readonly dialogService: DialogService) {}
 
   @Input()
   public set layouts(layouts: DomainOfInfluenceVotingCardLayouts[]) {
@@ -64,6 +65,7 @@ export class LayoutVotingCardsDomainOfInfluenceTableComponent {
         templates: this.templates,
         layouts: row,
         disabled: !!row.domainOfInfluence.generateVotingCardsTriggered,
+        isPoliticalAssembly: this.contest.isPoliticalAssembly,
       } as ManagerVotingCardLayoutDialogData,
       {
         minWidth: '70vw',

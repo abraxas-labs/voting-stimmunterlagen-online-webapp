@@ -10,6 +10,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
   selector: 'app-pdf-preview',
   templateUrl: './pdf-preview.component.html',
   styleUrls: ['./pdf-preview.component.scss'],
+  standalone: false,
 })
 export class PdfPreviewComponent implements OnDestroy {
   @Input()
@@ -31,7 +32,7 @@ export class PdfPreviewComponent implements OnDestroy {
       return;
     }
 
-    const blob = new Blob([d], { type: 'application/pdf' });
+    const blob = new Blob([new Uint8Array(d)], { type: 'application/pdf' });
     this.url = URL.createObjectURL(blob);
     this._data = d;
   }

@@ -149,15 +149,7 @@ function mapAttachmentsPbIdsToCheckablePbs(
 ): void {
   for (const attachmentCategorySummary of attachmentCategorySummaries) {
     for (const attachment of attachmentCategorySummary.attachments) {
-      attachment.checkablePoliticalBusinesses = new CheckableItems(
-        politicalBusinesses.map(pb => ({
-          checked: attachment.politicalBusinessIds.includes(pb.id),
-          item: pb,
-        })),
-        {
-          disabledWhenOnlyOneChecked: true,
-        },
-      );
+      mapAttachmentPbIdsToCheckablePbs(attachment, politicalBusinesses);
     }
   }
 }
@@ -174,4 +166,16 @@ export function mapToAttachmentTableEntries(summaries: AttachmentCategorySummary
   }
 
   return entries;
+}
+
+export function mapAttachmentPbIdsToCheckablePbs(attachment: Attachment, politicalBusinesses: PoliticalBusiness[]) {
+  attachment.checkablePoliticalBusinesses = new CheckableItems(
+    politicalBusinesses.map(pb => ({
+      checked: attachment.politicalBusinessIds.includes(pb.id),
+      item: pb,
+    })),
+    {
+      disabledWhenOnlyOneChecked: true,
+    },
+  );
 }

@@ -1,12 +1,15 @@
 <h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TITLE</h1>
 <div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
-  <app-layout-voting-cards-domain-of-influence-table
-    *ngIf="!loading && !!stepInfo; else spinner"
-    [layouts]="layouts"
-    [contest]="stepInfo.contest"
-    [readonly]="!canEdit"
-    [templates]="templates"
-  ></app-layout-voting-cards-domain-of-influence-table>
+  @if (!loading && !!stepInfo) {
+    <app-layout-voting-cards-domain-of-influence-table
+      [layouts]="layouts"
+      [contest]="stepInfo.contest"
+      [readonly]="!canEdit"
+      [templates]="templates"
+    ></app-layout-voting-cards-domain-of-influence-table>
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 </div>
 <app-wizard-sidebar
   class="layout-right"
@@ -20,7 +23,3 @@
   hint="STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.HINT"
 >
 </app-wizard-sidebar>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>

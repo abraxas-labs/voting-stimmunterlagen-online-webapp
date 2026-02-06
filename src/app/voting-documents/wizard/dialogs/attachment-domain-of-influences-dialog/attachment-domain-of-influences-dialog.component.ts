@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Attachment } from '../../../../models/attachment.model';
 import { CheckableItem } from '../../../../models/checkable-item.model';
@@ -17,8 +17,15 @@ import { ToastService } from '../../../../services/toast.service';
   selector: 'app-attachment-domain-of-influences-dialog',
   templateUrl: './attachment-domain-of-influences-dialog.component.html',
   styleUrls: ['./attachment-domain-of-influences-dialog.component.scss'],
+  standalone: false,
 })
 export class AttachmentDomainOfInfluencesDialogComponent implements OnInit {
+  public readonly data = inject<AttachmentDomainOfInfluencesDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<AttachmentDomainOfInfluencesDialogComponent>>(MatDialogRef);
+  private readonly attachmentService = inject(AttachmentService);
+  private readonly toast = inject(ToastService);
+  private readonly domainOfInfluenceService = inject(DomainOfInfluenceService);
+
   private readonly attachment: Attachment;
 
   public saving = false;
@@ -27,15 +34,8 @@ export class AttachmentDomainOfInfluencesDialogComponent implements OnInit {
 
   public readonly columns = ['name', 'approved'];
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<AttachmentDomainOfInfluencesDialogComponent>,
-    private readonly attachmentService: AttachmentService,
-    private readonly toast: ToastService,
-    private readonly domainOfInfluenceService: DomainOfInfluenceService,
-    public readonly cd: ChangeDetectorRef,
-    @Inject(MAT_DIALOG_DATA) public data: AttachmentDomainOfInfluencesDialogData,
-  ) {
-    this.attachment = data.attachment;
+  constructor() {
+    this.attachment = this.data.attachment;
   }
 
   public async ngOnInit(): Promise<void> {

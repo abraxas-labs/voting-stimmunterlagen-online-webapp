@@ -1,10 +1,17 @@
-<ng-container *ngIf="step === 1; else voterListsUpdateStep">
+@if (step === 1) {
   <ng-content></ng-content>
-</ng-container>
-<ng-template #voterListsUpdateStep>
-  <app-voter-lists-update-step
-    [voterLists]="voterListImport.voterLists"
-    [voterListSource]="voterListImport.source"
-    [autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit]="voterListImport.autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit"
-  ></app-voter-lists-update-step>
-</ng-template>
+} @else {
+  @if (!voterListImportError) {
+    <app-voter-lists-update-step
+      [voterLists]="voterListImport.voterLists"
+      [voterListSource]="voterListImport.source"
+      [autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit]="voterListImport.autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit"
+      [electoralRegisterMultipleEnabled]="electoralRegisterMultipleEnabled"
+    ></app-voter-lists-update-step>
+  } @else {
+    <app-voter-duplicate-table
+      [voterDuplicates]="voterListImportError?.voterDuplicates"
+      [voterDuplicatesCount]="voterListImportError?.voterDuplicatesCount"
+    ></app-voter-duplicate-table>
+  }
+}

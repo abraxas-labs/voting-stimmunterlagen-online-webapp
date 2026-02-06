@@ -1,45 +1,59 @@
 <div class="layout-left overflow-auto px-4">
   <h1 class="pb-1 pt-4" translate>STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.TITLE</h1>
-  <ng-container *ngIf="stepInfo && !loading; else spinner">
-    <div *ngFor="let layout of layouts">
-      <div class="mt-5 mb-1 title">
-        <h3 class="mb-1">{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h3>
-        <bc-spinner *ngIf="layout.loading"></bc-spinner>
-      </div>
+  @if (stepInfo && !loading) {
+    @for (layout of layouts; track layout) {
       <div>
-        <bc-dropdown
-          [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.DEFAULT' | translate"
-          [items]="templates"
-          displayExpr="name"
-          valueExpr="id"
-          [required]="true"
+        <div class="mt-5 mb-1 title">
+          <h3 class="mb-1">{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h3>
+          @if (layout.loading) {
+            <bc-spinner></bc-spinner>
+          }
+        </div>
+        <div>
+          <bc-dropdown
+            [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.DEFAULT' | translate"
+            [items]="templates"
+            displayExpr="name"
+            valueExpr="id"
+            [required]="true"
+            [disabled]="stepInfo.state.approved"
+            [ngModel]="layout.layout.template?.id"
+            (ngModelChange)="updateTemplate(layout, $event)"
+          ></bc-dropdown>
+        </div>
+        <div>
+          <bc-checkbox
+            [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.ALLOW_CUSTOM' | translate"
+            [disabled]="stepInfo.state.approved"
+            [ngModel]="layout.layout.allowCustom"
+            (ngModelChange)="updateAllowCustom(layout, $event)"
+            subscriptSizing="dynamic"
+          ></bc-checkbox>
+        </div>
+        <app-voting-card-layout-data-configuration-edit
           [disabled]="stepInfo.state.approved"
-          [ngModel]="layout.layout.template?.id"
-          (ngModelChange)="updateTemplate(layout, $event)"
-        ></bc-dropdown>
+          [configuration]="layout.layout.dataConfiguration"
+          [isStistat]="stepInfo.domainOfInfluence.stistatMunicipality"
+          [isPoliticalAssembly]="stepInfo.contest.isPoliticalAssembly"
+          (configurationChange)="updateDataConfiguration(layout, $event)"
+        ></app-voting-card-layout-data-configuration-edit>
       </div>
-      <div>
-        <bc-checkbox
-          [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.ALLOW_CUSTOM' | translate"
-          [disabled]="stepInfo.state.approved"
-          [ngModel]="layout.layout.allowCustom"
-          (ngModelChange)="updateAllowCustom(layout, $event)"
-          subscriptSizing="dynamic"
-        ></bc-checkbox>
-      </div>
-    </div>
-  </ng-container>
+    }
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 </div>
 <div class="layout-center">
-  <app-voting-card-preview
-    *ngIf="!loading"
-    [(selectedVotingCardType)]="previewVotingCardType"
-    (selectedVotingCardTypeChange)="updatePreview()"
-    [previewLoading]="previewLoading"
-    [previewData]="previewData"
-    [votingCardTypes]="votingCardTypes"
-  >
-  </app-voting-card-preview>
+  @if (!loading) {
+    <app-voting-card-preview
+      [(selectedVotingCardType)]="previewVotingCardType"
+      (selectedVotingCardTypeChange)="updatePreview()"
+      [previewLoading]="previewLoading"
+      [previewData]="previewData"
+      [votingCardTypes]="votingCardTypes"
+    >
+    </app-voting-card-preview>
+  }
 </div>
 
 <app-wizard-sidebar
@@ -54,7 +68,3 @@
   hint="STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.HINT"
 >
 </app-wizard-sidebar>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>

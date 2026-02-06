@@ -5,7 +5,7 @@
  */
 
 import { Contest as ContestProto, Contests as ContestsProto, ContestState } from '@abraxas/voting-stimmunterlagen-proto';
-import { toApiDate, toUTCDate } from '../services/utils/date.utils';
+import { addDays, newUTCDate, toApiDate } from '../services/utils/date.utils';
 import { DomainOfInfluence } from './domain-of-influence.model';
 
 export { ContestState };
@@ -18,6 +18,8 @@ export interface Contest
     | 'attachmentDeliveryDeadline'
     | 'printingCenterSignUpDeadline'
     | 'generateVotingCardsDeadline'
+    | 'electoralRegisterEVotingFrom'
+    | 'deliveryToPostDeadline'
     | 'approved'
   > {
   date: Date;
@@ -26,15 +28,27 @@ export interface Contest
   attachmentDeliveryDeadlineDate?: Date;
   printingCenterSignUpDeadlineDate?: Date;
   generateVotingCardsDeadlineDate?: Date;
+  electoralRegisterEVotingFromDate?: Date;
+  deliveryToPostDeadlineDate?: Date;
   locked: boolean;
   isPastPrintingCenterSignUpDeadline?: boolean;
   isPastGenerateVotingCardsDeadline?: boolean;
+  electoralRegisterEVotingActive?: boolean;
+}
+
+export interface CommunalContestDeadlinesCalculationResult {
+  attachmentDeliveryDeadlineDate?: Date;
+  printingCenterSignUpDeadlineDate?: Date;
+  generateVotingCardsDeadlineDate?: Date;
+  deliveryToPostDeadlineDate?: Date;
 }
 
 export function mapContest(contestProto: ContestProto): Contest {
   const attachmentDeliveryDeadline = contestProto.attachmentDeliveryDeadline?.toDate();
   const printingCenterSignUpDeadline = contestProto.printingCenterSignUpDeadline?.toDate();
   const generateVotingCardsDeadline = contestProto.generateVotingCardsDeadline?.toDate();
+  const electoralRegisterEVotingFrom = contestProto.electoralRegisterEVotingFrom?.toDate();
+  const deliveryToPostDeadline = contestProto.deliveryToPostDeadline?.toDate();
 
   let contest: Contest = {
     ...(<Required<ContestProto.AsObject>>contestProto.toObject()),
@@ -44,19 +58,16 @@ export function mapContest(contestProto: ContestProto): Contest {
     locked: contestProto.state === ContestState.CONTEST_STATE_PAST_LOCKED || contestProto.state === ContestState.CONTEST_STATE_ARCHIVED,
   };
 
-  if (!!printingCenterSignUpDeadline && !!attachmentDeliveryDeadline) {
-    const attachmentDeliveryDeadlineDate = new Date(attachmentDeliveryDeadline);
-    const printingCenterSignUpDeadlineDate = new Date(printingCenterSignUpDeadline);
-    toUTCDate(attachmentDeliveryDeadlineDate);
-    toUTCDate(printingCenterSignUpDeadlineDate);
-    contest.attachmentDeliveryDeadlineDate = attachmentDeliveryDeadlineDate;
-    contest.printingCenterSignUpDeadlineDate = printingCenterSignUpDeadlineDate;
-  }
+  contest.attachmentDeliveryDeadlineDate = newUTCDate(attachmentDeliveryDeadline);
+  contest.printingCenterSignUpDeadlineDate = newUTCDate(printingCenterSignUpDeadline);
+  contest.generateVotingCardsDeadlineDate = newUTCDate(generateVotingCardsDeadline);
+  contest.deliveryToPostDeadlineDate = newUTCDate(deliveryToPostDeadline);
 
-  if (!!generateVotingCardsDeadline) {
-    const generateVotingCardsDeadlinDate = new Date(generateVotingCardsDeadline);
-    toUTCDate(generateVotingCardsDeadlinDate);
-    contest.generateVotingCardsDeadlineDate = generateVotingCardsDeadlinDate;
+  // Adding 1 day is necessary for the UI, because the e-voting from excludes the current day, while deadlines include it.
+  // Ex: 26.03 from = 25.03 22:00Z, 26.03 deadline = 26.03 22:00Z.
+  contest.electoralRegisterEVotingFromDate = newUTCDate(electoralRegisterEVotingFrom);
+  if (contest.electoralRegisterEVotingFromDate) {
+    addDays(contest.electoralRegisterEVotingFromDate, 1);
   }
 
   refreshContestDeadlineStates(contest);
@@ -80,5 +91,15 @@ export function refreshContestDeadlineStates(contest: Contest): void {
     const generateVotingCardsDeadline = new Date(contest.generateVotingCardsDeadlineDate);
     toApiDate(generateVotingCardsDeadline);
     contest.isPastGenerateVotingCardsDeadline = generateVotingCardsDeadline < now;
+  }
+
+  if (!!contest.electoralRegisterEVotingFromDate) {
+    const electoralRegisterEVotingFrom = new Date(contest.electoralRegisterEVotingFromDate);
+    toApiDate(electoralRegisterEVotingFrom);
+
+    // Subtracting 1 day is necessary for the API, because the e-voting from excludes the current day, while deadlines include it.
+    // Ex: 26.03 from = 25.03 22:00Z, 26.03 deadline = 26.03 22:00Z.
+    addDays(electoralRegisterEVotingFrom, -1);
+    contest.electoralRegisterEVotingActive = electoralRegisterEVotingFrom < now;
   }
 }

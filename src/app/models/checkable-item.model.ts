@@ -19,8 +19,17 @@ export class CheckableItems<T> {
   private atLeastOneCheckedValue = false;
   private allCheckedValue = false;
 
+  // An all check is indirect, if it after a single check is changed, instead of all.
+  private indirectAllCheckedChange = false;
+
   public set allChecked(v: boolean) {
+    if (this.indirectAllCheckedChange) {
+      this.indirectAllCheckedChange = false;
+      return;
+    }
+
     this.items.forEach(i => (i.checked = v));
+    this.allCheckedValue = v;
     this.refreshState();
   }
 
@@ -47,8 +56,13 @@ export class CheckableItems<T> {
 
   public refreshState(): void {
     const checkedItems = this.items.filter(i => i.checked);
+    const newAllChecked = this.items.length === checkedItems.length;
 
-    this.allCheckedValue = this.items.length === checkedItems.length;
+    if (newAllChecked !== this.allCheckedValue) {
+      this.indirectAllCheckedChange = true;
+    }
+
+    this.allCheckedValue = newAllChecked;
 
     if (checkedItems.length === 0) {
       this.atLeastOneCheckedValue = false;

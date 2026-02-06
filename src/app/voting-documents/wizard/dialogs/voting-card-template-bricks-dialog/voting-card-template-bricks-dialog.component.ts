@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TemplateBrick } from '../../../../models/template.model';
 import { DialogService } from '../../../../services/dialog.service';
@@ -18,8 +18,13 @@ import {
   selector: 'app-voting-card-template-bricks-dialog',
   templateUrl: './voting-card-template-bricks-dialog.component.html',
   styleUrls: ['./voting-card-template-bricks-dialog.component.scss'],
+  standalone: false,
 })
 export class VotingCardTemplateBricksDialogComponent implements OnInit {
+  private readonly brickService = inject(DomainOfInfluenceVotingCardBrickService);
+  private readonly dialog = inject<MatDialogRef<VotingCardTemplateBricksDialogComponent>>(MatDialogRef);
+  private readonly dialogService = inject(DialogService);
+
   public loading = true;
   public saving = false;
   public bricks: TemplateBrick[] = [];
@@ -27,12 +32,9 @@ export class VotingCardTemplateBricksDialogComponent implements OnInit {
 
   private readonly templateId: number;
 
-  constructor(
-    private readonly brickService: DomainOfInfluenceVotingCardBrickService,
-    private readonly dialog: MatDialogRef<VotingCardTemplateBricksDialogComponent>,
-    private readonly dialogService: DialogService,
-    @Inject(MAT_DIALOG_DATA) data: VotingCardTemplateBricksDialogData,
-  ) {
+  constructor() {
+    const data = inject<VotingCardTemplateBricksDialogData>(MAT_DIALOG_DATA);
+
     this.templateId = data.templateId;
   }
 

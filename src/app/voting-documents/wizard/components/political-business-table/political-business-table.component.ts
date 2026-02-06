@@ -11,6 +11,7 @@ import { PoliticalBusiness } from '../../../../models/political-business.model';
   selector: 'app-political-business-table',
   templateUrl: './political-business-table.component.html',
   styleUrls: ['./political-business-table.component.scss'],
+  standalone: false,
 })
 export class PoliticalBusinessTableComponent {
   @Input()

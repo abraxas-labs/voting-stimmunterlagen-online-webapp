@@ -4,22 +4,14 @@
  * For license information see LICENSE file.
  */
 
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ToastService } from '../../../../services/toast.service';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ElectoralRegisterService } from '../../../../services/electoral-register.service';
 import { ElectoralRegisterFilter, ElectoralRegisterFilterMetadata, ElectoralRegisterFilterVersion } from '../../../../models/filter.model';
 import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER } from '@angular/material/autocomplete';
 import { MAT_SELECT_SCROLL_STRATEGY_PROVIDER } from '@angular/material/select';
 import { fromBcDate, toBcDate } from '../../../../services/utils/date.utils';
-import { VoterListImportService } from '../../../../services/voter-list-import.service';
-import { VoterListService } from '../../../../services/voter-list.service';
 import { mapVoterListImportResponseToImport } from '../../../../services/utils/voter-list.utils';
-import {
-  VoterListImportEditDialogBaseComponent,
-  VoterListImportEditDialogData,
-  VoterListImportEditDialogResult,
-} from '../voter-list-import-edit-dialog-base/voter-list-import-edit-dialog-base.component';
+import { VoterListImportEditDialogBaseComponent } from '../voter-list-import-edit-dialog-base/voter-list-import-edit-dialog-base.component';
 
 const filterVersionsCount = 3;
 
@@ -28,11 +20,15 @@ const filterVersionsCount = 3;
   templateUrl: './voter-list-electoral-register-edit-dialog.component.html',
   styleUrls: ['./voter-list-electoral-register-edit-dialog.component.scss'],
   providers: [MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER, MAT_SELECT_SCROLL_STRATEGY_PROVIDER],
+  standalone: false,
 })
 export class VoterListElectoralRegisterEditDialogComponent
   extends VoterListImportEditDialogBaseComponent<VoterListElectoralRegisterEditDialogComponent>
   implements OnInit
 {
+  private readonly electoralRegisterService = inject(ElectoralRegisterService);
+  private readonly cd = inject(ChangeDetectorRef);
+
   public selectedFilter?: ElectoralRegisterFilter;
   public selectedFilterVersion?: ElectoralRegisterFilterVersion;
   public filters?: ElectoralRegisterFilter[];
@@ -44,16 +40,8 @@ export class VoterListElectoralRegisterEditDialogComponent
   public newFilterVersionMetadataLoading = false;
   public loading = true;
 
-  constructor(
-    dialogRef: MatDialogRef<VoterListElectoralRegisterEditDialogComponent, VoterListImportEditDialogResult>,
-    voterListImportService: VoterListImportService,
-    toast: ToastService,
-    private readonly electoralRegisterService: ElectoralRegisterService,
-    voterListService: VoterListService,
-    private readonly cd: ChangeDetectorRef,
-    @Inject(MAT_DIALOG_DATA) data: VoterListImportEditDialogData,
-  ) {
-    super(dialogRef, toast, voterListService, voterListImportService, data);
+  constructor() {
+    super();
   }
 
   public async ngOnInit(): Promise<void> {
@@ -72,6 +60,21 @@ export class VoterListElectoralRegisterEditDialogComponent
     } finally {
       this.loading = false;
     }
+  }
+
+  public get canSave(): boolean {
+    if (this.step === 1) {
+      return (
+        (!this.createNewVersion && !!this.voterListImport.sourceId) ||
+        (this.createNewVersion && !!this.newFilterVersionName && !!this.newFilterVersionDeadline)
+      );
+    }
+
+    if (this.voterListImportError) {
+      return false;
+    }
+
+    return this.voterListImport.voterLists.every(vl => vl.checkablePoliticalBusinesses.atLeastOneChecked || this.isPoliticalAssembly);
   }
 
   public async saveFirstStep(): Promise<void> {
@@ -171,7 +174,12 @@ export class VoterListElectoralRegisterEditDialogComponent
 
     const response = !this.isNew
       ? await this.electoralRegisterService.updateVoterListImportWithNewFilterVersion(this.voterListImport.id, params)
-      : await this.electoralRegisterService.createVoterListImportWithNewFilterVersion(this.data.domainOfInfluenceId, params);
+      : await this.electoralRegisterService.createVoterListImportWithNewFilterVersion(this.data.domainOfInfluence.id, params);
+
+    if (response.error) {
+      this.voterListImportError = response.error;
+      return;
+    }
 
     this.voterListImport.id = response.importId;
     this.voterListImport.sourceId = response.filterVersionId;

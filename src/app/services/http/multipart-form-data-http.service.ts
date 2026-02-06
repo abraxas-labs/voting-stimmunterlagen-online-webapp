@@ -5,14 +5,14 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MultipartFormDataHttpService {
-  constructor(private readonly http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   public async post<TData, TResponse>(url: string, data: TData, file?: File): Promise<TResponse> {
     return firstValueFrom(this.http.post<TResponse>(url, this.buildFormData(data, file)));

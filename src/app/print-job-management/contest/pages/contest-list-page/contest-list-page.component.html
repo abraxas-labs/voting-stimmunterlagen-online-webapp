@@ -3,14 +3,21 @@
     <h1>{{ 'CONTEST.LIST_TITLE' | translate }}</h1>
   </div>
   <div class="layout-content layout-center overflow-auto">
-    <ng-container *ngIf="!loading; else spinner">
-      <app-contest-table [contests]="contests" [displayDomainOfInfluenceDetails]="true" (openDetail)="open($event)"></app-contest-table>
+    @if (!loading) {
+      <app-contest-table
+        [tableData]="contests"
+        [displayDomainOfInfluenceDetails]="true"
+        [defaultSorting]="sorting"
+        (openDetail)="open($event)"
+      ></app-contest-table>
       <h2 class="mt-5">{{ 'CONTEST.LIST_TITLE_PAST' | translate }}</h2>
-      <app-contest-table [contests]="pastContests" [displayDomainOfInfluenceDetails]="true" (openDetail)="open($event)"></app-contest-table>
-    </ng-container>
-
-    <ng-template #spinner>
+      <app-contest-table
+        [tableData]="pastContests"
+        [displayDomainOfInfluenceDetails]="true"
+        (openDetail)="open($event)"
+      ></app-contest-table>
+    } @else {
       <bc-spinner size="large"></bc-spinner>
-    </ng-template>
+    }
   </div>
 </div>

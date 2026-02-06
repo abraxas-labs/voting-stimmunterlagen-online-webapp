@@ -54,6 +54,8 @@
     "CHOOSE_DOMAIN_OF_INFLUENCE": "Einflussbereich auswählen",
     "PRINTING_CENTER_SIGNUP_DEADLINE": "Frist Auftragserteilung Produktionszentrum",
     "PRINTING_CENTER_SIGNUP_DEADLINE_SHORT": "Frist Anmeldung DVZ",
+    "ELECTORAL_REGISTER_E_VOTING_FROM": "Frühester Abzug Stimmregister E-Voting",
+    "DELIVERY_TO_POST_DEADLINE": "Postaufgabedatum",
     "AUTHORITY_NAME": "Kunde",
     "DOMAIN_OF_INFLUENCE_NAME": "Einflussbereich",
     "ATTACHMENT_DELIVERY_DEADLINE": "Frist Lieferung Beilagen",
@@ -63,6 +65,13 @@
     "PRINTING_CENTER_SIGN_UP_DEADLINE_DIALOG": {
       "TITLE": "Gut zum Druck zurücksetzen",
       "PRINT_JOBS": "Druckaufträge"
+    },
+    "COMMUNAL_DEADLINES_HINT": "Sofern die Fristen nicht eingehalten werden können, nehmen Sie bitte Kontakt mit voting@abraxas.ch auf",
+    "INVALID_STANDARD_COMMUNAL_DEADLINES_HINT": "Die Standardfristen können bei diesem Postaufgabedatum nicht eingehalten werden. Bitte melden Sie sich bei voting@abraxas.ch, um die Fristen zu definieren. Erst nach der Anpassung der Fristen durch Abraxas kann weitergearbeitet werden.",
+    "TYPE": {
+      "TITLE": "Typ",
+      "CONTEST": "Urnengang",
+      "POLITICAL_ASSEMBLY": "Versammlung"
     }
   },
   "POLITICAL_BUSINESS": {
@@ -294,7 +303,10 @@
     },
     "SELECTION": {
       "TITLE": "Import auswählen"
-    }
+    },
+    "ERROR": "Fehlerhafter Import",
+    "HAS_VOTER_DUPLICATES": "Im Stimmregister sind Duplikate enthalten. Bitte bereinigen Sie folgende Personen in der Einwohnerkontrolllösung oder nehmen sie Kontakt mit voting@abraxas.ch auf.",
+    "HAS_VOTER_DUPLICATES_COUNT": "Im Stimmregister sind {{count}} Duplikate vorhanden. Bitte Kontrollieren Sie die Stimmregister und nehmen sie allfällige Anpassungen in der Einwohnerlösung vor."
   },
   "VOTER_LIST": {
     "TITLE": "Stimmregister",
@@ -304,11 +316,18 @@
     "POLITICAL_BUSINESSES": "Geschäfte {{name}}",
     "SELECT_ALL": "alle",
     "NUMBER_OF_VOTERS": "Anzahl Stimmberechtigte",
-    "COUNT_OF_SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS": "davon nicht zustellen",
+    "COUNT_OF_VOTING_CARDS": "Anzahl zu generierende Stimmrechtsausweise",
+    "COUNT_OF_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS": "davon nicht zustellen",
     "SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS": "Nicht zustellen",
     "SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS_HINT": "Die Stimmrechtsausweise vom Typ \"Nicht zustellen\" werden an die in VOTING Basis hinterlegte Rücksendeadresse adressiert.",
     "NO_DATA": "Keine Stimmregister erfasst",
-    "HAS_VOTER_DUPLICATES_WARNING": "Folgende Personen kommen in diesem Stimmregister-Typ mehrfach vor.\nBitte bereinigen Sie diese wenn nötig im Quellsystem und führen Sie den Schritt \"Stimmregister abrufen\" erneut durch."
+    "SET_COUNT_OF_EMPTY_VOTING_CARDS": "Leere Stimmrechtsausweise bestellen",
+    "EMPTY_VOTING_CARDS": {
+      "VOTER_LIST_NAME": "Leere SRA",
+      "TITLE": "Leere Stimmrechtsausweise bestellen",
+      "DESCRIPTION": "Leere Stimmrechtsausweise werden gedruckt und mit den \"Nicht zustellen\" an die Gemeinde zugestellt.",
+      "COUNT": "Anzahl leere Stimmrechtsausweise"
+    }
   },
   "VOTING_CARD": {
     "TITLE": "Stimmrechtsausweise"
@@ -324,7 +343,10 @@
   },
   "VOTING_CARD_SORTS": {
     "1": "Strasse",
-    "2": "Name"
+    "2": "Name",
+    "3": "Ort",
+    "4": "Religion",
+    "5": "Haushaltsvorstand"
   },
   "VOTING_CARD_SHIPPING_FRANKING": {
     "1": "B1 Post",
@@ -357,7 +379,11 @@
     "ZIP_FOREIGNER": "PLZ",
     "LANGUAGE_OF_CORRESPONDENCE": "Korrespondenzsprache",
     "PERSON_ID": "Personen-ID",
-    "DATE_OF_BIRTH": "Geburtsdatum"
+    "DATE_OF_BIRTH": "Geburtsdatum",
+    "RELIGION": "Konfession",
+    "HOUSEHOLD": "Haushaltsvorstand",
+    "DOMAIN_OF_INFLUENCES_CHURCH": "Kirchkreis(e)",
+    "DOMAIN_OF_INFLUENCES_SCHOOL": "Schulkreis(e)"
   },
   "SALUTATIONS": {
     "1": "Frau",
@@ -374,6 +400,14 @@
     "fr": "Französisch",
     "it": "Italienisch",
     "rm": "Romanisch"
+  },
+  "RELIGIONS": {
+    "0": "",
+    "1": "X - andere oder unbekannte Konfession",
+    "2": "E - evangelisch-reformiert",
+    "3": "K - römisch-katholisch",
+    "4": "E WR - evangelische Ausländer & Minderjährige",
+    "5": "K WR - katholische Ausländer & Minderjährige"
   },
   "VOTING_CARD_GENERATOR_JOB": {
     "FILE_NAME": "Datei",
@@ -404,15 +438,18 @@
     "JOBS": "Stimmausweise",
     "CREATED": "Generiert am",
     "CREATED_BY": "Generiert von",
-    "VOTER": "Stimmberechtigte/r"
+    "VOTER": "Stimmberechtigte/r",
+    "EMPTY_VOTING_CARD": "Leerer Stimmrechtsausweis",
+    "EMPTY": "Leer"
   },
   "E_VOTING": {
     "DOMAIN_OF_INFLUENCE": {
       "READY": "Status",
       "NAME": "Bezeichnung",
+      "BFS": "BFS-Nr.",
       "PARENT_POLITICAL_BUSINESSES_COUNT": "Geschäfte auf übergeordneten Wahlkreisen",
       "OWN_POLITICAL_BUSINESSES_COUNT": "Eigene Geschäfte",
-      "NUMBER_OF_E_VOTERS": "Total betroffener E-Voter"
+      "COUNT_OF_VOTING_CARDS_FOR_E_VOTERS": "Total betroffener E-Voter"
     },
     "EXPORT_DOMAIN_OF_INFLUENCE": {
       "NAME": "Bezeichnung (Gemeinde)",
@@ -421,12 +458,20 @@
     },
     "ATTACHMENT_STATIONS_NOT_SET": "Achtung: Aktuell sind noch nicht alle relevanten Beilagenstationen gesetzt. Wird der Export jetzt generiert, werden nur die bereits gesetzten Beilagenstationen berücksichtigt."
   },
+  "ECH_0045": {
+    "VERSION": "eCH-0045 Version",
+    "VERSIONS": {
+      "1": "V4.0",
+      "2": "V4.2"
+    }
+  },
   "INVOICE": {
     "EXPORT": "Exportieren"
   },
   "VOTING_JOURNAL": {
     "EXPORT": "Exportieren",
     "EXPORT_SUCCESS": "Export erfolgreich generiert",
+    "AGGREGATED_VOTER_LIST_NAME": "Gesamtexport",
     "VOTING_STATISTICS": {
       "TITLE": "Abstimmungs Statistik"
     },
@@ -549,10 +594,10 @@
     "TITLE": "Stimmregister",
     "HINT": "Die Stimmregister-Dateien müssen aus der Einwohnerkontroll-Lösung exportiert und hochgeladen werden. Um möglichst aktuelle Stimmunterlagen zu erzeugen, sollten die Daten möglichst zeitnah zur Erteilung des Druckauftrags erstellt werden.",
     "HINT_ELECTORAL_REGISTRATION": "Der Stimmregisterabzug kann direkt über die automatische Schnittstelle getätigt werden.",
+    "HINT_ELECTORAL_REGISTRATION_E_VOTING_DISABLED": "Der Stimmregisterabruf ist erst ab dem {{electoralRegisterEVotingFromDate}} möglich. Bitte beachten Sie, dass das Gut zum Druck anschliessend bis zum {{generateVotingCardsDeadlineDate}} erteilt werden muss.",
     "CHECK": "Die Stimmregister-Dateien sind vollständig und korrekt hochgeladen",
     "CHECK_ELECTORAL_REGISTRATION": "Das Stimmregister ist vollständig und korrekt importiert",
-    "ATTACHMENTS_WARN": "Die Anzahl der benötigten Beilagen ist grösser als die bestellte Menge!",
-    "HAS_VOTER_DUPLICATES_WARN": "Die Stimmregister-Dateien dürfen keine Duplikate beinhalten"
+    "ATTACHMENTS_WARN": "Die Anzahl der benötigten Beilagen ist grösser als die bestellte Menge!"
   },
   "STEP_GENERATE_VOTING_CARDS": {
     "TITLE": "Generierung SRA",
@@ -564,7 +609,10 @@
     "HINT": "Um Stichproben der Stimmrechtsausweise generieren zu können, müssen Sie zuerst die Stimmregister hochgeladen haben. Bitte prüfen Sie nach der Generierung der Stichproben, ob diese korrekt sind. Beachten Sie dabei insbesondere das Datum, Umlaute und Textbausteine. Mit der Erledigung dieses Schritts wird das Gut zum Druck erteilt.",
     "SHIPPING_AWAY": "Versand Hinweg",
     "SHIPPING_RETURN": "Versand Rückweg",
-    "SHIPPING_METHOD": "Versandart"
+    "SHIPPING_METHOD": "Versandart",
+    "E_VOTING_NOT_APPROVED_WARN": "Bevor das Gut zum Druck erteilt werden kann, müssen alle Geschäfte in VOTING Basis für E-Voting freigegeben werden",
+    "CONFIRM_TITLE": "Bestätigung Druckauftrag",
+    "CONFIRM_MESSAGE": "Bitte beachten Sie, dass der Druckauftrag genau wie in der hier angezeigten Vorschau ausgeführt wird. Es findet keine zusätzliche Qualitätskontrolle statt. Überprüfen Sie die Bestellung sorgfältig, bevor Sie fortfahren. Mit \"OK\" erteilen Sie das finale Gut zum Druck und bestätigen, dass eine Überprüfung der Bestellung stattgefunden hat."
   },
   "STEP_E_VOTING": {
     "TITLE": "E-Voting",
@@ -609,6 +657,17 @@
         "2": "Rechnungen",
         "3": "Stimmregister"
       }
+    }
+  },
+  "VOTING_CARD_LAYOUT": {
+    "DATA_CONFIGURATION": {
+      "TITLE": "Aufdruckparameter",
+      "INCLUDE_PERSON_ID": "Personennummer",
+      "INCLUDE_DATE_OF_BIRTH": "Geburtsdatum",
+      "INCLUDE_RELIGION": "Konfession",
+      "INCLUDE_IS_HOUSEHOLDER": "Stellung im Haushalt",
+      "INCLUDE_DOMAIN_OF_INFLUENCE_CHURCH": "Kirchkreis(e)",
+      "INCLUDE_DOMAIN_OF_INFLUENCE_SCHOOL": "Schulkreis(e)"
     }
   },
   "E_VOTING_EXPORT_JOB": {

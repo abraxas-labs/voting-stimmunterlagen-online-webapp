@@ -5,16 +5,20 @@
  */
 
 import { AuthenticationService } from '@abraxas/base-components';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IamService {
+  private readonly auth = inject(AuthenticationService);
+
   private user?: User;
 
-  constructor(private readonly auth: AuthenticationService) {
+  constructor() {
+    const auth = this.auth;
+
     auth.authenticationChanged.subscribe(() => delete this.user);
   }
 

@@ -1,12 +1,11 @@
 <app-attachment-filter (filterChange)="loadAttachments($event)"></app-attachment-filter>
 
-<ng-container *ngIf="!loading; else spinner">
+@if (!loading) {
   <app-contest-overview-attachment-table
+    [contest]="contest"
     [entries]="attachmentTableEntries"
     [forPrintJobManagement]="forPrintJobManagement"
   ></app-contest-overview-attachment-table>
-</ng-container>
-
-<ng-template #spinner>
+} @else {
   <bc-spinner size="large"></bc-spinner>
-</ng-template>
+}

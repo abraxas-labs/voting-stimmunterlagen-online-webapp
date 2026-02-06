@@ -14,48 +14,68 @@
   subscriptSizing="dynamic"
 ></bc-radio-button-group>
 
-<div *ngFor="let item of votingCardConfiguration.votingCardGroups; let index = index">
-  <div class="group-sort-container">
-    <bc-dropdown
-      [label]="'VOTING_CARD_CONFIGURATION.GROUP' | translate: { number: index + 1 }"
-      [items]="votingCardGroups"
-      [value]="item"
-      (valueChange)="groupChanged($event, index)"
-      [error]="groupErrors[index]"
-      valueExpr="value"
-      displayExpr="description"
-    ></bc-dropdown>
-    <bc-icon class="trash ml-2" [icon]="'trash'" (click)="removeGroup(index); $event.preventDefault(); $event.stopPropagation()"></bc-icon>
+@for (item of votingCardConfiguration.votingCardGroups; track item; let index = $index) {
+  <div>
+    <div class="group-sort-container">
+      <bc-dropdown
+        [label]="'VOTING_CARD_CONFIGURATION.GROUP' | translate: { number: index + 1 }"
+        [items]="votingCardGroups"
+        [value]="item"
+        (valueChange)="groupChanged($event, index)"
+        [disabled]="!canEdit"
+        [error]="groupErrors[index]"
+        valueExpr="value"
+        displayExpr="description"
+      ></bc-dropdown>
+      @if (canEdit) {
+        <bc-icon
+          class="trash ml-2"
+          [icon]="'trash'"
+          (click)="removeGroup(index); $event.preventDefault(); $event.stopPropagation()"
+        ></bc-icon>
+      }
+    </div>
   </div>
-</div>
+}
 
-<bc-button
-  *ngIf="canEdit && votingCardConfiguration.votingCardGroups.length < votingCardGroups.length"
-  (buttonClick)="addGroup()"
-  variant="tertiary"
-  class="mb-3 block"
-  [label]="'VOTING_CARD_CONFIGURATION.ADD_GROUP' | translate"
-></bc-button>
+@if (canEdit && votingCardConfiguration.votingCardGroups.length < votingCardGroups.length) {
+  <bc-button
+    (buttonClick)="addGroup()"
+    variant="tertiary"
+    class="mb-3 block"
+    [label]="'VOTING_CARD_CONFIGURATION.ADD_GROUP' | translate"
+  ></bc-button>
+}
 
-<div *ngFor="let item of votingCardConfiguration.votingCardSorts; let index = index">
-  <div class="group-sort-container">
-    <bc-dropdown
-      [label]="'VOTING_CARD_CONFIGURATION.SORT' | translate: { number: index + 1 }"
-      [items]="votingCardSorts"
-      [value]="item"
-      (valueChange)="sortChanged($event, index)"
-      [error]="sortErrors[index]"
-      valueExpr="value"
-      displayExpr="description"
-    ></bc-dropdown>
-    <bc-icon class="trash ml-2" [icon]="'trash'" (click)="removeSort(index); $event.preventDefault(); $event.stopPropagation()"></bc-icon>
+@for (item of votingCardConfiguration.votingCardSorts; track item; let index = $index) {
+  <div>
+    <div class="group-sort-container">
+      <bc-dropdown
+        [label]="'VOTING_CARD_CONFIGURATION.SORT' | translate: { number: index + 1 }"
+        [items]="votingCardSorts"
+        [value]="item"
+        (valueChange)="sortChanged($event, index)"
+        [disabled]="!canEdit"
+        [error]="sortErrors[index]"
+        valueExpr="value"
+        displayExpr="description"
+      ></bc-dropdown>
+      @if (canEdit) {
+        <bc-icon
+          class="trash ml-2"
+          [icon]="'trash'"
+          (click)="removeSort(index); $event.preventDefault(); $event.stopPropagation()"
+        ></bc-icon>
+      }
+    </div>
   </div>
-</div>
+}
 
-<bc-button
-  *ngIf="canEdit && votingCardConfiguration.votingCardSorts.length < votingCardSorts.length"
-  (buttonClick)="addSort()"
-  variant="tertiary"
-  class="mb-3 ml-0 block"
-  [label]="'VOTING_CARD_CONFIGURATION.ADD_SORT' | translate"
-></bc-button>
+@if (canEdit && votingCardConfiguration.votingCardSorts.length < votingCardSorts.length) {
+  <bc-button
+    (buttonClick)="addSort()"
+    variant="tertiary"
+    class="mb-3 ml-0 block"
+    [label]="'VOTING_CARD_CONFIGURATION.ADD_SORT' | translate"
+  ></bc-button>
+}

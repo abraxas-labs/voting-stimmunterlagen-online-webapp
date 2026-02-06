@@ -9,7 +9,7 @@ import {
   ListVotingCardPrintFileExportJobsRequest,
   VotingCardPrintFileExportJobServiceClient,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { VotingCardPrintFileExportJob } from '../models/voting-card-print-file-export-job.model';
 
@@ -17,7 +17,7 @@ import { VotingCardPrintFileExportJob } from '../models/voting-card-print-file-e
   providedIn: 'root',
 })
 export class VotingCardPrintFileExportJobService {
-  constructor(private readonly client: VotingCardPrintFileExportJobServiceClient) {}
+  private readonly client = inject(VotingCardPrintFileExportJobServiceClient);
 
   public async retry(domainOfInfluenceId: string): Promise<void> {
     await firstValueFrom(this.client.retry(new RetryVotingCardPrintFileExportJobsRequest({ domainOfInfluenceId })));

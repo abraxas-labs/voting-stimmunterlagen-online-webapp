@@ -8,8 +8,10 @@ import {
   GetContestEVotingExportJobRequest,
   RetryContestEVotingExportJobRequest,
   ContestEVotingExportJobServiceClient,
+  Ech0045Version,
+  UpdateAndResetContestEVotingExportJobRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ContestEVotingExportJob } from '../models/e-voting-export-job.model';
 import { firstValueFrom } from 'rxjs';
 
@@ -17,7 +19,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class ContestEVotingExportJobService {
-  constructor(private readonly client: ContestEVotingExportJobServiceClient) {}
+  private readonly client = inject(ContestEVotingExportJobServiceClient);
 
   public async retryJob(contestId: string): Promise<void> {
     await firstValueFrom(this.client.retryJob(new RetryContestEVotingExportJobRequest({ contestId })));
@@ -27,5 +29,9 @@ export class ContestEVotingExportJobService {
     return await firstValueFrom(this.client.getJob(new GetContestEVotingExportJobRequest({ contestId }))).then(
       x => x.toObject() as ContestEVotingExportJob,
     );
+  }
+
+  public async updateAndResetJob(contestId: string, ech0045Version: Ech0045Version): Promise<void> {
+    await firstValueFrom(this.client.updateAndResetJob(new UpdateAndResetContestEVotingExportJobRequest({ contestId, ech0045Version })));
   }
 }

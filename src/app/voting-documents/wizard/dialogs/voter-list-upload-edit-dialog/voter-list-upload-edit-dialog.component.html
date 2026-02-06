@@ -1,8 +1,13 @@
 <app-dialog>
-  <h1 header>{{ 'VOTER_LIST_IMPORT.UPLOAD_ECH_TITLE.STEP_' + step | translate }}</h1>
+  <h1 header>{{ (!voterListImportError ? 'VOTER_LIST_IMPORT.UPLOAD_ECH_TITLE.STEP_' + step : 'VOTER_LIST_IMPORT.ERROR') | translate }}</h1>
 
   <div content class="m-2">
-    <app-voter-list-import-edit-form [voterListImport]="voterListImport" [(step)]="step">
+    <app-voter-list-import-edit-form
+      [voterListImport]="voterListImport"
+      [(step)]="step"
+      [voterListImportError]="voterListImportError"
+      [electoralRegisterMultipleEnabled]="data.domainOfInfluence.electoralRegisterMultipleEnabled"
+    >
       <bc-text
         [label]="'VOTER_LIST_IMPORT.NAME' | translate"
         name="name"
@@ -16,7 +21,8 @@
         [multiple]="false"
         class="my-3"
         [label]="'VOTER_LIST_IMPORT.CHOOSE_FILE' | translate"
-        (valueChange)="file = $event[0]"
+        [maxFileSize]="maxUploadFileSize"
+        (valueChange)="file = $event[0].file"
       ></bc-file-input>
 
       <bc-date
@@ -37,10 +43,13 @@
       deleteConfirmLabel="VOTER_LIST_IMPORT.DELETE_CONFIRM"
       [saving]="saving"
       [deleting]="deleting"
-      [canSave]="!!voterListImport.name && validLastUpdate && (!isNew || !!file)"
+      [canSave]="canSave"
       [hasDeleteButton]="!isNew && step === 1"
-      [hasCancelButton]="step === 1"
+      [hasCancelButton]="
+        step === 1 || voterListImportError || (!voterListImportError && data.domainOfInfluence.electoralRegisterMultipleEnabled)
+      "
       (save)="save()"
+      [hasSaveButton]="!voterListImportError"
       [savingLabel]="step === 1 && !!file ? 'VOTER_LIST_IMPORT.IMPORTING' : ''"
       (delete)="delete()"
       (cancelEvent)="cancel()"

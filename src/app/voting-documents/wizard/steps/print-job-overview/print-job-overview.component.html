@@ -1,43 +1,44 @@
 <h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_PRINT_JOB_OVERVIEW.TITLE</h1>
 <div class="layout-content layout-center overflow-auto pr-3">
-  <ng-container *ngIf="!loading; else spinner">
-    <div *ngIf="jobs.length > 0">
-      <div class="header mb-1 mt-4">
-        <p class="mr-2" translate>STEP_PRINT_JOB_OVERVIEW.TITLE_VC</p>
-        <bc-icon *ngIf="!loadingJobs; else refreshSpinner" icon="refresh" (click)="loadJobs()"></bc-icon>
+  @if (!loading) {
+    @if (jobs.length > 0) {
+      <div>
+        <div class="header mb-1 mt-4">
+          <p class="mr-2" translate>STEP_PRINT_JOB_OVERVIEW.TITLE_VC</p>
+          @if (!loadingJobs) {
+            <bc-icon icon="refresh" (click)="loadJobs()"></bc-icon>
+          } @else {
+            <bc-spinner type="arrow-circle"></bc-spinner>
+          }
+        </div>
+        <app-voting-card-generator-job-table [jobs]="jobs"></app-voting-card-generator-job-table>
+        <div class="buttons">
+          @if (hasFailedJobs && canEdit) {
+            <bc-button
+              variant="tertiary"
+              [disabled]="retrying"
+              (buttonClick)="retryJobs()"
+              [label]="'STEP_PRINT_JOB_OVERVIEW.RETRY_FAILED' | translate"
+            ></bc-button>
+          }
+          @if (retrying) {
+            <bc-spinner class="ml-1"></bc-spinner>
+          }
+        </div>
       </div>
-      <app-voting-card-generator-job-table [jobs]="jobs"></app-voting-card-generator-job-table>
-      <div class="buttons">
-        <bc-button
-          *ngIf="hasFailedJobs && canEdit"
-          variant="tertiary"
-          [disabled]="retrying"
-          (buttonClick)="retryJobs()"
-          [label]="'STEP_PRINT_JOB_OVERVIEW.RETRY_FAILED' | translate"
-        ></bc-button>
-        <bc-spinner class="ml-1" *ngIf="retrying"></bc-spinner>
+    }
+    @if (!externalPrintingCenter && !!stepInfo) {
+      <div>
+        <div class="header mb-1 mt-4">
+          <p class="mr-2" translate>ATTACHMENT.TITLE</p>
+        </div>
+        <app-attachment-info-table class="mb-4" [entries]="attachmentTableEntries" [contest]="stepInfo.contest"></app-attachment-info-table>
       </div>
-    </div>
-    <div *ngIf="!externalPrintingCenter">
-      <div class="header mb-1 mt-4">
-        <p class="mr-2" translate>ATTACHMENT.TITLE</p>
-      </div>
-      <app-attachment-info-table
-        class="mb-4"
-        [entries]="attachmentTableEntries"
-        [hideRequiredCount]="stepInfo && stepInfo.contest && stepInfo.contest.isSingleAttendeeContest"
-      ></app-attachment-info-table>
-    </div>
-  </ng-container>
+    }
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 </div>
 
 <app-wizard-sidebar class="layout-right" [stepInfo]="stepInfo" [showApprove]="false" hint="STEP_PRINT_JOB_OVERVIEW.HINT">
 </app-wizard-sidebar>
-
-<ng-template #refreshSpinner>
-  <bc-spinner type="arrow-circle"></bc-spinner>
-</ng-template>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>

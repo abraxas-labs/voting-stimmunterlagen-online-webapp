@@ -7,6 +7,10 @@
 div.buttons {
   display: flex;
   align-items: center;
+
+  &.align-right {
+    flex-direction: row-reverse;
+  }
 }
 
 p.header {

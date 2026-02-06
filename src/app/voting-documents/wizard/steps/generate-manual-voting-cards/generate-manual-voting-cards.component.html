@@ -1,15 +1,34 @@
 <h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_GENERATE_MANUAL_VOTING_CARDS.TITLE</h1>
 <div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
-  <app-manual-voting-card-voter-edit #editComponent [voter]="newVoter"></app-manual-voting-card-voter-edit>
+  @if (stepInfo && stepInfo.contest.isPoliticalAssembly) {
+    <bc-checkbox
+      [disabled]="generating"
+      [label]="'MANUAL_VOTING_CARD_GENERATOR_JOB.EMPTY_VOTING_CARD' | translate"
+      [checked]="printEmpty"
+      (checkedChange)="updatePrintEmpty($event)"
+      subscriptSizing="dynamic"
+    ></bc-checkbox>
+  }
 
-  <div class="buttons" *ngIf="editComponent.form">
-    <bc-button
-      [disabled]="!editComponent.form.valid || generating"
-      [label]="'STEP_GENERATE_MANUAL_VOTING_CARDS.GENERATE' | translate"
-      (buttonClick)="createVoter()"
-    ></bc-button>
-    <bc-spinner *ngIf="generating" class="ml-2"></bc-spinner>
-  </div>
+  <app-manual-voting-card-voter-edit
+    #editComponent
+    [voter]="newVoter"
+    [disabled]="printEmpty"
+    [configuration]="layouts[0].dataConfiguration"
+  ></app-manual-voting-card-voter-edit>
+
+  @if (editComponent.form) {
+    <div class="buttons mt-4">
+      <bc-button
+        [disabled]="(!editComponent.isValidVoter && !printEmpty) || generating"
+        [label]="'STEP_GENERATE_MANUAL_VOTING_CARDS.GENERATE' | translate"
+        (buttonClick)="!printEmpty ? createVoter() : createEmptyVoter()"
+      ></bc-button>
+      @if (generating) {
+        <bc-spinner class="ml-2"></bc-spinner>
+      }
+    </div>
+  }
 
   <div class="mb-3">
     <p class="header mb-1 mt-4" translate>MANUAL_VOTING_CARD_GENERATOR_JOB.JOBS</p>

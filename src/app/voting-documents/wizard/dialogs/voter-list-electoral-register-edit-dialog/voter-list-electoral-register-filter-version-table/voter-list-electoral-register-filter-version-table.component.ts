@@ -11,6 +11,7 @@ import { ElectoralRegisterFilterVersion } from '../../../../../models/filter.mod
   selector: 'app-voter-list-electoral-register-filter-version-table',
   templateUrl: './voter-list-electoral-register-filter-version-table.component.html',
   styleUrls: ['./voter-list-electoral-register-filter-version-table.component.scss'],
+  standalone: false,
 })
 export class VoterListElectoralRegisterFilterVersionTableComponent {
   public readonly versionColumns = ['name', 'deadline', 'numberOfPersons', 'createdBy', 'createdAt', 'numberOfInvalidPersons'];

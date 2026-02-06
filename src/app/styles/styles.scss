@@ -32,7 +32,7 @@ bc-app-layout main {
 // This is a workaround. Remove after fixed height issue has been fixed in BC.
 bc-checkbox,
 bc-radio-button {
-  height: auto !important;
+  min-height: auto !important;
 }
 
 // enable bc multiline hints on form fields.

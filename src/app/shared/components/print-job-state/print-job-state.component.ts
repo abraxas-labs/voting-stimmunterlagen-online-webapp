@@ -11,6 +11,7 @@ import { PrintJobState } from '../../../models/print-job.model';
   selector: 'app-print-job-state',
   templateUrl: './print-job-state.component.html',
   styleUrls: ['./print-job-state.component.scss'],
+  standalone: false,
 })
 export class PrintJobStateComponent {
   public stateValue: PrintJobState = PrintJobState.PRINT_JOB_STATE_UNSPECIFIED;

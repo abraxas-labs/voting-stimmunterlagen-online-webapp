@@ -12,7 +12,7 @@ import {
   SetContestVotingCardLayoutRequest,
   VotingCardType,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ContestVotingCardLayout } from '../models/contest-voting-card-layout.model';
 import { Template } from '../models/template.model';
 import { firstValueFrom } from 'rxjs';
@@ -21,7 +21,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class ContestVotingCardLayoutService {
-  constructor(private readonly client: ContestVotingCardLayoutServiceClient) {}
+  private readonly client = inject(ContestVotingCardLayoutServiceClient);
 
   public getLayouts(contestId: string): Promise<ContestVotingCardLayout[]> {
     return firstValueFrom(this.client.getLayouts(new GetContestVotingCardLayoutsRequest({ contestId }))).then(

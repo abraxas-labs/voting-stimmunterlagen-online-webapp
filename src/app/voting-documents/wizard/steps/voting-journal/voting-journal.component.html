@@ -1,42 +1,54 @@
 <h1 class="layout-header layout-center pb-1 pt-4" translate>STEP_VOTING_JOURNAL.TITLE</h1>
 <div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
-  <div class="download-container">
-    <bc-card *ngFor="let downloadItem of downloadItems" class="download-item">
-      <bc-card-content>
-        <h2>{{ downloadItem.title | translate }}</h2>
-        <bc-button
-          *ngIf="!downloadItem.generating; else spinner"
-          [label]="'VOTING_JOURNAL.EXPORT' | translate"
-          (buttonClick)="generateExport(downloadItem)"
-          variant="primary"
-        ></bc-button>
-      </bc-card-content>
-    </bc-card>
-  </div>
+  @for (voterList of voterLists; track voterList) {
+    <div class="mt-4">
+      @if (voterList.name) {
+        <h3>
+          {{ voterList.name }}
+          {{ voterList.votingCardType ? '(' + ('VOTING_CARD_TYPES.' + voterList.votingCardType | translate) + ')' : '' }}
+        </h3>
+      }
+      <div class="download-container">
+        @for (downloadItem of downloadItemsByVoterListId[voterList.id]; track downloadItem) {
+          <bc-card class="download-item">
+            <bc-card-content>
+              <h2>{{ downloadItem.title | translate }}</h2>
+              @if (!downloadItem.generating) {
+                <bc-button
+                  [label]="'VOTING_JOURNAL.EXPORT' | translate"
+                  (buttonClick)="generateExport(downloadItem, voterList.id)"
+                  variant="primary"
+                ></bc-button>
+              } @else {
+                <bc-spinner></bc-spinner>
+              }
+            </bc-card-content>
+          </bc-card>
+        }
+      </div>
+    </div>
+  }
 </div>
 
-<app-wizard-sidebar
-  *ngIf="stepInfo"
-  class="layout-right"
-  [stepInfo]="stepInfo"
-  [canApprove]="false"
-  [canRevert]="false"
-  [showApprove]="false"
-  [hint]="
-    'STEP_VOTING_JOURNAL.HINT'
-      | translate
-        : {
-            generateVotingCardsTriggered:
-              ((domainOfInfluence && domainOfInfluence.generateVotingCardsTriggered
-                ? domainOfInfluence.generateVotingCardsTriggered
-                : defaultGenerateVotingCardsTriggered
-              ) | date: 'dd.MM.yyyy HH:mm'),
-            contestDate: (stepInfo.contest.date | date: 'dd.MM.yyyy'),
-          }
-  "
->
-</app-wizard-sidebar>
-
-<ng-template #spinner>
-  <bc-spinner></bc-spinner>
-</ng-template>
+@if (stepInfo) {
+  <app-wizard-sidebar
+    class="layout-right"
+    [stepInfo]="stepInfo"
+    [canApprove]="false"
+    [canRevert]="false"
+    [showApprove]="false"
+    [hint]="
+      'STEP_VOTING_JOURNAL.HINT'
+        | translate
+          : {
+              generateVotingCardsTriggered:
+                ((domainOfInfluence && domainOfInfluence.generateVotingCardsTriggered
+                  ? domainOfInfluence.generateVotingCardsTriggered
+                  : defaultGenerateVotingCardsTriggered
+                ) | date: 'dd.MM.yyyy HH:mm'),
+              contestDate: (stepInfo.contest.date | date: 'dd.MM.yyyy'),
+            }
+    "
+  >
+  </app-wizard-sidebar>
+}

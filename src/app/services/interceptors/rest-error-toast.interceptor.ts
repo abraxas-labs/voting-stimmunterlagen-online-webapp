@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -16,12 +16,10 @@ import { ToastService } from '../toast.service';
   providedIn: 'root',
 })
 export class RestErrorToastInterceptor implements HttpInterceptor {
-  private readonly restApiEndpoint = environment.restApiEndpoint;
+  private readonly toast = inject(ToastService);
+  private readonly i18n = inject(TranslateService);
 
-  constructor(
-    private readonly toast: ToastService,
-    private readonly i18n: TranslateService,
-  ) {}
+  private readonly restApiEndpoint = environment.restApiEndpoint;
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!req.url.includes(this.restApiEndpoint)) {

@@ -6,7 +6,9 @@
   </div>
 
   <div footer class="buttons" [class.align-right]="!showCancel">
-    <bc-button *ngIf="showCancel" (buttonClick)="cancel()" [label]="cancelText | translate"></bc-button>
-    <bc-button variant="primary" color="warn" (buttonClick)="confirm()" [label]="confirmText | translate"></bc-button>
+    @if (showCancel) {
+      <bc-button (buttonClick)="cancel()" [label]="cancelText | translate"></bc-button>
+    }
+    <bc-button variant="primary" [color]="confirmColor" (buttonClick)="confirm()" [label]="confirmText | translate"></bc-button>
   </div>
 </app-dialog>

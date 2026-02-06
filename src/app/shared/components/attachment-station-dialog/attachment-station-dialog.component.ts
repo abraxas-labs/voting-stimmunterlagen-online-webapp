@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Attachment, AttachmentCategory } from '../../../models/attachment.model';
 import { AttachmentService } from '../../../services/attachment.service';
@@ -14,22 +14,23 @@ import { ToastService } from '../../../services/toast.service';
   selector: 'app-attachment-station-dialog',
   templateUrl: './attachment-station-dialog.component.html',
   styleUrls: ['./attachment-station-dialog.component.scss'],
+  standalone: false,
 })
 export class AttachmentStationDialogComponent {
+  public readonly data = inject<AttachmentStationDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<AttachmentStationDialogComponent>>(MatDialogRef);
+  private readonly attachmentService = inject(AttachmentService);
+  private readonly toast = inject(ToastService);
+
   public saving = false;
   public station?: number;
   public reservedStations: number[] = [];
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<AttachmentStationDialogComponent>,
-    private readonly attachmentService: AttachmentService,
-    private readonly toast: ToastService,
-    @Inject(MAT_DIALOG_DATA) public data: AttachmentStationDialogData,
-  ) {
-    this.station = data.attachment.station;
+  constructor() {
+    this.station = this.data.attachment.station;
 
-    if (this.isCommunalAttachment(data.attachment)) {
-      this.reservedStations = data.otherDomainOfInfluenceAttachments.filter(a => this.isCommunalAttachment(a)).map(a => a.station!);
+    if (this.isCommunalAttachment(this.data.attachment)) {
+      this.reservedStations = this.data.otherDomainOfInfluenceAttachments.filter(a => this.isCommunalAttachment(a)).map(a => a.station!);
     }
   }
 

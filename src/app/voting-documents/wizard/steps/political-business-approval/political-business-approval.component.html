@@ -1,16 +1,20 @@
 <h1 class="layout-header layout-center pb-1 pt-4" translate>POLITICAL_BUSINESS.TITLE</h1>
 <div class="layout-start-content layout-end-footer layout-center overflow-auto pr-3">
-  <ng-container *ngIf="!loading; else spinner">
-    <div class="political-business-group" *ngFor="let typePoliticalBusinessPair of politicalBusinesses | keyvalue">
-      <div class="table-header">
-        <p class="table-title">{{ 'POLITICAL_BUSINESS.TITLE' | translate }} {{ typePoliticalBusinessPair.key }}</p>
-        <p *ngIf="typePoliticalBusinessPair.value | every: 'approved'" class="table-title-all-approved" translate>
-          STEP_POLITICAL_BUSINESS_APPROVAL.ALL_APPROVED
-        </p>
+  @if (!loading) {
+    @for (typePoliticalBusinessPair of politicalBusinesses | keyvalue; track typePoliticalBusinessPair) {
+      <div class="political-business-group">
+        <div class="table-header">
+          <p class="table-title">{{ 'POLITICAL_BUSINESS.TITLE' | translate }} {{ typePoliticalBusinessPair.key }}</p>
+          @if (typePoliticalBusinessPair.value | every: 'approved') {
+            <p class="table-title-all-approved" translate>STEP_POLITICAL_BUSINESS_APPROVAL.ALL_APPROVED</p>
+          }
+        </div>
+        <app-political-business-table [politicalBusinesses]="typePoliticalBusinessPair.value"></app-political-business-table>
       </div>
-      <app-political-business-table [politicalBusinesses]="typePoliticalBusinessPair.value"></app-political-business-table>
-    </div>
-  </ng-container>
+    }
+  } @else {
+    <bc-spinner size="large"></bc-spinner>
+  }
 </div>
 
 <app-wizard-sidebar
@@ -25,7 +29,3 @@
   hint="STEP_POLITICAL_BUSINESS_APPROVAL.HINT"
 >
 </app-wizard-sidebar>
-
-<ng-template #spinner>
-  <bc-spinner size="large"></bc-spinner>
-</ng-template>

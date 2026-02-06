@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PrintJob, PrintJobState } from '../../../models/print-job.model';
 import { PrintJobService } from '../../../services/print-job.service';
@@ -14,8 +14,14 @@ import { ToastService } from '../../../services/toast.service';
   selector: 'app-print-job-set-next-state-dialog',
   templateUrl: './print-job-set-next-state-dialog.component.html',
   styleUrls: ['./print-job-set-next-state-dialog.component.scss'],
+  standalone: false,
 })
 export class PrintJobSetNextStateDialogComponent {
+  public readonly data = inject<PrintJobSetNextStateDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<PrintJobSetNextStateDialogComponent>>(MatDialogRef);
+  private readonly printJobService = inject(PrintJobService);
+  private readonly toast = inject(ToastService);
+
   public readonly printJob!: PrintJob;
   public saving = false;
   public votingCardsPrintedAndPackedCount?: number;
@@ -24,13 +30,8 @@ export class PrintJobSetNextStateDialogComponent {
   public readonly nextStateTranslationPrefix: string;
   public readonly printJobStates = PrintJobState;
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<PrintJobSetNextStateDialogComponent>,
-    private readonly printJobService: PrintJobService,
-    private readonly toast: ToastService,
-    @Inject(MAT_DIALOG_DATA) public data: PrintJobSetNextStateDialogData,
-  ) {
-    this.printJob = data.printJob;
+  constructor() {
+    this.printJob = this.data.printJob;
     this.nextStateTranslationPrefix = 'PRINT_JOB.SET_STATE.NEXT_STATE.' + this.printJob.state;
   }
 

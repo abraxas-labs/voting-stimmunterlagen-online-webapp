@@ -3,46 +3,59 @@
 </div>
 
 <div class="layout-left layout-content overflow-auto">
-  <div *ngFor="let layout of layouts; let first = first">
-    <div [class.mt-5]="!first" class="mb-1 title">
-      <h4>{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h4>
-      <bc-spinner *ngIf="layout.loading"></bc-spinner>
-    </div>
+  @for (layout of layouts; track layout; let first = $first) {
     <div>
-      <span class="block">{{ 'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.DEFAULT' | translate }}</span>
-      <span class="default-name">{{ layout.layout.contestTemplate.name }}</span>
-    </div>
-    <div>
-      <bc-checkbox
-        [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.OVERWRITE' | translate"
-        [ngModel]="layout.hasDomainOfInfluenceLayout"
-        (ngModelChange)="updateHasDoiLayout(layout, $event)"
+      <div [class.mt-5]="!first" class="mb-1 title">
+        <h4>{{ 'VOTING_CARD_TYPES.' + layout.layout.votingCardType | translate }}</h4>
+        @if (layout.loading) {
+          <bc-spinner></bc-spinner>
+        }
+      </div>
+      <div>
+        <span class="block">{{ 'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.DEFAULT' | translate }}</span>
+        <span class="default-name">{{ layout.layout.contestTemplate.name }}</span>
+      </div>
+      <div>
+        <bc-checkbox
+          [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.OVERWRITE' | translate"
+          [ngModel]="layout.hasDomainOfInfluenceLayout"
+          (ngModelChange)="updateHasDoiLayout(layout, $event)"
+          [disabled]="disabled"
+          subscriptSizing="dynamic"
+        ></bc-checkbox>
+      </div>
+      @if (layout.hasDomainOfInfluenceLayout) {
+        <div>
+          <bc-dropdown
+            class="w-full mt-1"
+            [items]="templates"
+            displayExpr="name"
+            valueExpr="id"
+            [required]="true"
+            [ngModel]="layout.layout.domainOfInfluenceTemplate?.id"
+            (ngModelChange)="updateDoiTemplate(layout, $event)"
+            [disabled]="disabled"
+          ></bc-dropdown>
+        </div>
+      }
+      <div>
+        <bc-checkbox
+          [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.ALLOW_CUSTOM' | translate"
+          [ngModel]="layout.layout.allowCustom"
+          (ngModelChange)="updateAllowCustom(layout, $event)"
+          [disabled]="disabled"
+          subscriptSizing="dynamic"
+        ></bc-checkbox>
+      </div>
+      <app-voting-card-layout-data-configuration-edit
         [disabled]="disabled"
-        subscriptSizing="dynamic"
-      ></bc-checkbox>
+        [configuration]="layout.layout.dataConfiguration"
+        [isStistat]="domainOfInfluence.stistatMunicipality"
+        [isPoliticalAssembly]="isPoliticalAssembly"
+        (configurationChange)="updateDataConfiguration(layout, $event)"
+      ></app-voting-card-layout-data-configuration-edit>
     </div>
-    <div *ngIf="layout.hasDomainOfInfluenceLayout">
-      <bc-dropdown
-        class="w-full mt-1"
-        [items]="templates"
-        displayExpr="name"
-        valueExpr="id"
-        [required]="true"
-        [ngModel]="layout.layout.domainOfInfluenceTemplate?.id"
-        (ngModelChange)="updateDoiTemplate(layout, $event)"
-        [disabled]="disabled"
-      ></bc-dropdown>
-    </div>
-    <div>
-      <bc-checkbox
-        [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.ALLOW_CUSTOM' | translate"
-        [ngModel]="layout.layout.allowCustom"
-        (ngModelChange)="updateAllowCustom(layout, $event)"
-        [disabled]="disabled"
-        subscriptSizing="dynamic"
-      ></bc-checkbox>
-    </div>
-  </div>
+  }
 </div>
 
 <div class="layout-start-center layout-end-right layout-start-header layout-end-footer">

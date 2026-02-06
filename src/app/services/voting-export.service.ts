@@ -5,7 +5,7 @@
  */
 
 import { FileDownloadService } from '@abraxas/voting-lib';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { GenerateVotingExportRequest } from '../models/voting-export.model';
 
@@ -13,15 +13,16 @@ import { GenerateVotingExportRequest } from '../models/voting-export.model';
   providedIn: 'root',
 })
 export class VotingExportService {
+  private readonly fileDownloadService = inject(FileDownloadService);
+
   private readonly restApiUrl = `${environment.restApiEndpoint}/voting-export`;
 
-  constructor(private readonly fileDownloadService: FileDownloadService) {}
-
-  public async downloadExport(key: string, contestId: string, domainOfInfluenceId: string): Promise<void> {
+  public async downloadExport(key: string, contestId: string, domainOfInfluenceId: string, voterListId?: string): Promise<void> {
     const req: GenerateVotingExportRequest = {
       key,
       contestId,
       domainOfInfluenceId,
+      voterListId,
     };
 
     await this.fileDownloadService.postDownloadFile(this.restApiUrl, req);

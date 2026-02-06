@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BreadcrumbItem } from '../../../models/breadcrumb-item.model';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
@@ -13,11 +13,14 @@ import { BreadcrumbService } from '../../../services/breadcrumb.service';
   selector: 'app-breadcrumb-bar',
   templateUrl: './breadcrumb-bar.component.html',
   styleUrls: ['./breadcrumb-bar.component.scss'],
+  standalone: false,
 })
 export class BreadcrumbBarComponent {
   public readonly breadcrumbItems$: Observable<BreadcrumbItem[]>;
 
-  constructor(breadcrumbService: BreadcrumbService) {
+  constructor() {
+    const breadcrumbService = inject(BreadcrumbService);
+
     this.breadcrumbItems$ = breadcrumbService.breadcrumbItems$;
   }
 }

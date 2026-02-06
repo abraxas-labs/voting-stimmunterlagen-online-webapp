@@ -5,19 +5,18 @@
  */
 
 import { Step } from '@abraxas/voting-stimmunterlagen-proto';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StepState } from '../../../../models/step.model';
 
 @Component({
   selector: 'app-redirect-first-step',
   template: '',
+  standalone: false,
 })
 export class RedirectFirstStepComponent implements OnInit {
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-  ) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   public ngOnInit(): Promise<void> {
     const steps = this.route.snapshot.data.steps;

@@ -11,9 +11,11 @@
 
   <ng-container columnDef="voter">
     <bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.VOTER' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element"
-      >{{ element.voter.firstName }} {{ element.voter.lastName }}, {{ element.voter.town }}</bc-data-cell
-    >
+    <bc-data-cell *dataCellDef="let element">{{
+      element.voter
+        ? element.voter.firstName + ' ' + element.voter.lastName + ', ' + element.voter.town
+        : ('MANUAL_VOTING_CARD_GENERATOR_JOB.EMPTY' | translate)
+    }}</bc-data-cell>
   </ng-container>
 
   <bc-header-row *headerRowDef="let row; columns: ['created', 'createdBy', 'voter']"></bc-header-row>

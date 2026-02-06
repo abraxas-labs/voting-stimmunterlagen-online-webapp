@@ -14,7 +14,7 @@ import {
   ListPrintJobGenerateVotingCardsTriggeredRequest,
   ListPrintJobSummariesRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { mapPrintJobs, mapPrintJob, PrintJob, PrintJobState, PrintJobSummary, mapPrintJobSummaries } from '../models/print-job.model';
 import { firstValueFrom } from 'rxjs';
 
@@ -22,7 +22,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class PrintJobService {
-  constructor(private readonly client: PrintJobServiceClient) {}
+  private readonly client = inject(PrintJobServiceClient);
 
   public listSummaries(contestId: string, state?: PrintJobState, query?: string): Promise<PrintJobSummary[]> {
     return firstValueFrom(

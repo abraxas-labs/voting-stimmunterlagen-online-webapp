@@ -11,6 +11,7 @@ import { VotingCardPrintFileExportJob } from '../../../models/voting-card-print-
   selector: 'app-voting-card-print-file-export-job-table',
   templateUrl: './voting-card-print-file-export-job-table.component.html',
   styleUrls: ['./voting-card-print-file-export-job-table.component.scss'],
+  standalone: false,
 })
 export class VotingCardPrintFileExportJobTableComponent {
   public readonly columns = ['fileName', 'state'];

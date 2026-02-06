@@ -1,22 +1,28 @@
-<bc-table [dataSource]="entries" class="w-full">
+<bc-table selection [dataSource]="entries" class="w-full">
   <ng-container columnDef="category">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.CATEGORY' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <span *ngIf="!isAttachment(element)">{{ 'ATTACHMENT.CATEGORIES.' + element.category | translate }}</span>
+      @if (!isAttachment(element)) {
+        <span>{{ 'ATTACHMENT.CATEGORIES.' + element.category | translate }}</span>
+      }
     </bc-data-cell>
   </ng-container>
 
   <ng-container columnDef="authority">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.AUTHORITY' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <span *ngIf="isAttachment(element)">{{ element.domainOfInfluence.authorityName }}</span>
+      @if (isAttachment(element)) {
+        <span>{{ element.domainOfInfluence.authorityName }}</span>
+      }
     </bc-data-cell>
   </ng-container>
 
   <ng-container columnDef="domainOfInfluence">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DOMAIN_OF_INFLUENCE' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <span *ngIf="isAttachment(element)">{{ element.domainOfInfluence.name }}</span>
+      @if (isAttachment(element)) {
+        <span>{{ element.domainOfInfluence.name }}</span>
+      }
     </bc-data-cell>
   </ng-container>
 
@@ -40,14 +46,18 @@
   <ng-container columnDef="requiredForVoterListsCount">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_FOR_VOTER_LISTS_COUNT' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <span *ngIf="showRequiredForVoterListsCount(element)">{{ element.totalRequiredForVoterListsCount | number }}</span>
+      @if (showRequiredForVoterListsCount(element)) {
+        <span>{{ element.totalRequiredForVoterListsCount | number }}</span>
+      }
     </bc-data-cell>
   </ng-container>
 
   <ng-container columnDef="format">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.FORMAT' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <span *ngIf="isAttachment(element)">{{ 'ATTACHMENT.FORMATS.' + element.format | translate }}</span>
+      @if (isAttachment(element)) {
+        <span>{{ 'ATTACHMENT.FORMATS.' + element.format | translate }}</span>
+      }
     </bc-data-cell>
   </ng-container>
 
@@ -74,38 +84,46 @@
   <ng-container columnDef="station">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.STATION' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <ng-container *ngIf="isAttachment(element)">
-        <ng-container *ngIf="!forPrintJobManagement; else setStationTemplate">
+      @if (isAttachment(element)) {
+        @if (!forPrintJobManagement) {
           <span>{{ element.station }}</span>
-        </ng-container>
-        <ng-template #setStationTemplate>
+        } @else {
           <app-set-value-label [value]="element.station" (setValue)="setStation(element)"></app-set-value-label>
-        </ng-template>
-      </ng-container>
+        }
+      }
     </bc-data-cell>
   </ng-container>
 
   <ng-container columnDef="state">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.STATE' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <app-attachment-state *ngIf="isAttachment(element)" [state]="element.state"></app-attachment-state>
+      @if (isAttachment(element)) {
+        <app-attachment-state [state]="element.state"></app-attachment-state>
+      }
     </bc-data-cell>
   </ng-container>
 
   <ng-container columnDef="stateChange">
     <bc-header-cell *headerCellDef></bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <bc-button
-        *ngIf="isAttachment(element)"
-        variant="tertiary"
-        (buttonClick)="setState(element)"
-        [label]="'APP.CHANGE' | translate"
-      ></bc-button>
+      @if (isAttachment(element)) {
+        <bc-button variant="tertiary" (buttonClick)="setState(element)" [label]="'APP.CHANGE' | translate"></bc-button>
+      }
     </bc-data-cell>
   </ng-container>
 
   <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+  <bc-data-row
+    *dataRowDef="let row; columns: columns; let i = index"
+    selectionToggle
+    [selectionToggleValue]="row"
+    selectionRow
+    [selectionRowValue]="row"
+    [selectionDisabled]="isSelectionDisabled"
+    (click)="open(row)"
+  ></bc-data-row>
 </bc-table>
 
-<p class="italic ml-2" *ngIf="entries.length === 0" translate>APP.NO_DATA</p>
+@if (entries.length === 0) {
+  <p class="italic ml-2" translate>APP.NO_DATA</p>
+}

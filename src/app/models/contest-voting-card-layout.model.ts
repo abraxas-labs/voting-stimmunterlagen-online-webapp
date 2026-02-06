@@ -6,7 +6,9 @@
 
 import { ContestVotingCardLayout as ContestVotingCardLayoutProto } from '@abraxas/voting-stimmunterlagen-proto';
 import { Template } from './template.model';
+import { VotingCardLayoutDataConfiguration } from './voting-card-layout.model';
 
-export interface ContestVotingCardLayout extends Required<Omit<ContestVotingCardLayoutProto.AsObject, 'template'>> {
+export interface ContestVotingCardLayout extends Required<Omit<ContestVotingCardLayoutProto.AsObject, 'template' | 'dataConfiguration'>> {
   template?: Template;
+  dataConfiguration: VotingCardLayoutDataConfiguration;
 }

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 export interface EnumItem<T> {
@@ -21,7 +21,7 @@ export interface EnumItemDescription<T> {
   providedIn: 'root',
 })
 export class EnumUtil {
-  constructor(private readonly i18n: TranslateService) {}
+  private readonly i18n = inject(TranslateService);
 
   public getArrayWithDescriptions<T>(enumObj: object | undefined, i18nPrefix: string): EnumItemDescription<T>[] {
     const items = this.getArrayWithDescriptionsWithUnspecified<T>(enumObj, i18nPrefix);

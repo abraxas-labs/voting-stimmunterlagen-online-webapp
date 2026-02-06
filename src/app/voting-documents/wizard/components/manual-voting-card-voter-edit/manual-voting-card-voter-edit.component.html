@@ -3,9 +3,10 @@
   <div class="form-group">
     <bc-masked
       [label]="'VOTER.PERSON_ID' | translate"
+      [required]="options.includePersonId"
       name="personId"
-      [maskOptions]="personIdMaskOptions"
       [(ngModel)]="voterValue.personId"
+      [disabled]="disabled"
     ></bc-masked>
 
     <bc-dropdown
@@ -16,6 +17,7 @@
       valueExpr="value"
       displayExpr="description"
       [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
     ></bc-dropdown>
     <bc-text
       class="w-7"
@@ -24,6 +26,7 @@
       name="title"
       [(ngModel)]="voterValue.title"
       [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
     ></bc-text>
     <bc-text
       [label]="'VOTER.FIRST_NAME' | translate"
@@ -32,6 +35,7 @@
       name="firstName"
       [(ngModel)]="voterValue.firstName"
       [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
     ></bc-text>
     <bc-text
       [label]="'VOTER.LAST_NAME' | translate"
@@ -40,15 +44,53 @@
       name="lastName"
       [(ngModel)]="voterValue.lastName"
       [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
     ></bc-text>
   </div>
 
-  <bc-date
-    [label]="'VOTER.DATE_OF_BIRTH' | translate"
-    [value]="dateOfBirth"
-    (valueChange)="updateDateOfBirth($event)"
-    [subscriptSizing]="'dynamic'"
-  ></bc-date>
+  <div class="form-group">
+    <bc-date
+      [label]="'VOTER.DATE_OF_BIRTH' | translate"
+      [value]="dateOfBirth"
+      (valueChange)="updateDateOfBirth($event)"
+      [required]="options.includeDateOfBirth"
+      [error]="!dateOfBirthIsValid"
+      [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
+    ></bc-date>
+    <bc-dropdown
+      [label]="'VOTER.RELIGION' | translate"
+      [error]="!religionIsValid"
+      valueExpr="value"
+      displayExpr="description"
+      [clearable]="true"
+      [items]="religions"
+      (valueChange)="updateReligionCode($event)"
+      [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
+    ></bc-dropdown>
+  </div>
+
+  <div class="form-group">
+    <bc-text
+      [label]="'VOTER.DOMAIN_OF_INFLUENCES_CHURCH' | translate"
+      [maxlength]="100"
+      [required]="options.includeDomainOfInfluenceChurch"
+      name="domainOfInfluencesChurch"
+      [(ngModel)]="voterValue.domainOfInfluenceIdentificationChurch"
+      [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
+    ></bc-text>
+    <bc-text
+      [label]="'VOTER.DOMAIN_OF_INFLUENCES_SCHOOL' | translate"
+      [maxlength]="100"
+      [required]="options.includeDomainOfInfluenceSchool"
+      name="domainOfInfluencesSchool"
+      [(ngModel)]="voterValue.domainOfInfluenceIdentificationSchool"
+      [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
+    ></bc-text>
+  </div>
 
   <bc-text
     [label]="'VOTER.ADDRESS_LINE_1' | translate"
@@ -56,6 +98,7 @@
     name="addressLine1"
     [(ngModel)]="voterValue.addressLine1"
     [subscriptSizing]="'dynamic'"
+    [disabled]="disabled"
   ></bc-text>
   <bc-text
     [label]="'VOTER.ADDRESS_LINE_2' | translate"
@@ -63,6 +106,7 @@
     name="addressLine2"
     [(ngModel)]="voterValue.addressLine2"
     [subscriptSizing]="'dynamic'"
+    [disabled]="disabled"
   ></bc-text>
   <div class="form-group">
     <bc-text
@@ -72,6 +116,7 @@
       name="street"
       [(ngModel)]="voterValue.street"
       [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
     ></bc-text>
     <bc-text
       class="w-5"
@@ -80,6 +125,7 @@
       name="houseNumber"
       [(ngModel)]="voterValue.houseNumber"
       [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
     ></bc-text>
     <bc-text
       class="w-5"
@@ -88,26 +134,45 @@
       name="dwellingNumber"
       [(ngModel)]="voterValue.dwellingNumber"
       [subscriptSizing]="'dynamic'"
+      [disabled]="disabled"
     ></bc-text>
   </div>
-  <bc-checkbox
-    class="mb-2"
-    [label]="'COUNTRY.CH' | translate"
-    [checked]="swiss"
-    (checkedChange)="updateSwiss($event)"
-    subscriptSizing="dynamic"
-  ></bc-checkbox>
-  <ng-container *ngIf="swiss; else foreigner">
+  <div class="form-group">
+    <bc-checkbox
+      class="mb-2"
+      [label]="'COUNTRY.CH' | translate"
+      [checked]="swiss"
+      (checkedChange)="updateSwiss($event)"
+      subscriptSizing="dynamic"
+      [disabled]="disabled"
+    ></bc-checkbox>
+    @if (options.includeIsHouseholder) {
+      <bc-checkbox
+        class="mb-2"
+        [label]="'VOTER.HOUSEHOLD' | translate"
+        [required]="options.includeIsHouseholder"
+        [checked]="voterValue.isHouseholder"
+        name="isHouseholder"
+        [(ngModel)]="voterValue.isHouseholder"
+        subscriptSizing="dynamic"
+        [disabled]="disabled"
+      ></bc-checkbox>
+    }
+  </div>
+  @if (swiss) {
     <div class="form-group">
       <bc-number
         class="w-7"
         [label]="'VOTER.ZIP_CH' | translate"
-        [min]="1000"
+        [min]="1"
         [max]="9999"
+        [error]="!swissZipCodeIsValid"
         [required]="true"
         name="zipCH"
-        [(ngModel)]="voterValue.swissZipCode"
+        [ngModel]="voterValue.swissZipCode"
+        (ngModelChange)="updateSwissZipCode($event)"
         [subscriptSizing]="'dynamic'"
+        [disabled]="disabled"
       ></bc-number>
       <bc-text
         [label]="'VOTER.TOWN' | translate"
@@ -116,10 +181,10 @@
         name="townCH"
         [(ngModel)]="voterValue.town"
         [subscriptSizing]="'dynamic'"
+        [disabled]="disabled"
       ></bc-text>
     </div>
-  </ng-container>
-  <ng-template #foreigner>
+  } @else {
     <div class="form-group">
       <bc-text
         class="w-7"
@@ -128,6 +193,7 @@
         name="zipForeigner"
         [(ngModel)]="voterValue.foreignZipCode"
         [subscriptSizing]="'dynamic'"
+        [disabled]="disabled"
       ></bc-text>
       <bc-text
         [label]="'VOTER.TOWN' | translate"
@@ -136,6 +202,7 @@
         name="townForeigner"
         [(ngModel)]="voterValue.town"
         [subscriptSizing]="'dynamic'"
+        [disabled]="disabled"
       ></bc-text>
     </div>
     <div class="form-group">
@@ -147,6 +214,7 @@
         name="countryIso2"
         [(ngModel)]="voterValue.country.iso2"
         [subscriptSizing]="'dynamic'"
+        [disabled]="disabled"
       ></bc-text>
       <bc-text
         [label]="'COUNTRY.NAME' | translate"
@@ -155,9 +223,10 @@
         name="countryName"
         [(ngModel)]="voterValue.country.name"
         [subscriptSizing]="'dynamic'"
+        [disabled]="disabled"
       ></bc-text>
     </div>
-  </ng-template>
+  }
 
   <bc-dropdown
     [required]="true"
@@ -172,5 +241,6 @@
       { name: 'rm', description: 'LANGUAGES.rm' | translate },
     ]"
     [subscriptSizing]="'dynamic'"
+    [disabled]="disabled"
   ></bc-dropdown>
 </form>

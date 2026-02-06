@@ -1,28 +1,39 @@
-<ng-container *ngIf="voterDuplicates && voterDuplicates.length > 0">
-  <p class="color-warning pre-wrap">{{ 'VOTER_LIST.HAS_VOTER_DUPLICATES_WARNING' | translate }}</p>
-
+@if (voterDuplicates && voterDuplicates.length > 0) {
+  <p class="color-warning pre-wrap">{{ 'VOTER_LIST_IMPORT.HAS_VOTER_DUPLICATES' | translate }}</p>
   <bc-table class="w-full" [dataSource]="voterDuplicates" class="mb-4">
-    <ng-container columnDef="personId">
-      <bc-header-cell *headerCellDef>{{ 'VOTER.PERSON_ID' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.personId }}</bc-data-cell>
-    </ng-container>
-
     <ng-container columnDef="firstName">
       <bc-header-cell *headerCellDef>{{ 'VOTER.FIRST_NAME' | translate }}</bc-header-cell>
       <bc-data-cell *dataCellDef="let element">{{ element.firstName }}</bc-data-cell>
     </ng-container>
-
     <ng-container columnDef="lastName">
       <bc-header-cell *headerCellDef>{{ 'VOTER.LAST_NAME' | translate }}</bc-header-cell>
       <bc-data-cell *dataCellDef="let element">{{ element.lastName }}</bc-data-cell>
     </ng-container>
-
     <ng-container columnDef="dateOfBirth">
       <bc-header-cell *headerCellDef>{{ 'VOTER.DATE_OF_BIRTH' | translate }}</bc-header-cell>
       <bc-data-cell *dataCellDef="let element">{{ element.dateOfBirth }}</bc-data-cell>
     </ng-container>
-
+    <ng-container columnDef="street">
+      <bc-header-cell *headerCellDef>{{ 'VOTER.STREET' | translate }}</bc-header-cell>
+      <bc-data-cell *dataCellDef="let element">{{ element.street }}</bc-data-cell>
+    </ng-container>
+    <ng-container columnDef="houseNumber">
+      <bc-header-cell *headerCellDef>{{ 'VOTER.HOUSE_NUMBER' | translate }}</bc-header-cell>
+      <bc-data-cell *dataCellDef="let element">{{ element.houseNumber }}</bc-data-cell>
+    </ng-container>
     <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
     <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
   </bc-table>
-</ng-container>
+} @else {
+  @if (voterDuplicatesCount) {
+    <p class="color-warning pre-wrap">
+      {{
+        'VOTER_LIST_IMPORT.HAS_VOTER_DUPLICATES_COUNT'
+          | translate
+            : {
+                count: voterDuplicatesCount | number,
+              }
+      }}
+    </p>
+  }
+}

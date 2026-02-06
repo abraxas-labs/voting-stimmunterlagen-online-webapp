@@ -16,7 +16,7 @@ import {
   SetOverriddenDomainOfInfluenceVotingCardLayoutRequest,
   VotingCardType,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   DomainOfInfluenceVotingCardLayout,
   DomainOfInfluenceVotingCardLayouts,
@@ -30,7 +30,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class DomainOfInfluenceVotingCardLayoutService {
-  constructor(private readonly client: DomainOfInfluenceVotingCardLayoutServiceClient) {}
+  private readonly client = inject(DomainOfInfluenceVotingCardLayoutServiceClient);
 
   public async getLayoutsForContest(contestId: string): Promise<DomainOfInfluenceVotingCardLayouts[]> {
     const layoutGroups = await firstValueFrom(

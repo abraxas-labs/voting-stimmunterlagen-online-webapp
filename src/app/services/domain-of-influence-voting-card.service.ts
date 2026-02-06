@@ -11,7 +11,7 @@ import {
   SetDomainOfInfluenceVotingCardConfigurationRequest,
   VotingCardType,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DomainOfInfluenceVotingCardConfiguration } from '../models/domain-of-influence-voting-card-configuration.model';
 import { firstValueFrom } from 'rxjs';
 
@@ -19,7 +19,7 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class DomainOfInfluenceVotingCardService {
-  constructor(private readonly client: DomainOfInfluenceVotingCardServiceClient) {}
+  private readonly client = inject(DomainOfInfluenceVotingCardServiceClient);
 
   public getConfiguration(domainOfInfluenceId: string): Promise<DomainOfInfluenceVotingCardConfiguration> {
     return firstValueFrom(

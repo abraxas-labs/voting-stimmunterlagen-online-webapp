@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angular/core';
 import {
   Attachment,
   AttachmentTableEntry,
@@ -23,22 +23,26 @@ import {
   AttachmentCountDialogData,
 } from '../../dialogs/attachment-count-dialog/attachment-count-dialog.component';
 import {
-  AttachmentEditDialogComponent,
-  AttachmentEditDialogData,
-  AttachmentEditDialogResult,
-} from '../../dialogs/attachment-edit-dialog/attachment-edit-dialog.component';
-import {
   AttachmentDomainOfInfluencesDialogComponent,
   AttachmentDomainOfInfluencesDialogData,
 } from '../../dialogs/attachment-domain-of-influences-dialog/attachment-domain-of-influences-dialog.component';
 import { isAttachment, sortByCategory } from '../../../../services/utils/attachment.utils';
+import {
+  AttachmentEditDialogComponent,
+  AttachmentEditDialogResult,
+  buildAttachmentEditDialogData,
+} from '../../../../shared/dialogs/attachment-edit-dialog/attachment-edit-dialog.component';
 
 @Component({
   selector: 'app-attachment-table',
   templateUrl: './attachment-table.component.html',
   styleUrls: ['./attachment-table.component.scss'],
+  standalone: false,
 })
 export class AttachmentTableComponent implements OnChanges {
+  private readonly dialog = inject(DialogService);
+  private readonly attachmentService = inject(AttachmentService);
+
   public columns: string[] = [];
   public entries: AttachmentTableEntry[] = [];
 
@@ -67,11 +71,6 @@ export class AttachmentTableComponent implements OnChanges {
     this.entries = mapToAttachmentTableEntries(v.attachmentCategorySummaries);
   }
 
-  constructor(
-    private readonly dialog: DialogService,
-    private readonly attachmentService: AttachmentService,
-  ) {}
-
   public readonly isAttachment = isAttachment;
 
   public ngOnChanges(): void {
@@ -96,7 +95,7 @@ export class AttachmentTableComponent implements OnChanges {
         return;
       }
     }
-    if (!this.stepInfo.contest || !this.canEdit) {
+    if (!this.stepInfo.contest) {
       return;
     }
 
@@ -110,13 +109,8 @@ export class AttachmentTableComponent implements OnChanges {
         )
       : cloneDeep(attachment);
 
-    const data: AttachmentEditDialogData = {
-      attachment,
-      attachmentDeliveryDeadlineDate: this.stepInfo.contest.attachmentDeliveryDeadlineDate!,
-      isSingleAttendeeContest: this.stepInfo.contest.isSingleAttendeeContest,
-      isPoliticalAssembly: this.stepInfo.contest.isPoliticalAssembly,
-    };
-
+    const canEdit = !attachment.id || (this.canEdit && attachment.domainOfInfluence.id === this.stepInfo.domainOfInfluence.id);
+    const data = buildAttachmentEditDialogData(attachment, this.stepInfo.contest, canEdit);
     this.handleEditAttachmentDialogResult(await this.dialog.openForResult(AttachmentEditDialogComponent, data));
   }
 
@@ -206,7 +200,7 @@ export class AttachmentTableComponent implements OnChanges {
   }
 
   public isSelectionDisabled = (row: Attachment): boolean => {
-    return !(isAttachment(row) && this.canEdit && row.domainOfInfluence.id === this.stepInfo.domainOfInfluence.id);
+    return !isAttachment(row);
   };
 
   private refreshSummaries(): void {

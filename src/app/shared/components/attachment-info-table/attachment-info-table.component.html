@@ -1,8 +1,10 @@
-<bc-table class="w-full mt-1" [dataSource]="entries">
+<bc-table selection class="w-full mt-1" [dataSource]="entries">
   <ng-container columnDef="category">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.CATEGORY' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <span *ngIf="!isAttachment(element)">{{ 'ATTACHMENT.CATEGORIES.' + element.category | translate }}</span>
+      @if (!isAttachment(element)) {
+        <span>{{ 'ATTACHMENT.CATEGORIES.' + element.category | translate }}</span>
+      }
     </bc-data-cell>
   </ng-container>
 
@@ -28,12 +30,16 @@
   <ng-container columnDef="requiredForVoterListsCount">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_FOR_VOTER_LISTS_COUNT' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <span *ngIf="showRequiredForVoterListsCount(element)">
-        {{
-          (isAttachment(element) ? element.domainOfInfluenceAttachmentRequiredForVoterListsCount : element.totalRequiredForVoterListsCount)
-            | number
-        }}
-      </span>
+      @if (showRequiredForVoterListsCount(element)) {
+        <span>
+          {{
+            (isAttachment(element)
+              ? element.domainOfInfluenceAttachmentRequiredForVoterListsCount
+              : element.totalRequiredForVoterListsCount
+            ) | number
+          }}
+        </span>
+      }
     </bc-data-cell>
   </ng-container>
 
@@ -45,7 +51,9 @@
   <ng-container columnDef="format">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.FORMAT' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <span *ngIf="isAttachment(element)">{{ 'ATTACHMENT.FORMATS.' + element.format | translate }}</span>
+      @if (isAttachment(element)) {
+        <span>{{ 'ATTACHMENT.FORMATS.' + element.format | translate }}</span>
+      }
     </bc-data-cell>
   </ng-container>
 
@@ -72,10 +80,20 @@
   <ng-container columnDef="state">
     <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.STATE' | translate }}</bc-header-cell>
     <bc-data-cell *dataCellDef="let element">
-      <app-attachment-state *ngIf="isAttachment(element)" [state]="element.state"></app-attachment-state>
+      @if (isAttachment(element)) {
+        <app-attachment-state [state]="element.state"></app-attachment-state>
+      }
     </bc-data-cell>
   </ng-container>
 
   <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+  <bc-data-row
+    *dataRowDef="let row; columns: columns; let i = index"
+    selectionToggle
+    [selectionToggleValue]="row"
+    selectionRow
+    [selectionRowValue]="row"
+    [selectionDisabled]="isSelectionDisabled"
+    (click)="open(row)"
+  ></bc-data-row>
 </bc-table>

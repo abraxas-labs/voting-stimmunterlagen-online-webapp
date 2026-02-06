@@ -5,11 +5,12 @@
  */
 
 import {
+  CreateEmptyManualVotingCardGeneratorJobRequest,
   CreateManualVotingCardGeneratorJobRequest,
   ListManualVotingCardGeneratorJobsRequest,
   ManualVotingCardGeneratorJobsServiceClient,
 } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ManualVotingCardGeneratorJob, ManualVotingCardGeneratorJobProto } from '../models/manual-voting-card-generator-job.model';
 import { User } from '../models/user.model';
@@ -22,11 +23,20 @@ import { Int32Value, Timestamp } from '@ngx-grpc/well-known-types';
   providedIn: 'root',
 })
 export class ManualVotingCardGeneratorJobService {
-  constructor(
-    private readonly client: ManualVotingCardGeneratorJobsServiceClient,
-    private readonly fileDownloadService: FileSaveService,
-    private readonly i18n: TranslateService,
-  ) {}
+  private readonly client = inject(ManualVotingCardGeneratorJobsServiceClient);
+  private readonly fileDownloadService = inject(FileSaveService);
+  private readonly i18n = inject(TranslateService);
+
+  public async createEmpty(domainOfInfluenceId: string): Promise<void> {
+    const pdf = await firstValueFrom(
+      this.client.createEmpty(
+        new CreateEmptyManualVotingCardGeneratorJobRequest({
+          domainOfInfluenceId,
+        }),
+      ),
+    ).then(x => x.pdf!);
+    this.fileDownloadService.savePdf(pdf, this.i18n.instant('STEP_GENERATE_MANUAL_VOTING_CARDS.FILE_NAME'));
+  }
 
   public async create(domainOfInfluenceId: string, voter: ManualVotingCardVoter): Promise<void> {
     const pdf = await firstValueFrom(
@@ -55,10 +65,12 @@ export class ManualVotingCardGeneratorJobService {
       id: proto.id!,
       created: proto.created!.toDate(),
       createdBy: <User>proto.createdBy,
-      voter: <ManualVotingCardVoter>{
-        ...proto.voter?.toObject(),
-        dateOfBirth: proto.voter?.dateOfBirth?.toDate(),
-      },
+      voter: proto.voter
+        ? <ManualVotingCardVoter>{
+            ...proto.voter?.toObject(),
+            dateOfBirth: proto.voter?.dateOfBirth?.toDate(),
+          }
+        : undefined,
     };
   }
 

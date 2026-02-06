@@ -6,15 +6,19 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { Step, StepInfo } from '../../../../models/step.model';
+import { isCommunal } from '../../../../services/utils/domain-of-influence.utils';
 
 @Component({
   selector: 'app-wizard-sidebar',
   templateUrl: './wizard-sidebar.component.html',
   styleUrls: ['./wizard-sidebar.component.scss'],
+  standalone: false,
 })
 export class WizardSidebarComponent implements OnChanges {
   public readonly Step: typeof Step = Step;
   public stepIsWithinContestDeadlines = false;
+  public isContestOwnerDomainOfInfluence = false;
+  public isCommunalContest = false;
 
   @Input()
   public stepInfo!: StepInfo;
@@ -64,11 +68,19 @@ export class WizardSidebarComponent implements OnChanges {
   }
 
   public ngOnChanges(): void {
+    if (!this.stepInfo) {
+      this.stepIsWithinContestDeadlines = false;
+      this.isCommunalContest = false;
+      this.isContestOwnerDomainOfInfluence = false;
+      return;
+    }
+
     this.stepIsWithinContestDeadlines =
-      !!this.stepInfo &&
-      (this.stepInfo.state.step === Step.STEP_CONTEST_APPROVAL ||
-        this.stepInfo.state.step === Step.STEP_E_VOTING ||
-        (this.stepInfo.state.step <= Step.STEP_ATTACHMENTS && !this.stepInfo.contest.isPastPrintingCenterSignUpDeadline) ||
-        (this.stepInfo.state.step >= Step.STEP_VOTER_LISTS && !this.stepInfo.contest.isPastGenerateVotingCardsDeadline));
+      this.stepInfo.state.step === Step.STEP_CONTEST_APPROVAL ||
+      this.stepInfo.state.step === Step.STEP_E_VOTING ||
+      (this.stepInfo.state.step <= Step.STEP_ATTACHMENTS && !this.stepInfo.contest.isPastPrintingCenterSignUpDeadline) ||
+      (this.stepInfo.state.step >= Step.STEP_VOTER_LISTS && !this.stepInfo.contest.isPastGenerateVotingCardsDeadline);
+    this.isContestOwnerDomainOfInfluence = !!this.stepInfo && this.stepInfo.steps.some(s => s.step === Step.STEP_CONTEST_APPROVAL);
+    this.isCommunalContest = isCommunal(this.stepInfo.contest.domainOfInfluence.type);
   }
 }

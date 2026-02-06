@@ -4,8 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { AUDIENCE_CLIENTID_PREFIX, AuthorizationConfig, DEFAULT_SCOPE, UserConfig } from '@abraxas/base-components';
-import { TenantConfig } from '@abraxas/base-components/lib/services/models/tenant-config.model';
+import { AUDIENCE_CLIENTID_PREFIX, AuthorizationConfig, DEFAULT_SCOPE, TenantConfig, UserConfig } from '@abraxas/base-components';
 import { Environments } from '@abraxas/voting-lib';
 import { AuthConfig } from 'angular-oauth2-oidc';
 
@@ -18,6 +17,7 @@ export interface Environment extends TenantConfig, UserConfig, AuthorizationConf
   restApiEndpoint: string;
   dmDocBaseUrl: string;
   isElectoralRegistrationEnabled: boolean;
+  includeDelegations: boolean;
 }
 
 export function buildScope(...clientIds: string[]): string {

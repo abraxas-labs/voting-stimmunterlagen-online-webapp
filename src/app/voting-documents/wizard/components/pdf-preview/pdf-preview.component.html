@@ -1,11 +1,25 @@
-<iframe *ngIf="url; else content" [src]="url + '#toolbar=0&navpanes=0' | safeUrl" frameBorder="0"></iframe>
-
-<ng-template #content>
-  <h1 *ngIf="loading; else previewPlaceholder">
-    <bc-spinner class="mr-1"></bc-spinner>
-    {{ 'APP.LOADING' | translate }}
-  </h1>
-  <ng-template #previewPlaceholder>
+@if (url) {
+  <ngx-extended-pdf-viewer [src]="url" [customToolbar]="toolbar"> </ngx-extended-pdf-viewer>
+} @else {
+  @if (loading) {
+    <h1>
+      <bc-spinner class="mr-1"></bc-spinner>
+      {{ 'APP.LOADING' | translate }}
+    </h1>
+  } @else {
     <h1 translate>PREVIEW</h1>
-  </ng-template>
+  }
+}
+
+<ng-template #toolbar>
+  <div id="toolbarViewer">
+    <div id="toolbarViewerLeft">
+      <pdf-paging-area></pdf-paging-area>
+    </div>
+    <pdf-zoom-toolbar></pdf-zoom-toolbar>
+    <div id="toolbarViewerRight">
+      <pdf-rotate-page></pdf-rotate-page>
+      <pdf-download></pdf-download>
+    </div>
+  </div>
 </ng-template>

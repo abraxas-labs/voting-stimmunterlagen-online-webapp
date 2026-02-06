@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, OnDestroy, inject } from '@angular/core';
 import { Component, ContentChildren, Input, QueryList } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GridTableItemComponent } from './grid-table-item/grid-table-item.component';
@@ -13,8 +13,11 @@ import { GridTableItemComponent } from './grid-table-item/grid-table-item.compon
   selector: 'app-grid-table',
   templateUrl: './grid-table.component.html',
   styleUrls: ['./grid-table.component.scss'],
+  standalone: false,
 })
 export class GridTableComponent implements OnDestroy, AfterViewInit {
+  private readonly cd = inject(ChangeDetectorRef);
+
   private gridTemplateItemsDirectionStyleValue = '';
   private gridTemplateEntriesDirectionStyleValue = '';
   private itemsValue?: QueryList<GridTableItemComponent>;
@@ -55,8 +58,6 @@ export class GridTableComponent implements OnDestroy, AfterViewInit {
       this.refreshGridTemplateItemsDirectionStyle();
     });
   }
-
-  constructor(private readonly cd: ChangeDetectorRef) {}
 
   public ngOnDestroy(): void {
     this.itemsChangesSubscription?.unsubscribe();

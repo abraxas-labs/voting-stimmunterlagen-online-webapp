@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
+  standalone: false,
 })
 export class DialogComponent {
   @Input()

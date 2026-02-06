@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PrintJob, PrintJobState } from '../../../models/print-job.model';
 import { PrintJobService } from '../../../services/print-job.service';
@@ -15,18 +15,19 @@ import { PrintJobSetNextStateDialogData } from '../print-job-set-next-state-dial
   selector: 'app-print-job-reset-state-dialog',
   templateUrl: './print-job-reset-state-dialog.component.html',
   styleUrls: ['./print-job-reset-state-dialog.component.scss'],
+  standalone: false,
 })
 export class PrintJobResetStateDialogComponent {
+  public readonly data = inject<PrintJobSetNextStateDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<PrintJobResetStateDialogComponent>>(MatDialogRef);
+  private readonly printJobService = inject(PrintJobService);
+  private readonly toast = inject(ToastService);
+
   public printJob: PrintJob;
   public saving = false;
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<PrintJobResetStateDialogComponent>,
-    private readonly printJobService: PrintJobService,
-    private readonly toast: ToastService,
-    @Inject(MAT_DIALOG_DATA) public data: PrintJobSetNextStateDialogData,
-  ) {
-    this.printJob = data.printJob;
+  constructor() {
+    this.printJob = this.data.printJob;
   }
 
   public async save(): Promise<void> {

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { Contest } from '../../../../models/contest.model';
 import { DomainOfInfluence } from '../../../../models/domain-of-influence.model';
 import { DomainOfInfluenceService } from '../../../../services/domain-of-influence.service';
@@ -14,8 +14,11 @@ import { DomainOfInfluences } from '@abraxas/voting-stimmunterlagen-proto';
   selector: 'app-contest-overview-voter-list-settings-tab-content',
   templateUrl: './contest-overview-voter-list-settings-tab-content.component.html',
   styleUrls: ['./contest-overview-voter-list-settings-tab-content.component.scss'],
+  standalone: false,
 })
 export class ContestOverviewVoterListSettingsTabContentComponent implements OnInit {
+  private readonly doiService = inject(DomainOfInfluenceService);
+
   @Input()
   public contest!: Contest;
 
@@ -24,13 +27,14 @@ export class ContestOverviewVoterListSettingsTabContentComponent implements OnIn
 
   private domainOfInfluences: DomainOfInfluence[] = [];
 
-  constructor(private readonly doiService: DomainOfInfluenceService) {}
-
   public async ngOnInit(): Promise<void> {
-    this.filteredDomainOfInfluences = this.domainOfInfluences = [
-      ...(await this.doiService.listChildren(this.contest.domainOfInfluence.id)),
-      this.contest.domainOfInfluence,
-    ];
+    this.domainOfInfluences = await this.doiService.listChildren(this.contest.domainOfInfluence.id);
+
+    if (this.contest.domainOfInfluence.responsibleForVotingCards) {
+      this.domainOfInfluences = [...this.domainOfInfluences, this.contest.domainOfInfluence];
+    }
+
+    this.filteredDomainOfInfluences = this.domainOfInfluences;
     this.loading = false;
   }
 

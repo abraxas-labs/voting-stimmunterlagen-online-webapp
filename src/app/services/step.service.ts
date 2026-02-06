@@ -5,7 +5,7 @@
  */
 
 import { ApproveStepRequest, ListStepsRequest, RevertStepRequest, StepServiceClient } from '@abraxas/voting-stimmunterlagen-proto';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom, Observable, Subject } from 'rxjs';
 import { Step, StepState } from '../models/step.model';
 import { groupBySingle } from './utils/array.utils';
@@ -19,9 +19,9 @@ export interface StepApproveChange {
   providedIn: 'root',
 })
 export class StepService {
-  private readonly stepApproveChanged: Subject<StepApproveChange> = new Subject<StepApproveChange>();
+  private readonly client = inject(StepServiceClient);
 
-  constructor(private readonly client: StepServiceClient) {}
+  private readonly stepApproveChanged: Subject<StepApproveChange> = new Subject<StepApproveChange>();
 
   public get stepApproveChanged$(): Observable<StepApproveChange> {
     return this.stepApproveChanged;
