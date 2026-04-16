@@ -126,7 +126,7 @@
     "STATION": "Station",
     "SHIPPING_INSTRUCTIONS": "Versandinstruktionen",
     "SEND_ONLY_TO_HOUSEHOLDER": "Versand Beilage an Haushaltsvorstand",
-    "SEND_ONLY_TO_HOUSEHOLDER_HINT": "Achtung bei Auswahl dieser Option wird die Beilage nur an die für den jeweiligen Haushalt als Haushaltsvorstand markierte Person versendet.",
+    "SEND_ONLY_TO_HOUSEHOLDER_HINT": "Für Gemeinden welche VOTING Stimmregister verwenden, steht der Versand an den Haushaltsvorstand aktuell noch nicht zur Verfügung. Bitte nehmen Sie, falls ein Versand an den Haushaltsvorstand gewünscht ist, Kontakt mit voting@abraxas.ch auf. Achtung bei Auswahl dieser Option wird die Beilage nur an die für den jeweiligen Haushalt als Haushaltsvorstand markierte Person versendet.",
     "SET_REQUIRED_COUNT_TITLE": "Beilage benötigte Anzahl festlegen",
     "UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES": {
       "EXCLUDE": "Einflussbereiche ausschliessen",

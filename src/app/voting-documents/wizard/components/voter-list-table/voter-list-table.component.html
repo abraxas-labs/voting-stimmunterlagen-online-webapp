@@ -16,7 +16,7 @@
           [label]="'VOTER_LIST_IMPORT.CREATE_FROM_SR' | translate"
         ></bc-button>
       }
-      @if (!!stepInfo && stepInfo.domainOfInfluence.hasEmptyVotingCards && !stepInfo.contest.isPoliticalAssembly) {
+      @if (!!stepInfo && stepInfo.domainOfInfluence.hasEmptyVotingCards) {
         <bc-button
           variant="tertiary"
           (buttonClick)="setCountOfEmptyVotingCards()"

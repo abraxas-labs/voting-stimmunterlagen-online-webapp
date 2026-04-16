@@ -1,4 +1,4 @@
-# ✨ Changelog (`v3.26.4`)
+# ✨ Changelog (`v3.27.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v3.26.4
-Previous version ---- v2.5.0
+This version -------- v3.27.0
+Previous version ---- v3.26.4
 Initial version ----- v2.1.0
-Total commits ------- 69
+Total commits ------- 2
 ```
+
+## [v3.27.0] - 2026-03-04
+
+### :arrows_counterclockwise: Changed
+
+- voter-list-table component: Make empty voter list creation available for political assemblies
+
+###
+
+## [v3.26.5] - 2026-02-20
+
+### :arrows_counterclockwise: Changed
+
+- i18n text for SEND_ONLY_TO_HOUSEHOLDER_HINT
 
 ## [v3.26.4] - 2026-02-06
 
