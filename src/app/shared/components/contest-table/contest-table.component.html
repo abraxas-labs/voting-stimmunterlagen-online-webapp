@@ -1,13 +1,14 @@
 <bc-table filter sort [sortMultiple]="true" [sortActive]="defaultSorting" selection [dataSource]="dataSource" class="w-full">
   <ng-container [columnDef]="this.tableColums.DATE">
-    <bc-header-cell filter filterType="date-extended" sort *headerCellDef>
+    <th bc-header-cell filter filterType="date-extended" sort *headerCellDef>
       <span truncateWithTooltip tooltip>{{ 'CONTEST.DATE' | translate }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element[tableColums.DATE] | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">{{ element[tableColums.DATE] | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container [columnDef]="this.tableColums.TYPE">
-    <bc-header-cell
+    <th
+      bc-header-cell
       filter
       filterType="list"
       [filterItems]="contestType"
@@ -15,59 +16,61 @@
       filterValueExpr="value"
       sort
       *headerCellDef
-      ><span truncateWithTooltip tooltip>{{ 'CONTEST.TYPE.TITLE' | translate }}</span></bc-header-cell
     >
-    <bc-data-cell *dataCellDef="let element">{{
-      'CONTEST.TYPE.' + (element[tableColums.TYPE] ? 'POLITICAL_ASSEMBLY' : 'CONTEST') | translate
-    }}</bc-data-cell>
+      <span truncateWithTooltip tooltip>{{ 'CONTEST.TYPE.TITLE' | translate }}</span>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">
+      {{ 'CONTEST.TYPE.' + (element[tableColums.TYPE] ? 'POLITICAL_ASSEMBLY' : 'CONTEST') | translate }}
+    </td>
   </ng-container>
 
   <ng-container [columnDef]="this.tableColums.AUTHORITY">
-    <bc-header-cell filter sort *headerCellDef>
+    <th bc-header-cell filter sort *headerCellDef>
       <span truncateWithTooltip tooltip>{{ 'CONTEST.AUTHORITY_NAME' | translate }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element[tableColums.AUTHORITY] }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">{{ element[tableColums.AUTHORITY] }}</td>
   </ng-container>
 
   <ng-container [columnDef]="this.tableColums.DOMAIN_OF_INFLUENCE">
-    <bc-header-cell filter sort *headerCellDef>
+    <th bc-header-cell filter sort *headerCellDef>
       <span truncateWithTooltip tooltip>{{ 'CONTEST.DOMAIN_OF_INFLUENCE_NAME' | translate }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element[tableColums.DOMAIN_OF_INFLUENCE] }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">{{ element[tableColums.DOMAIN_OF_INFLUENCE] }}</td>
   </ng-container>
 
   <ng-container [columnDef]="this.tableColums.PRINTING_CENTER_DEADLINE">
-    <bc-header-cell filter filterType="date-extended" sort *headerCellDef>
+    <th bc-header-cell filter filterType="date-extended" sort *headerCellDef>
       <span truncateWithTooltip tooltip>{{ 'CONTEST.PRINTING_CENTER_SIGNUP_DEADLINE_SHORT' | translate }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element[tableColums.PRINTING_CENTER_DEADLINE] | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">{{ element[tableColums.PRINTING_CENTER_DEADLINE] | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container [columnDef]="this.tableColums.POST_DEADLINE">
-    <bc-header-cell filter filterType="date-extended" sort *headerCellDef>
+    <th bc-header-cell filter filterType="date-extended" sort *headerCellDef>
       <span truncateWithTooltip tooltip>{{ 'CONTEST.DELIVERY_TO_POST_DEADLINE' | translate }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element[tableColums.POST_DEADLINE] | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">{{ element[tableColums.POST_DEADLINE] | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container [columnDef]="this.tableColums.GENERATE_DEADLINE">
-    <bc-header-cell filter filterType="date-extended" sort *headerCellDef>
+    <th bc-header-cell filter filterType="date-extended" sort *headerCellDef>
       <span truncateWithTooltip tooltip>
         {{ 'CONTEST.GENERATE_VOTING_CARDS_DEADLINE' | translate }}
       </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element[tableColums.GENERATE_DEADLINE] | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">{{ element[tableColums.GENERATE_DEADLINE] | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container [columnDef]="this.tableColums.ATTACHEMENT_DELIVERY_DEADLINE">
-    <bc-header-cell filter filterType="date-extended" sort *headerCellDef>
+    <th bc-header-cell filter filterType="date-extended" sort *headerCellDef>
       <span truncateWithTooltip tooltip>{{ 'CONTEST.ATTACHMENT_DELIVERY_DEADLINE' | translate }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element[tableColums.ATTACHEMENT_DELIVERY_DEADLINE] | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">{{ element[tableColums.ATTACHEMENT_DELIVERY_DEADLINE] | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container sort [columnDef]="this.tableColums.PRINT_JOB_STATE">
-    <bc-header-cell
+    <th
+      bc-header-cell
       filter
       filterType="list"
       [filterItems]="printJobStateItems"
@@ -75,22 +78,24 @@
       filterValueExpr="value"
       sort
       *headerCellDef
-      ><span truncateWithTooltip tooltip>{{ 'PRINT_JOB.STATE' | translate }}</span></bc-header-cell
     >
-    <bc-data-cell *dataCellDef="let element">
+      <span truncateWithTooltip tooltip>{{ 'PRINT_JOB.STATE' | translate }}</span>
+    </th>
+    <td bc-data-cell *dataCellDef="let element">
       <app-print-job-state [state]="element[tableColums.PRINT_JOB_STATE]"></app-print-job-state>
-    </bc-data-cell>
+    </td>
   </ng-container>
 
-  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row
+  <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+  <tr
+    bc-data-row
     *dataRowDef="let row; columns: columns; let i = index"
     selectionToggle
     [selectionToggleValue]="row"
     selectionRow
     [selectionRowValue]="row"
     (click)="openDetail.emit(row)"
-  ></bc-data-row>
+  ></tr>
 </bc-table>
 
 @if (dataSource.data.length === 0) {

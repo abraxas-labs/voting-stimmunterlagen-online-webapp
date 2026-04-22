@@ -1,6 +1,7 @@
-<app-dialog>
-  <h1 header>{{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_SINGLE_TEMPLATE_DATA' | translate: brick }}</h1>
-
+<vo-lib-dialog
+  [header]="'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_SINGLE_TEMPLATE_DATA' | translate: brick"
+  (dialogClose)="close()"
+>
   <div content class="m-2">
     @if (!!brickEditSrc) {
       <iframe #editorIframe [src]="brickEditSrc"></iframe>
@@ -11,7 +12,5 @@
     }
   </div>
 
-  <div footer>
-    <app-button-bar [saving]="saving" [hasDeleteButton]="false" (save)="save()" (cancelEvent)="close()"> </app-button-bar>
-  </div>
-</app-dialog>
+  <app-button-bar footer [saving]="saving" [hasDeleteButton]="false" (save)="save()" (cancelEvent)="close()"> </app-button-bar>
+</vo-lib-dialog>

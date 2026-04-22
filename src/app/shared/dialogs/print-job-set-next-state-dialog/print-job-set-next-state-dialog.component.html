@@ -1,6 +1,4 @@
-<app-dialog>
-  <h3 header>{{ nextStateTranslationPrefix + '.HEADER' | translate }}</h3>
-
+<vo-lib-dialog [header]="nextStateTranslationPrefix + '.HEADER' | translate" (dialogClose)="done()">
   <div content class="m-2">
     <p class="whitespace-pre-wrap">{{ nextStateTranslationPrefix + '.TEXT' | translate }}</p>
 
@@ -41,14 +39,13 @@
     </form>
   </div>
 
-  <div footer>
-    <app-button-bar
-      [saving]="saving"
-      [saveLabel]="nextStateTranslationPrefix + '.INVOKE'"
-      [hasDeleteButton]="false"
-      [canSave]="form.valid"
-      (save)="save()"
-      (cancelEvent)="done()"
-    ></app-button-bar>
-  </div>
-</app-dialog>
+  <app-button-bar
+    footer
+    [saving]="saving"
+    [saveLabel]="nextStateTranslationPrefix + '.INVOKE'"
+    [hasDeleteButton]="false"
+    [canSave]="!!form.valid"
+    (save)="save()"
+    (cancelEvent)="done()"
+  ></app-button-bar>
+</vo-lib-dialog>

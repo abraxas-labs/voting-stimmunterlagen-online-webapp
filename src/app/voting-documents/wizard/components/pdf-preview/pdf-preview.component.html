@@ -2,12 +2,12 @@
   <ngx-extended-pdf-viewer [src]="url" [customToolbar]="toolbar"> </ngx-extended-pdf-viewer>
 } @else {
   @if (loading) {
-    <h1>
+    <h2>
       <bc-spinner class="mr-1"></bc-spinner>
       {{ 'APP.LOADING' | translate }}
-    </h1>
+    </h2>
   } @else {
-    <h1 translate>PREVIEW</h1>
+    <h2 translate>PREVIEW</h2>
   }
 }
 

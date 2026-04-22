@@ -44,7 +44,10 @@
                 "output": "/assets/"
               }
             ],
-            "styles": ["src/app/styles/styles.scss"],
+            "styles": [
+              "./node_modules/@abraxas/base-components/src/lib/styles/predefined/default.theme.scss",
+              "src/app/styles/styles.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": ["node_modules/", "."]
             },

@@ -1,6 +1,4 @@
-<app-dialog>
-  <h3 header>{{ title | translate }}</h3>
-
+<vo-lib-dialog [header]="title | translate" (dialogClose)="cancel()">
   <div content>
     <p>{{ message | translate }}</p>
   </div>
@@ -11,4 +9,4 @@
     }
     <bc-button variant="primary" [color]="confirmColor" (buttonClick)="confirm()" [label]="confirmText | translate"></bc-button>
   </div>
-</app-dialog>
+</vo-lib-dialog>

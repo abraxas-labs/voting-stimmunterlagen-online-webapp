@@ -1,5 +1,5 @@
 @use '../../../node_modules/normalize.css/normalize.css';
-@use '@abraxas/voting-lib/style' as *;
+@use '@abraxas/voting-lib/style/color' as *;
 @use './layout';
 @use './overflow';
 @use './color';
@@ -26,7 +26,7 @@ bc-app-layout main {
 .link {
   cursor: pointer;
   text-decoration: underline;
-  color: $color-primary;
+  color: $color-text-brand;
 }
 
 // This is a workaround. Remove after fixed height issue has been fixed in BC.

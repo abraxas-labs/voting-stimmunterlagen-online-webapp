@@ -4,10 +4,16 @@
  * For license information see LICENSE file.
  */
 
-import { AuthenticationService, AuthorizationService, SnackbarComponent } from '@abraxas/base-components';
+import {
+  AuthenticationService,
+  AuthorizationService,
+  CornerRadiusTokensThemes,
+  SnackbarComponent,
+  StylingService,
+} from '@abraxas/base-components';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { SnackbarService, ThemeService } from '@abraxas/voting-lib';
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import 'moment/locale/de';
@@ -43,6 +49,9 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor() {
     const themeService = inject(ThemeService);
     const snackbarService = inject(SnackbarService);
+    const stylingService = inject(StylingService);
+
+    stylingService.setRadius(CornerRadiusTokensThemes.Default);
 
     // enable automatic silent refresh
     this.oauthService.setupAutomaticSilentRefresh({}, 'access_token');

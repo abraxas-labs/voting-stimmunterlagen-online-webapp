@@ -1,6 +1,4 @@
-<app-dialog>
-  <h3 header translate>ATTACHMENT.SET_REQUIRED_COUNT_TITLE</h3>
-
+<vo-lib-dialog [header]="'ATTACHMENT.SET_REQUIRED_COUNT_TITLE' | translate" (dialogClose)="done()">
   <div content class="m-2">
     <form #form="ngForm">
       <bc-text
@@ -22,8 +20,12 @@
     </form>
   </div>
 
-  <div footer>
-    <app-button-bar [saving]="saving" [canSave]="form.valid" [hasDeleteButton]="false" (save)="save()" (cancelEvent)="done()">
-    </app-button-bar>
-  </div>
-</app-dialog>
+  <app-button-bar
+    footer
+    [saving]="saving"
+    [canSave]="!!form.valid"
+    [hasDeleteButton]="false"
+    (save)="save()"
+    (cancelEvent)="done()"
+  ></app-button-bar>
+</vo-lib-dialog>

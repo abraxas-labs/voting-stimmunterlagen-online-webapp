@@ -7,11 +7,12 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ElectoralRegisterService } from '../../../../services/electoral-register.service';
 import { ElectoralRegisterFilter, ElectoralRegisterFilterMetadata, ElectoralRegisterFilterVersion } from '../../../../models/filter.model';
-import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER } from '@angular/material/autocomplete';
-import { MAT_SELECT_SCROLL_STRATEGY_PROVIDER } from '@angular/material/select';
+import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY } from '@angular/material/autocomplete';
+import { MAT_SELECT_SCROLL_STRATEGY } from '@angular/material/select';
 import { fromBcDate, toBcDate } from '../../../../services/utils/date.utils';
 import { mapVoterListImportResponseToImport } from '../../../../services/utils/voter-list.utils';
 import { VoterListImportEditDialogBaseComponent } from '../voter-list-import-edit-dialog-base/voter-list-import-edit-dialog-base.component';
+import { Overlay } from '@angular/cdk/overlay';
 
 const filterVersionsCount = 3;
 
@@ -19,7 +20,18 @@ const filterVersionsCount = 3;
   selector: 'app-voter-list-electoral-register-edit-dialog',
   templateUrl: './voter-list-electoral-register-edit-dialog.component.html',
   styleUrls: ['./voter-list-electoral-register-edit-dialog.component.scss'],
-  providers: [MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER, MAT_SELECT_SCROLL_STRATEGY_PROVIDER],
+  providers: [
+    {
+      provide: MAT_AUTOCOMPLETE_SCROLL_STRATEGY,
+      useFactory: (overlay: Overlay) => () => overlay.scrollStrategies.reposition(),
+      deps: [Overlay],
+    },
+    {
+      provide: MAT_SELECT_SCROLL_STRATEGY,
+      useFactory: (overlay: Overlay) => () => overlay.scrollStrategies.reposition(),
+      deps: [Overlay],
+    },
+  ],
   standalone: false,
 })
 export class VoterListElectoralRegisterEditDialogComponent

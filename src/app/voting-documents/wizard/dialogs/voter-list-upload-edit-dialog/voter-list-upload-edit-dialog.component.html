@@ -1,6 +1,7 @@
-<app-dialog>
-  <h1 header>{{ (!voterListImportError ? 'VOTER_LIST_IMPORT.UPLOAD_ECH_TITLE.STEP_' + step : 'VOTER_LIST_IMPORT.ERROR') | translate }}</h1>
-
+<vo-lib-dialog
+  [header]="(!voterListImportError ? 'VOTER_LIST_IMPORT.UPLOAD_ECH_TITLE.STEP_' + step : 'VOTER_LIST_IMPORT.ERROR') | translate"
+  (dialogClose)="done()"
+>
   <div content class="m-2">
     <app-voter-list-import-edit-form
       [voterListImport]="voterListImport"
@@ -38,22 +39,21 @@
     </app-voter-list-import-edit-form>
   </div>
 
-  <div footer>
-    <app-button-bar
-      deleteConfirmLabel="VOTER_LIST_IMPORT.DELETE_CONFIRM"
-      [saving]="saving"
-      [deleting]="deleting"
-      [canSave]="canSave"
-      [hasDeleteButton]="!isNew && step === 1"
-      [hasCancelButton]="
-        step === 1 || voterListImportError || (!voterListImportError && data.domainOfInfluence.electoralRegisterMultipleEnabled)
-      "
-      (save)="save()"
-      [hasSaveButton]="!voterListImportError"
-      [savingLabel]="step === 1 && !!file ? 'VOTER_LIST_IMPORT.IMPORTING' : ''"
-      (delete)="delete()"
-      (cancelEvent)="cancel()"
-    >
-    </app-button-bar>
-  </div>
-</app-dialog>
+  <app-button-bar
+    footer
+    deleteConfirmLabel="VOTER_LIST_IMPORT.DELETE_CONFIRM"
+    [saving]="saving"
+    [deleting]="deleting"
+    [canSave]="canSave"
+    [hasDeleteButton]="!isNew && step === 1"
+    [hasCancelButton]="
+      step === 1 || !!voterListImportError || (!voterListImportError && data.domainOfInfluence.electoralRegisterMultipleEnabled)
+    "
+    (save)="save()"
+    [hasSaveButton]="!voterListImportError"
+    [savingLabel]="step === 1 && !!file ? 'VOTER_LIST_IMPORT.IMPORTING' : ''"
+    (delete)="delete()"
+    (cancelEvent)="cancel()"
+  >
+  </app-button-bar>
+</vo-lib-dialog>

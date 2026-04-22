@@ -1,8 +1,7 @@
-<app-dialog>
-  <h1 header>
-    {{ (!voterListImportError ? 'VOTER_LIST_IMPORT.CREATE_FROM_SR_TITLE.STEP_' + step : 'VOTER_LIST_IMPORT.ERROR') | translate }}
-  </h1>
-
+<vo-lib-dialog
+  [header]="(!voterListImportError ? 'VOTER_LIST_IMPORT.CREATE_FROM_SR_TITLE.STEP_' + step : 'VOTER_LIST_IMPORT.ERROR') | translate"
+  (dialogClose)="done()"
+>
   <div content class="m-2">
     @if (!loading) {
       <app-voter-list-import-edit-form
@@ -11,7 +10,7 @@
         [voterListImportError]="voterListImportError"
         [electoralRegisterMultipleEnabled]="data.domainOfInfluence.electoralRegisterMultipleEnabled"
       >
-        @if (filters?.length > 0) {
+        @if (filters && filters.length > 0) {
           <bc-autocomplete
             [label]="'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER.SELECTION' | translate"
             [items]="filters"
@@ -137,7 +136,7 @@
         [canSave]="canSave"
         [hasDeleteButton]="!isNew && step === 1"
         [hasCancelButton]="
-          step === 1 || voterListImportError || (!voterListImportError && data.domainOfInfluence.electoralRegisterMultipleEnabled)
+          step === 1 || !!voterListImportError || (!voterListImportError && data.domainOfInfluence.electoralRegisterMultipleEnabled)
         "
         (save)="save()"
         (delete)="delete()"
@@ -146,4 +145,4 @@
       </app-button-bar>
     }
   </div>
-</app-dialog>
+</vo-lib-dialog>

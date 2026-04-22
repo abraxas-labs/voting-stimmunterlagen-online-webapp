@@ -8,11 +8,10 @@ import { DomainOfInfluence as DomainOfInfluenceProto, DomainOfInfluenceType } fr
 
 export { DomainOfInfluenceType };
 
-export interface DomainOfInfluence
-  extends Omit<
-    Required<DomainOfInfluenceProto.AsObject>,
-    'lastVoterUpdate' | 'lastCountOfEmptyVotingCardsUpdate' | 'generateVotingCardsTriggered' | 'eVoting'
-  > {
+export interface DomainOfInfluence extends Omit<
+  Required<DomainOfInfluenceProto.AsObject>,
+  'lastVoterUpdate' | 'lastCountOfEmptyVotingCardsUpdate' | 'generateVotingCardsTriggered' | 'eVoting'
+> {
   lastVoterUpdate?: Date;
   lastCountOfEmptyVotingCardsUpdate?: Date;
   generateVotingCardsTriggered?: Date;

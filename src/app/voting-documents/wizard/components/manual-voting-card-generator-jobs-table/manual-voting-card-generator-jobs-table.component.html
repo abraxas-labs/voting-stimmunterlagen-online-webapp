@@ -1,23 +1,25 @@
 <bc-table class="w-full" [dataSource]="jobs">
   <ng-container columnDef="created">
-    <bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.CREATED' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.created | date: 'dd.MM.yyyy HH:mm' }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.CREATED' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.created | date: 'dd.MM.yyyy HH:mm' }}</td>
   </ng-container>
 
   <ng-container columnDef="createdBy">
-    <bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.CREATED_BY' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.createdBy.firstName }} {{ element.createdBy.lastName }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.CREATED_BY' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.createdBy.firstName }} {{ element.createdBy.lastName }}</td>
   </ng-container>
 
   <ng-container columnDef="voter">
-    <bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.VOTER' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{
-      element.voter
-        ? element.voter.firstName + ' ' + element.voter.lastName + ', ' + element.voter.town
-        : ('MANUAL_VOTING_CARD_GENERATOR_JOB.EMPTY' | translate)
-    }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'MANUAL_VOTING_CARD_GENERATOR_JOB.VOTER' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
+      {{
+        element.voter
+          ? element.voter.firstName + ' ' + element.voter.lastName + ', ' + element.voter.town
+          : ('MANUAL_VOTING_CARD_GENERATOR_JOB.EMPTY' | translate)
+      }}
+    </td>
   </ng-container>
 
-  <bc-header-row *headerRowDef="let row; columns: ['created', 'createdBy', 'voter']"></bc-header-row>
-  <bc-data-row *dataRowDef="let row; columns: ['created', 'createdBy', 'voter']; let i = index"></bc-data-row>
+  <tr bc-header-row *headerRowDef="let row; columns: ['created', 'createdBy', 'voter']"></tr>
+  <tr bc-data-row *dataRowDef="let row; columns: ['created', 'createdBy', 'voter']; let i = index"></tr>
 </bc-table>

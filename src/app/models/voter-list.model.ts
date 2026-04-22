@@ -14,8 +14,10 @@ import { CheckableItems } from './checkable-item.model';
 import { DomainOfInfluence } from './domain-of-influence.model';
 import { PoliticalBusiness } from './political-business.model';
 
-export interface VoterList
-  extends Omit<Required<VoterListProto.AsObject>, 'lastUpdate' | 'sendVotingCardsToDomainOfInfluenceReturnAddress' | 'voterDuplicates'> {
+export interface VoterList extends Omit<
+  Required<VoterListProto.AsObject>,
+  'lastUpdate' | 'sendVotingCardsToDomainOfInfluenceReturnAddress' | 'voterDuplicates'
+> {
   lastUpdate: Date;
   checkablePoliticalBusinesses: CheckableItems<PoliticalBusiness>;
   sendVotingCardsToDomainOfInfluenceReturnAddress?: boolean;

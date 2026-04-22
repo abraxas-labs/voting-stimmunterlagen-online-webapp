@@ -16,8 +16,10 @@ export interface ElectoralRegisterFilterMetadata extends Omit<Required<Electoral
   actualityDate: Date | undefined;
 }
 
-export interface ElectoralRegisterFilterVersion
-  extends Omit<Partial<ElectoralRegisterFilterVersionProto.AsObject>, 'deadline' | 'createdAt'> {
+export interface ElectoralRegisterFilterVersion extends Omit<
+  Partial<ElectoralRegisterFilterVersionProto.AsObject>,
+  'deadline' | 'createdAt'
+> {
   deadline: Date;
   createdAt: Date;
 }

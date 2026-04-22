@@ -31,7 +31,6 @@ import { GrpcWebClientModule } from '@ngx-grpc/grpc-web-client';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonBarComponent } from './components/button-bar/button-bar.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { DialogComponent } from './components/dialog/dialog.component';
 import { GridTableItemEntryComponent } from './components/grid-table/grid-table-item-entry/grid-table-item-entry.component';
 import { GridTableItemComponent } from './components/grid-table/grid-table-item/grid-table-item.component';
 import { GridTableComponent } from './components/grid-table/grid-table.component';
@@ -68,6 +67,7 @@ import { ContestOverviewAdditionalInvoicePositionTableComponent } from './compon
 import { AdditionalInvoicePositionEditDialogComponent } from './components/additional-invoice-position-edit-dialog/additional-invoice-position-edit-dialog.component';
 import { VotingCardLayoutDataConfigurationEditComponent } from './components/voting-card-layout-data-configuration-edit/voting-card-layout-data-configuration-edit.component';
 import { AttachmentEditDialogComponent } from './dialogs/attachment-edit-dialog/attachment-edit-dialog.component';
+import { VotingLibModule } from '@abraxas/voting-lib';
 
 const modules = [
   CommonModule,
@@ -93,13 +93,13 @@ const modules = [
   TextareaModule,
   TruncateWithTooltipModule,
   RadioButtonModule,
+  VotingLibModule,
 ];
 
 const components = [
   NotFoundComponent,
   ButtonBarComponent,
   ConfirmDialogComponent,
-  DialogComponent,
   GridTableComponent,
   GridTableItemComponent,
   GridTableItemEntryComponent,

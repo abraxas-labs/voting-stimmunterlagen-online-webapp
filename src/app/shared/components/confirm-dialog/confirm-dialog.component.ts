@@ -7,7 +7,7 @@
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-export type ConfirmColor = 'primary' | 'warn' | undefined;
+export type ConfirmColor = 'default' | 'warn';
 
 @Component({
   templateUrl: './confirm-dialog.component.html',
@@ -50,7 +50,7 @@ export interface ConfirmDialogData {
   confirmText?: string;
   cancelText?: string;
   showCancel: boolean;
-  confirmColor: ConfirmColor;
+  confirmColor?: ConfirmColor;
 }
 
 export interface ConfirmDialogResult {

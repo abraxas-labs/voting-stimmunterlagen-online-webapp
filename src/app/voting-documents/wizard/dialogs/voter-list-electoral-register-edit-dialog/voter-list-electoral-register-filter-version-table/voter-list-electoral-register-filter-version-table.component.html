@@ -1,43 +1,42 @@
 @if (filterVersions !== undefined && filterVersions.length > 0) {
   <bc-table [dataSource]="filterVersions">
     <ng-container columnDef="name">
-      <bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NAME' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.name }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NAME' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.name }}</td>
     </ng-container>
     <ng-container columnDef="deadline">
-      <bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.DEADLINE' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.deadline | date }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.DEADLINE' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.deadline | date }}</td>
     </ng-container>
     <ng-container columnDef="numberOfPersons">
-      <bc-header-cell *headerCellDef>{{
-        'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NUMBER_OF_PERSONS' | translate
-      }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.numberOfPersons | number }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NUMBER_OF_PERSONS' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.numberOfPersons | number }}</td>
     </ng-container>
     <ng-container columnDef="createdBy">
-      <bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.CREATED_BY' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.createdByName }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.CREATED_BY' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.createdByName }}</td>
     </ng-container>
     <ng-container columnDef="createdAt">
-      <bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.CREATED_AT' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.createdAt | date }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.CREATED_AT' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.createdAt | date }}</td>
     </ng-container>
     <ng-container columnDef="numberOfInvalidPersons">
-      <bc-header-cell *headerCellDef
-        >{{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NUMBER_OF_INVALID_PERSONS' | translate }}
-      </bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">
+      <th bc-header-cell *headerCellDef>
+        {{ 'VOTER_LIST_IMPORT.ELECTORAL_REGISTER.FILTER_VERSION.NUMBER_OF_INVALID_PERSONS' | translate }}
+      </th>
+      <td bc-data-cell *dataCellDef="let element">
         @if (element.numberOfInvalidPersons > 0) {
           <bc-icon class="color-warning mr-2" icon="exclamation-triangle-o"></bc-icon>
         }
         <span>{{ element.numberOfInvalidPersons | number }}</span>
-      </bc-data-cell>
+      </td>
     </ng-container>
-    <bc-header-row *headerRowDef="let row; columns: versionColumns"></bc-header-row>
-    <bc-data-row
+    <tr bc-header-row *headerRowDef="let row; columns: versionColumns"></tr>
+    <tr
+      bc-data-row
       *dataRowDef="let row; columns: versionColumns; let i = index"
       [class.selected]="selectedFilterVersionId === row.id"
-    ></bc-data-row>
+    ></tr>
   </bc-table>
 } @else {
   @if (filterVersions !== undefined && filterVersions.length === 0) {

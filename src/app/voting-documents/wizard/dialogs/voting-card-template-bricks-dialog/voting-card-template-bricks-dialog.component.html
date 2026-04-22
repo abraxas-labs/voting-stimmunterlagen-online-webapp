@@ -1,6 +1,4 @@
-<app-dialog>
-  <h1 header translate>STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATA</h1>
-
+<vo-lib-dialog [header]="'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATA' | translate" (dialogClose)="close()">
   <div content class="m-2">
     @for (brick of bricks; track brick) {
       <div class="brick-item mb-2">
@@ -17,7 +15,5 @@
     }
   </div>
 
-  <div footer>
-    <app-button-bar [saveLabel]="'APP.CLOSE'" [hasDeleteButton]="false" (save)="close()" [hasCancelButton]="false"> </app-button-bar>
-  </div>
-</app-dialog>
+  <app-button-bar footer [saveLabel]="'APP.CLOSE'" [hasDeleteButton]="false" (save)="close()" [hasCancelButton]="false"> </app-button-bar>
+</vo-lib-dialog>

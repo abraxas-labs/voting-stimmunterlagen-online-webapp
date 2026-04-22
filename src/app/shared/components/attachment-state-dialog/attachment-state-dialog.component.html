@@ -1,6 +1,4 @@
-<app-dialog>
-  <h3 header translate>ATTACHMENT.SET_STATE.TITLE</h3>
-
+<vo-lib-dialog [header]="'ATTACHMENT.SET_STATE.TITLE' | translate" (dialogClose)="done()">
   <div content>
     <div class="header">
       <p>{{ 'ATTACHMENT.SET_STATE.LABEL' | translate }}</p>
@@ -41,4 +39,4 @@
       (cancelEvent)="done()"
     ></app-button-bar>
   </div>
-</app-dialog>
+</vo-lib-dialog>

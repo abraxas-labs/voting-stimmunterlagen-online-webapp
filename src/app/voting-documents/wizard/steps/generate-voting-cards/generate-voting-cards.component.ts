@@ -62,7 +62,7 @@ export class GenerateVotingCardsComponent extends StepBaseComponent {
       'STEP_GENERATE_VOTING_CARDS.CONFIRM_MESSAGE',
       undefined,
       undefined,
-      'primary',
+      'default',
     );
     if (!isConfirmed) {
       this.stepInfo.state.approved = false;

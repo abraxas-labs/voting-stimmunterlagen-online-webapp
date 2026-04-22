@@ -1,89 +1,89 @@
 <bc-table selection [dataSource]="entries" class="w-full">
   <ng-container columnDef="category">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.CATEGORY' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.CATEGORY' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       @if (!isAttachment(element)) {
         <span>{{ 'ATTACHMENT.CATEGORIES.' + element.category | translate }}</span>
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
   <ng-container columnDef="authority">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.AUTHORITY' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.AUTHORITY' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       @if (isAttachment(element)) {
         <span>{{ element.domainOfInfluence.authorityName }}</span>
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
   <ng-container columnDef="domainOfInfluence">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DOMAIN_OF_INFLUENCE' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DOMAIN_OF_INFLUENCE' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       @if (isAttachment(element)) {
         <span>{{ element.domainOfInfluence.name }}</span>
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
   <ng-container columnDef="name">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DOCUMENT' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.name }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DOCUMENT' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.name }}</td>
   </ng-container>
 
   <ng-container columnDef="orderedCount">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.ORDERED_COUNT' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{
-      (isAttachment(element) ? element.orderedCount : element.totalOrderedCount) | number
-    }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.ORDERED_COUNT' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
+      {{ (isAttachment(element) ? element.orderedCount : element.totalOrderedCount) | number }}
+    </td>
   </ng-container>
 
   <ng-container columnDef="requiredCount">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_COUNT' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.totalRequiredCount | number }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_COUNT' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.totalRequiredCount | number }}</td>
   </ng-container>
 
   <ng-container columnDef="requiredForVoterListsCount">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_FOR_VOTER_LISTS_COUNT' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_FOR_VOTER_LISTS_COUNT' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       @if (showRequiredForVoterListsCount(element)) {
         <span>{{ element.totalRequiredForVoterListsCount | number }}</span>
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
   <ng-container columnDef="format">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.FORMAT' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.FORMAT' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       @if (isAttachment(element)) {
         <span>{{ 'ATTACHMENT.FORMATS.' + element.format | translate }}</span>
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
   <ng-container columnDef="color">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.COLOR' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.color }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.COLOR' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.color }}</td>
   </ng-container>
 
   <ng-container columnDef="supplier">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.SUPPLIER' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.supplier }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.SUPPLIER' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.supplier }}</td>
   </ng-container>
 
   <ng-container columnDef="deliveryPlannedOn">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DELIVERY_PLANNED_ON' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.deliveryPlannedOn | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DELIVERY_PLANNED_ON' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.deliveryPlannedOn | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container columnDef="deliveryReceivedOn">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DELIVERY_RECEIVED_ON' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.deliveryReceivedOn | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DELIVERY_RECEIVED_ON' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.deliveryReceivedOn | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container columnDef="station">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.STATION' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.STATION' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       @if (isAttachment(element)) {
         @if (!forPrintJobManagement) {
           <span>{{ element.station }}</span>
@@ -91,29 +91,30 @@
           <app-set-value-label [value]="element.station" (setValue)="setStation(element)"></app-set-value-label>
         }
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
   <ng-container columnDef="state">
-    <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.STATE' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.STATE' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       @if (isAttachment(element)) {
         <app-attachment-state [state]="element.state"></app-attachment-state>
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
   <ng-container columnDef="stateChange">
-    <bc-header-cell *headerCellDef></bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef></th>
+    <td bc-data-cell *dataCellDef="let element">
       @if (isAttachment(element)) {
         <bc-button variant="tertiary" (buttonClick)="setState(element)" [label]="'APP.CHANGE' | translate"></bc-button>
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
-  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row
+  <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+  <tr
+    bc-data-row
     *dataRowDef="let row; columns: columns; let i = index"
     selectionToggle
     [selectionToggleValue]="row"
@@ -121,7 +122,7 @@
     [selectionRowValue]="row"
     [selectionDisabled]="isSelectionDisabled"
     (click)="open(row)"
-  ></bc-data-row>
+  ></tr>
 </bc-table>
 
 @if (entries.length === 0) {

@@ -1,6 +1,4 @@
-<app-dialog>
-  <h3 header translate>CONTEST.PRINTING_CENTER_SIGN_UP_DEADLINE_DIALOG.TITLE</h3>
-
+<vo-lib-dialog [header]="'CONTEST.PRINTING_CENTER_SIGN_UP_DEADLINE_DIALOG.TITLE' | translate" (dialogClose)="done()">
   <div content class="m-2">
     <bc-date
       [label]="'CONTEST.PRINTING_CENTER_SIGNUP_DEADLINE' | translate"
@@ -49,29 +47,29 @@
 
     <bc-table [dataSource]="checkablePrintJobs.items" class="w-full">
       <ng-container columnDef="checkbox">
-        <bc-header-cell *headerCellDef></bc-header-cell>
-        <bc-data-cell *dataCellDef="let element">
+        <th bc-header-cell *headerCellDef></th>
+        <td bc-data-cell *dataCellDef="let element">
           <bc-checkbox
             [checked]="element.checked"
             (checkedChange)="checkablePrintJobs.updateChecked(element, $event)"
             subscriptSizing="dynamic"
           >
           </bc-checkbox>
-        </bc-data-cell>
+        </td>
       </ng-container>
 
       <ng-container columnDef="authority">
-        <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.AUTHORITY' | translate }}</bc-header-cell>
-        <bc-data-cell *dataCellDef="let element">{{ element.item.domainOfInfluence.authorityName }}</bc-data-cell>
+        <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.AUTHORITY' | translate }}</th>
+        <td bc-data-cell *dataCellDef="let element">{{ element.item.domainOfInfluence.authorityName }}</td>
       </ng-container>
 
       <ng-container columnDef="domainOfInfluence">
-        <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.DOMAIN_OF_INFLUENCE' | translate }}</bc-header-cell>
-        <bc-data-cell *dataCellDef="let element">{{ element.item.domainOfInfluence.name }}</bc-data-cell>
+        <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.DOMAIN_OF_INFLUENCE' | translate }}</th>
+        <td bc-data-cell *dataCellDef="let element">{{ element.item.domainOfInfluence.name }}</td>
       </ng-container>
 
-      <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-      <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+      <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+      <tr bc-data-row *dataRowDef="let row; columns: columns; let i = index"></tr>
     </bc-table>
 
     @if (checkablePrintJobs.items.length === 0) {
@@ -79,13 +77,12 @@
     }
   </div>
 
-  <div footer>
-    <app-button-bar
-      [saving]="saving"
-      [canSave]="validPrintingCenterSignUpDeadline && validGenerateVotingCardsDeadline"
-      [hasDeleteButton]="false"
-      (save)="save()"
-      (cancelEvent)="done()"
-    ></app-button-bar>
-  </div>
-</app-dialog>
+  <app-button-bar
+    footer
+    [saving]="saving"
+    [canSave]="validPrintingCenterSignUpDeadline && validGenerateVotingCardsDeadline"
+    [hasDeleteButton]="false"
+    (save)="save()"
+    (cancelEvent)="done()"
+  ></app-button-bar>
+</vo-lib-dialog>

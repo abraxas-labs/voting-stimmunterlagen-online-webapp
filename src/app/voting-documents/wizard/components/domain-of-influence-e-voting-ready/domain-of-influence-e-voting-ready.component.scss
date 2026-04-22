@@ -4,9 +4,9 @@ div {
   height: 1rem;
   width: 1rem;
   border-radius: 0.5rem;
-  background-color: $color-warning;
+  background-color: $color-signal-warning;
 
   &.ready {
-    background-color: $color-success;
+    background-color: $color-signal-success;
   }
 }

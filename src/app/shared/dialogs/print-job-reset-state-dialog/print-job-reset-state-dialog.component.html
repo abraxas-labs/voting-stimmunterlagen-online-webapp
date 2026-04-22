@@ -1,19 +1,16 @@
-<app-dialog>
-  <h3 header translate>PRINT_JOB.SET_STATE.RESET_STATE.HEADER</h3>
-
+<vo-lib-dialog [header]="'PRINT_JOB.SET_STATE.RESET_STATE.HEADER' | translate" (dialogClose)="done()">
   <div content class="m-2">
     <p>{{ 'PRINT_JOB.SET_STATE.RESET_STATE.TEXT' | translate }} '{{ 'PRINT_JOB.STATES.' + (printJob.state - 1) | translate }}'</p>
   </div>
 
-  <div footer>
-    <app-button-bar
-      [saving]="saving"
-      [hasDeleteButton]="false"
-      saveColor="warn"
-      saveVariant="secondary"
-      (save)="save()"
-      (cancelEvent)="done()"
-      [saveLabel]="'PRINT_JOB.SET_STATE.RESET_STATE.INVOKE' | translate"
-    ></app-button-bar>
-  </div>
-</app-dialog>
+  <app-button-bar
+    footer
+    [saving]="saving"
+    [hasDeleteButton]="false"
+    [saveColor]="'error'"
+    [saveVariant]="'secondary'"
+    (save)="save()"
+    (cancelEvent)="done()"
+    [saveLabel]="'PRINT_JOB.SET_STATE.RESET_STATE.INVOKE' | translate"
+  ></app-button-bar>
+</vo-lib-dialog>

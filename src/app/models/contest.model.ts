@@ -10,18 +10,17 @@ import { DomainOfInfluence } from './domain-of-influence.model';
 
 export { ContestState };
 
-export interface Contest
-  extends Omit<
-    Required<ContestProto.AsObject>,
-    | 'date'
-    | 'domainOfInfluence'
-    | 'attachmentDeliveryDeadline'
-    | 'printingCenterSignUpDeadline'
-    | 'generateVotingCardsDeadline'
-    | 'electoralRegisterEVotingFrom'
-    | 'deliveryToPostDeadline'
-    | 'approved'
-  > {
+export interface Contest extends Omit<
+  Required<ContestProto.AsObject>,
+  | 'date'
+  | 'domainOfInfluence'
+  | 'attachmentDeliveryDeadline'
+  | 'printingCenterSignUpDeadline'
+  | 'generateVotingCardsDeadline'
+  | 'electoralRegisterEVotingFrom'
+  | 'deliveryToPostDeadline'
+  | 'approved'
+> {
   date: Date;
   approved?: Date;
   domainOfInfluence: DomainOfInfluence;

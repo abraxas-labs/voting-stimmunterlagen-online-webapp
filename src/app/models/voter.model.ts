@@ -16,8 +16,10 @@ import {
 export { ManualVotingCardVoterProto, CountryProto };
 export interface VoterDuplicate extends Required<VoterDuplicateProto.AsObject> {}
 
-export interface ManualVotingCardVoter
-  extends Omit<Required<ManualVotingCardVoterProto.AsObject>, 'swissZipCode' | 'foreignZipCode' | 'country' | 'dateOfBirth'> {
+export interface ManualVotingCardVoter extends Omit<
+  Required<ManualVotingCardVoterProto.AsObject>,
+  'swissZipCode' | 'foreignZipCode' | 'country' | 'dateOfBirth'
+> {
   country: Required<CountryProto.AsObject>;
   swissZipCode?: number;
   foreignZipCode?: string;

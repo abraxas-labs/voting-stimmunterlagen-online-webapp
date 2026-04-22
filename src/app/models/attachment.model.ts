@@ -22,16 +22,15 @@ import { mapPoliticalBusiness, PoliticalBusiness } from './political-business.mo
 
 export { AttachmentFormat, AttachmentState, AttachmentCategory };
 
-export interface Attachment
-  extends Omit<
-    Required<AttachmentProto.AsObject>,
-    | 'domainOfInfluence'
-    | 'deliveryPlannedOn'
-    | 'deliveryReceivedOn'
-    | 'domainOfInfluenceAttachmentRequiredCount'
-    | 'domainOfInfluenceAttachmentRequiredForVoterListsCount'
-    | 'station'
-  > {
+export interface Attachment extends Omit<
+  Required<AttachmentProto.AsObject>,
+  | 'domainOfInfluence'
+  | 'deliveryPlannedOn'
+  | 'deliveryReceivedOn'
+  | 'domainOfInfluenceAttachmentRequiredCount'
+  | 'domainOfInfluenceAttachmentRequiredForVoterListsCount'
+  | 'station'
+> {
   domainOfInfluence: DomainOfInfluence;
   deliveryPlannedOn?: Date;
   deliveryReceivedOn?: Date;

@@ -2,27 +2,27 @@
   <p class="color-warning pre-wrap">{{ 'VOTER_LIST_IMPORT.HAS_VOTER_DUPLICATES' | translate }}</p>
   <bc-table class="w-full" [dataSource]="voterDuplicates" class="mb-4">
     <ng-container columnDef="firstName">
-      <bc-header-cell *headerCellDef>{{ 'VOTER.FIRST_NAME' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.firstName }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER.FIRST_NAME' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.firstName }}</td>
     </ng-container>
     <ng-container columnDef="lastName">
-      <bc-header-cell *headerCellDef>{{ 'VOTER.LAST_NAME' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.lastName }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER.LAST_NAME' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.lastName }}</td>
     </ng-container>
     <ng-container columnDef="dateOfBirth">
-      <bc-header-cell *headerCellDef>{{ 'VOTER.DATE_OF_BIRTH' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.dateOfBirth }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER.DATE_OF_BIRTH' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.dateOfBirth }}</td>
     </ng-container>
     <ng-container columnDef="street">
-      <bc-header-cell *headerCellDef>{{ 'VOTER.STREET' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.street }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER.STREET' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.street }}</td>
     </ng-container>
     <ng-container columnDef="houseNumber">
-      <bc-header-cell *headerCellDef>{{ 'VOTER.HOUSE_NUMBER' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.houseNumber }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'VOTER.HOUSE_NUMBER' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.houseNumber }}</td>
     </ng-container>
-    <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-    <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+    <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+    <tr bc-data-row *dataRowDef="let row; columns: columns; let i = index"></tr>
   </bc-table>
 } @else {
   @if (voterDuplicatesCount) {

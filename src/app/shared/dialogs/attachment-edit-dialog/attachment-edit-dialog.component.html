@@ -1,6 +1,4 @@
-<app-dialog>
-  <h1 header translate>ATTACHMENT.DEFINE</h1>
-
+<vo-lib-dialog [header]="'ATTACHMENT.DEFINE' | translate" (dialogClose)="done()">
   <div content class="m-2">
     <form #form="ngForm">
       <bc-text
@@ -167,7 +165,7 @@
       [saveLabel]="canEdit ? 'APP.SAVE' : 'APP.CLOSE'"
       [canSave]="
         !canEdit ||
-        (form.valid &&
+        (!!form.valid &&
           validDeliveryDate &&
           (attachment.checkablePoliticalBusinesses.atLeastOneChecked || isPoliticalAssembly) &&
           (!formatConsultationRequired || formatConsultationChecked))
@@ -180,4 +178,4 @@
     >
     </app-button-bar>
   </div>
-</app-dialog>
+</vo-lib-dialog>

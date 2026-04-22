@@ -1,72 +1,71 @@
 <bc-table selection [dataSource]="printJobs" class="w-full">
   <ng-container columnDef="authority">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.AUTHORITY' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.authorityName }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.AUTHORITY' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.authorityName }}</td>
   </ng-container>
 
   <ng-container columnDef="domainOfInfluence">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.DOMAIN_OF_INFLUENCE' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.name }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.DOMAIN_OF_INFLUENCE' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.domainOfInfluence.name }}</td>
   </ng-container>
 
   <ng-container columnDef="hasCommunalPoliticalBusinesses">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.COMMUNAL_POLITICAL_BUSINESSES' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{
-      (element.hasCommunalPoliticalBusinesses ? 'APP.YES' : 'APP.NO') | translate
-    }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.COMMUNAL_POLITICAL_BUSINESSES' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ (element.hasCommunalPoliticalBusinesses ? 'APP.YES' : 'APP.NO') | translate }}</td>
   </ng-container>
 
   <ng-container columnDef="attachmentsDefinedCount">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.ATTACHMENTS_DEFINED_COUNT' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.attachmentsDefinedCount }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.ATTACHMENTS_DEFINED_COUNT' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.attachmentsDefinedCount }}</td>
   </ng-container>
 
   <ng-container columnDef="attachmentsDeliveredCount">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.ATTACHMENTS_DELIVERED_COUNT' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.attachmentsDeliveredCount }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.ATTACHMENTS_DELIVERED_COUNT' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.attachmentsDeliveredCount }}</td>
   </ng-container>
 
   <ng-container columnDef="templateName">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.TEMPLATE_NAME' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.templateName }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.TEMPLATE_NAME' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.templateName }}</td>
   </ng-container>
 
   <ng-container columnDef="shippingAway">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.SHIPPING_AWAY' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{
-      'VOTING_CARD_SHIPPING_FRANKING.' + element.domainOfInfluence.printData.shippingAway | translate
-    }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.SHIPPING_AWAY' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
+      {{ 'VOTING_CARD_SHIPPING_FRANKING.' + element.domainOfInfluence.printData.shippingAway | translate }}
+    </td>
   </ng-container>
 
   <ng-container columnDef="lastConfirmedStep">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.LAST_CONFIRMED_STEP' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ 'STEPS.' + element.lastConfirmedStep | translate }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.LAST_CONFIRMED_STEP' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ 'STEPS.' + element.lastConfirmedStep | translate }}</td>
   </ng-container>
 
   <ng-container columnDef="generateVotingCardsTriggered">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.GENERATE_VOTING_CARDS_TRIGGERED' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.generateVotingCardsTriggered | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.GENERATE_VOTING_CARDS_TRIGGERED' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.generateVotingCardsTriggered | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container columnDef="processedOn">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.PROCESS_ENDED_ON' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.processEndedOn | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.PROCESS_ENDED_ON' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.processEndedOn | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container columnDef="doneOn">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.DONE_ON' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.doneOn | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.DONE_ON' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.doneOn | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <ng-container columnDef="state">
-    <bc-header-cell *headerCellDef>{{ 'PRINT_JOB.STATE' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.STATE' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       <app-print-job-state [state]="element.state"></app-print-job-state>
-    </bc-data-cell>
+    </td>
   </ng-container>
 
-  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row
+  <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+  <tr
+    bc-data-row
     *dataRowDef="let row; columns: columns; let i = index"
     selectionToggle
     [selectionToggleValue]="row"
@@ -74,8 +73,7 @@
     [selectionRowValue]="row"
     [selectionDisabled]="isSelectionDisabled"
     (click)="openDetail(row)"
-    >></bc-data-row
-  >
+  ></tr>
 </bc-table>
 
 @if (printJobs.length === 0) {

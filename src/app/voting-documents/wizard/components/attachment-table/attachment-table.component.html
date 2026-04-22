@@ -8,25 +8,25 @@
 
   <bc-table selection class="w-full mt-2 mb-4" [dataSource]="entries">
     <ng-container columnDef="category">
-      <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.CATEGORY' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ 'ATTACHMENT.CATEGORIES.' + element.category | translate }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.CATEGORY' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ 'ATTACHMENT.CATEGORIES.' + element.category | translate }}</td>
     </ng-container>
 
     <ng-container columnDef="name">
-      <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DOCUMENT' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.name }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DOCUMENT' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
     <ng-container columnDef="orderedCount">
-      <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.ORDERED_COUNT' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{
-        (!isAttachment(element) ? element.totalOrderedCount : element.orderedCount) | number
-      }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.ORDERED_COUNT' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">
+        {{ (!isAttachment(element) ? element.totalOrderedCount : element.orderedCount) | number }}
+      </td>
     </ng-container>
 
     <ng-container columnDef="requiredCount">
-      <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_COUNT' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">
+      <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.REQUIRED_COUNT' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">
         @if (showRequiredCount(element)) {
           <span>
             {{ (!isAttachment(element) ? element.totalRequiredCount : element.domainOfInfluenceAttachmentRequiredCount) | number }}
@@ -38,17 +38,17 @@
             (setValue)="setOrderedCount(element)"
           ></app-set-value-label>
         }
-      </bc-data-cell>
+      </td>
     </ng-container>
 
     <ng-container columnDef="color">
-      <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.COLOR' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.color }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.COLOR' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.color }}</td>
     </ng-container>
 
     <ng-container columnDef="supplier">
-      <bc-header-cell *headerCellDef>{{ 'ATTACHMENT.SUPPLIER' | translate }}</bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">{{ element.supplier }}</bc-data-cell>
+      <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.SUPPLIER' | translate }}</th>
+      <td bc-data-cell *dataCellDef="let element">{{ element.supplier }}</td>
     </ng-container>
 
     @for (
@@ -57,8 +57,8 @@
       let index = $index
     ) {
       <ng-container [columnDef]="politicalBusiness.id">
-        <bc-header-cell *headerCellDef>{{ politicalBusiness.shortDescription }}</bc-header-cell>
-        <bc-data-cell *dataCellDef="let element">
+        <th bc-header-cell *headerCellDef>{{ politicalBusiness.shortDescription }}</th>
+        <td bc-data-cell *dataCellDef="let element">
           @if (isAttachment(element)) {
             <bc-checkbox
               [checked]="element.checkablePoliticalBusinesses.items[index].checked"
@@ -72,13 +72,13 @@
               subscriptSizing="dynamic"
             ></bc-checkbox>
           }
-        </bc-data-cell>
+        </td>
       </ng-container>
     }
 
     <ng-container columnDef="domainOfInfluencesExclude">
-      <bc-header-cell *headerCellDef></bc-header-cell>
-      <bc-data-cell *dataCellDef="let element">
+      <th bc-header-cell *headerCellDef></th>
+      <td bc-data-cell *dataCellDef="let element">
         @if (
           isAttachment(element) &&
           canEdit &&
@@ -90,11 +90,12 @@
             [label]="'ATTACHMENT.UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES.EXCLUDE' | translate"
           ></bc-button>
         }
-      </bc-data-cell>
+      </td>
     </ng-container>
 
-    <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-    <bc-data-row
+    <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+    <tr
+      bc-data-row
       *dataRowDef="let row; columns: columns"
       selectionToggle
       [selectionToggleValue]="row"
@@ -102,6 +103,6 @@
       [selectionRowValue]="row"
       [selectionDisabled]="isSelectionDisabled"
       (click)="createOrEdit(row)"
-    ></bc-data-row>
+    ></tr>
   </bc-table>
 }

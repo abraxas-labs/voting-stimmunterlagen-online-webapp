@@ -1,21 +1,21 @@
 <bc-table class="mt-1 mb-4" [dataSource]="jobs">
   <ng-container columnDef="fileName">
-    <bc-header-cell *headerCellDef>{{ 'E_VOTING_EXPORT_JOB.FILE_NAME' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.fileName }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'E_VOTING_EXPORT_JOB.FILE_NAME' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.fileName }}</td>
   </ng-container>
 
   <ng-container columnDef="state">
-    <bc-header-cell *headerCellDef>{{ 'E_VOTING_EXPORT_JOB.STATE' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">
+    <th bc-header-cell *headerCellDef>{{ 'E_VOTING_EXPORT_JOB.STATE' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
       <app-export-job-state [state]="element.state"></app-export-job-state>
-    </bc-data-cell>
+    </td>
   </ng-container>
 
   <ng-container columnDef="fileHash">
-    <bc-header-cell *headerCellDef>{{ 'E_VOTING_EXPORT_JOB.FILE_HASH' | translate }}</bc-header-cell>
-    <bc-data-cell *dataCellDef="let element">{{ element.fileHash }}</bc-data-cell>
+    <th bc-header-cell *headerCellDef>{{ 'E_VOTING_EXPORT_JOB.FILE_HASH' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">{{ element.fileHash }}</td>
   </ng-container>
 
-  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+  <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+  <tr bc-data-row *dataRowDef="let row; columns: columns; let i = index"></tr>
 </bc-table>
