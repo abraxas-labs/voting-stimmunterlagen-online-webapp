@@ -28,6 +28,7 @@ export class LayoutVotingCardsDomainOfInfluenceTableComponent {
   public readonly colNameDoi = 'doiName';
   public readonly colNameVotingCardTemplateSuffix = 'Template';
   public readonly colNameVotingCardAllowCustomSuffix = 'AllowCustom';
+  public readonly colNameVotingCardColorSuffix = 'effectiveColor';
 
   @Input()
   public readonly = true;
@@ -49,7 +50,11 @@ export class LayoutVotingCardsDomainOfInfluenceTableComponent {
     this.columns = [
       this.colNameDoi,
       ...flatten(
-        this.votingCardTypes.map(vct => [vct + this.colNameVotingCardTemplateSuffix, vct + this.colNameVotingCardAllowCustomSuffix]),
+        this.votingCardTypes.map(vct => [
+          vct + this.colNameVotingCardTemplateSuffix,
+          vct + this.colNameVotingCardColorSuffix,
+          vct + this.colNameVotingCardAllowCustomSuffix,
+        ]),
       ),
     ];
   }

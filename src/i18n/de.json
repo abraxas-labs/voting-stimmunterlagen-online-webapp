@@ -409,6 +409,15 @@
     "4": "E WR - evangelische Ausländer & Minderjährige",
     "5": "K WR - katholische Ausländer & Minderjährige"
   },
+  "VOTING_CARD_COLORS": {
+    "0": "Keine Farbe",
+    "1": "Blau",
+    "3": "Gelb",
+    "5": "Grau",
+    "6": "Rosa",
+    "7": "Rot",
+    "8": "Grün"
+  },
   "VOTING_CARD_GENERATOR_JOB": {
     "FILE_NAME": "Datei",
     "VC_TYPE": "Typ SRA",
@@ -549,6 +558,7 @@
     "HINT": "Bitte definieren Sie die Vorlage für den/die Stimmrechtsausweis/e.",
     "CHECK": "Die Vorlage/n sind eingerichtet",
     "DEFAULT": "Vorlage",
+    "LAYOUT_COLOR": "Farbschema",
     "ALLOW_CUSTOM": "Eigene möglich",
     "OVERWRITE": "Vorgabe übersteuern"
   },
@@ -559,6 +569,7 @@
     "TABLE": {
       "DOI_TITLE": "Bezeichnung",
       "VC_TEMPLATE": "SRA {{vcType}} Vorlage",
+      "VC_COLOR": "SRA Farbschema",
       "ALLOW_CUSTOM": "Eigene möglich"
     },
     "ASSIGN_DIALOG": {
@@ -586,7 +597,7 @@
   },
   "STEP_ATTACHMENTS": {
     "TITLE": "Beilagen",
-    "HINT": "Bitte erfassen Sie die Beilagen zu Ihren Geschäften. Die Beilagen sind separat bei Ihrer Druckerei zu bestellen und an das Produktionszentrum zu liefern.\n\nFassen Sie einzelne Beilagen, insbesondere Stimm-, Wahlzettel und Wahlanleitungen, soweit wie möglich auf einem Bogen zusammen.\n\nBei einem C5 Versand können maximal 12 Beilagen über die Maschine verpackt werden. Bei einem C4-Versand sind maximal 8 Beilagen möglich. Weitere Beilagen müssen manuell nachverpackt werden, was zu entsprechenden Mehrkosten führt.\n\nBestellen Sie die Beilagen rechtzeitig, nach unseren Konfektionierungs- und Liefervorgaben, in den geforderten Mengen, inkl. vorgegebener Reserven.\n\nVerarbeitungsreserven für Abraxas:\nbis 2'000 Stimmberechtigte → 10% (mindestens aber 100)\nbis 10'000 Stimmberechtigte → 3%\nab 10'000 Stimmberechtigte → 2%\n\nBestehen Sie auf die Lieferung der exakten Bestellmengen.\nVereinbaren Sie, dass keine Unter- und Überlieferungen akzeptiert werden!",
+    "HINT": "Bitte erfassen Sie die Beilagen zu Ihren Geschäften. Die Beilagen sind separat bei Ihrer Druckerei zu bestellen und an das Produktionszentrum zu liefern.\n\nFassen Sie einzelne Beilagen, insbesondere Stimm-, Wahlzettel und Wahlanleitungen, soweit wie möglich auf einem Bogen zusammen.\n\nBei einem C5 Versand können maximal 12 Beilagen über die Maschine verpackt werden. Bei einem C4-Versand sind maximal 8 Beilagen möglich. Weitere Beilagen müssen manuell nachverpackt werden, was zu entsprechenden Mehrkosten führt.\n\nBestellen Sie die Beilagen rechtzeitig, nach unseren Konfektionierungs- und Liefervorgaben, in den geforderten Mengen, inkl. vorgegebener Reserven.\n\nBestehen Sie auf die Lieferung der exakten Bestellmengen.\nVereinbaren Sie, dass keine Unter- und Überlieferungen akzeptiert werden!",
     "CHECK_COMPLETE": "Die Beilagen sind vollständig erfasst (oder es gibt keine Beilagen)",
     "CHECK_COUNT": "Die benötigten Anzahlen sind überall eingetragen"
   },

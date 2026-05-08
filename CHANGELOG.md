@@ -1,4 +1,4 @@
-# ✨ Changelog (`v3.28.1`)
+# ✨ Changelog (`v3.30.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v3.28.1
-Previous version ---- v3.27.0
+This version -------- v3.30.0
+Previous version ---- v3.28.1
 Initial version ----- v2.1.0
 Total commits ------- 2
 ```
+
+## [v3.30.0] - 2026-05-04
+
+### :arrows_counterclockwise: Changed
+
+- i18n : STEP_ATTACHMENTS.HINT
+
+###
+
+## [v3.29.0] - 2026-04-30
+
+### :new: Added
+
+- voting card color model mapping
+
+### :arrows_counterclockwise: Changed
+
+- domain-of-influence-voting-card-layout model: added color properties for handling storage of color on different level
+- contest-voting-card-layout service and domain-of-influence-voting-card-layout service: added color
+- layout-voting-cards-domain-of-influence-table: added column for color information in doi
+- manager-voting-card-layout-dialog, layout-voting-cards-contest-manager, layout-voting-cards-political-business-attendee: addes lookup and handling to define color information
+- i18n: added VOTING_CARD_COLORS,  STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.LAYOUT_COLOR, STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TABLE.VC_COLOR
 
 ## [v3.28.1] - 2026-04-15
 

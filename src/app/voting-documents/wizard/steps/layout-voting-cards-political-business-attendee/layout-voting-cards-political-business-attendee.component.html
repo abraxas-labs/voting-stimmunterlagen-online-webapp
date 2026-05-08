@@ -13,6 +13,7 @@
           <div>
             <span class="block">{{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.DEFAULT' | translate }}</span>
             <span class="default-name">{{ layout.layout.domainOfInfluenceTemplate?.name || layout.layout.contestTemplate.name }}</span>
+            <span class="default-name">{{ 'VOTING_CARD_COLORS.' + layout.layout.effectiveColor | translate }}</span>
           </div>
           @if (layout.layout.allowCustom) {
             <div class="mt-2">
@@ -37,6 +38,19 @@
               [disabled]="!canEdit"
               [ngModel]="layout.layout.overriddenTemplate?.id"
               (ngModelChange)="updateOverriddenTemplate(layout, $event)"
+            ></bc-dropdown>
+          </div>
+          <div>
+            <bc-dropdown
+              class="w-full mt-1"
+              [items]="votingCardColors"
+              displayExpr="description"
+              valueExpr="value"
+              [value]="layout.layout.effectiveColor ?? 0"
+              [ngModel]="layout.layout.effectiveColor"
+              [required]="true"
+              [disabled]="!canEdit"
+              (ngModelChange)="updateOverriddenColor(layout, $event)"
             ></bc-dropdown>
           </div>
         }

@@ -4,7 +4,8 @@
  * For license information see LICENSE file.
  */
 
-import { VotingCardType } from '@abraxas/voting-stimmunterlagen-proto';
+import { EnumItemDescription, EnumUtil } from '../../../../services/enum.util';
+import { VotingCardType, VotingCardColor } from '@abraxas/voting-stimmunterlagen-proto';
 import { Component, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
@@ -41,6 +42,7 @@ export class ManagerVotingCardLayoutDialogComponent implements OnInit {
   public readonly votingCardTypes: VotingCardType[];
   public readonly isPoliticalAssembly: boolean;
   public templates: Template[];
+  public votingCardColors: EnumItemDescription<VotingCardColor>[] = [];
   public disabled?: boolean;
 
   public previewData?: Uint8Array;
@@ -65,7 +67,7 @@ export class ManagerVotingCardLayoutDialogComponent implements OnInit {
     const layouts = Object.values(data.layouts.layouts);
     this.layouts = layouts.map(layout => ({
       layout,
-      hasDomainOfInfluenceLayout: layout.domainOfInfluenceTemplate !== undefined,
+      hasDomainOfInfluenceLayout: layout.domainOfInfluenceTemplate !== undefined || layout.domainOfInfluenceColor !== layout.contestColor,
       loading: false,
     }));
     this.layoutsByVotingCardType = groupBySingle(
@@ -78,6 +80,9 @@ export class ManagerVotingCardLayoutDialogComponent implements OnInit {
     this.previewVotingCardType = this.layouts[0].layout.votingCardType;
     this.votingCardTypes = this.layouts.map(l => l.layout.votingCardType);
     this.isPoliticalAssembly = data.isPoliticalAssembly;
+
+    const enumUtil = inject(EnumUtil);
+    this.votingCardColors = enumUtil.getArrayWithDescriptionsWithUnspecified<VotingCardColor>(VotingCardColor, 'VOTING_CARD_COLORS.');
   }
 
   public ngOnInit(): Promise<void> {
@@ -108,9 +113,7 @@ export class ManagerVotingCardLayoutDialogComponent implements OnInit {
     }
 
     layout.layout.effectiveTemplate = layout.layout.contestTemplate;
-    if (layout.layout.domainOfInfluenceTemplate === undefined) {
-      return;
-    }
+    layout.layout.effectiveColor = layout.layout.contestColor;
 
     delete layout.layout.domainOfInfluenceTemplate;
 
@@ -142,6 +145,18 @@ export class ManagerVotingCardLayoutDialogComponent implements OnInit {
     layout.layout.effectiveTemplate = layout.layout.domainOfInfluenceTemplate = this.templatesById[templateIdNr];
     delete layout.layout.overriddenTemplate;
 
+    await this.updateLayout(layout);
+    this.previewVotingCardType = layout.layout.votingCardType;
+    await this.updatePreview();
+  }
+
+  public async updateDoiColor(layout: Layout, color: VotingCardColor): Promise<void> {
+    if (layout.layout.domainOfInfluenceColor === color) {
+      return;
+    }
+
+    layout.layout.effectiveColor = layout.layout.domainOfInfluenceColor = color;
+    layout.layout.overriddenColor = undefined;
     await this.updateLayout(layout);
     this.previewVotingCardType = layout.layout.votingCardType;
     await this.updatePreview();

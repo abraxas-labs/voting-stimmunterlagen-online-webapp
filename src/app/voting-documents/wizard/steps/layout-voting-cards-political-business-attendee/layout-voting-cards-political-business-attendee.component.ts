@@ -4,7 +4,8 @@
  * For license information see LICENSE file.
  */
 
-import { VotingCardType } from '@abraxas/voting-stimmunterlagen-proto';
+import { EnumItemDescription, EnumUtil } from '../../../../services/enum.util';
+import { VotingCardType, VotingCardColor } from '@abraxas/voting-stimmunterlagen-proto';
 import { Component, inject } from '@angular/core';
 import {
   DomainOfInfluenceVotingCardLayout,
@@ -41,6 +42,7 @@ export class LayoutVotingCardsPoliticalBusinessAttendeeComponent extends StepBas
   public templates: Template[] = [];
   public layouts: Layout[] = [];
   public votingCardTypes: VotingCardType[] = [];
+  public votingCardColors: EnumItemDescription<VotingCardColor>[] = [];
   public loadingAnyLayout = false;
   public previewData?: Uint8Array;
   public previewLoading = false;
@@ -52,6 +54,8 @@ export class LayoutVotingCardsPoliticalBusinessAttendeeComponent extends StepBas
 
   constructor() {
     super(Step.STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE);
+    const enumUtil = inject(EnumUtil);
+    this.votingCardColors = enumUtil.getArrayWithDescriptionsWithUnspecified<VotingCardColor>(VotingCardColor, 'VOTING_CARD_COLORS.');
   }
 
   public async updateHasOverriddenLayout(layout: Layout, hasOverriddenLayout: boolean): Promise<void> {
@@ -88,6 +92,17 @@ export class LayoutVotingCardsPoliticalBusinessAttendeeComponent extends StepBas
 
     layout.layout.effectiveTemplate = layout.layout.overriddenTemplate = this.templatesById[templateIdNr];
 
+    await this.updateLayout(layout);
+    this.previewVotingCardType = layout.layout.votingCardType;
+    await this.updatePreview();
+  }
+
+  public async updateOverriddenColor(layout: Layout, color: VotingCardColor): Promise<void> {
+    if (layout.layout.overriddenColor === color) {
+      return;
+    }
+
+    layout.layout.effectiveColor = layout.layout.overriddenColor = color;
     await this.updateLayout(layout);
     this.previewVotingCardType = layout.layout.votingCardType;
     await this.updatePreview();
@@ -166,7 +181,6 @@ export class LayoutVotingCardsPoliticalBusinessAttendeeComponent extends StepBas
     this.ensureTemplatesExists();
     this.votingCardTypes = layouts.map(l => l.votingCardType);
     this.previewVotingCardType = layouts.find(l => l.effectiveTemplate?.id ?? 0 > 0)?.votingCardType;
-
     this.updatePreview();
   }
 

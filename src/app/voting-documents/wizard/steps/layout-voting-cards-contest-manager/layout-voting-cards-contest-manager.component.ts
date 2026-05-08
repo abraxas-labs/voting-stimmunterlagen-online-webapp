@@ -4,7 +4,8 @@
  * For license information see LICENSE file.
  */
 
-import { VotingCardType } from '@abraxas/voting-stimmunterlagen-proto';
+import { EnumItemDescription, EnumUtil } from '../../../../services/enum.util';
+import { VotingCardType, VotingCardColor } from '@abraxas/voting-stimmunterlagen-proto';
 import { Component, inject } from '@angular/core';
 import { ContestVotingCardLayout } from '../../../../models/contest-voting-card-layout.model';
 import { Step } from '../../../../models/step.model';
@@ -32,6 +33,7 @@ export class LayoutVotingCardsContestManagerComponent extends StepBaseComponent 
   public templates: Template[] = [];
   public layouts: Layout[] = [];
   public votingCardTypes: VotingCardType[] = [];
+  public votingCardColors: EnumItemDescription<VotingCardColor>[] = [];
   public previewData?: Uint8Array;
   public previewLoading = false;
   public allTemplatesSet = false;
@@ -42,6 +44,8 @@ export class LayoutVotingCardsContestManagerComponent extends StepBaseComponent 
 
   constructor() {
     super(Step.STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER);
+    const enumUtil = inject(EnumUtil);
+    this.votingCardColors = enumUtil.getArrayWithDescriptionsWithUnspecified<VotingCardColor>(VotingCardColor, 'VOTING_CARD_COLORS.');
   }
 
   public async updateTemplate(layout: Layout, newTemplateId: string | number | undefined): Promise<void> {
@@ -56,6 +60,17 @@ export class LayoutVotingCardsContestManagerComponent extends StepBaseComponent 
 
     layout.layout.template = this.templatesById[newTemplateIdNr];
 
+    await this.updateLayout(layout);
+    this.previewVotingCardType = layout.layout.votingCardType;
+    await this.updatePreview();
+  }
+
+  public async updateColor(layout: Layout, color: VotingCardColor): Promise<void> {
+    if (layout.layout.color === color) {
+      return;
+    }
+
+    layout.layout.color = color;
     await this.updateLayout(layout);
     this.previewVotingCardType = layout.layout.votingCardType;
     await this.updatePreview();

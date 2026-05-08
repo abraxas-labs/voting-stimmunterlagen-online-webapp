@@ -6,6 +6,7 @@
 
 import {
   DomainOfInfluenceVotingCardLayout as DomainOfInfluenceVotingCardLayoutProto,
+  VotingCardColor,
   VotingCardType,
 } from '@abraxas/voting-stimmunterlagen-proto';
 import { DomainOfInfluence } from './domain-of-influence.model';
@@ -23,6 +24,10 @@ export interface DomainOfInfluenceVotingCardLayout {
   votingCardType: VotingCardType;
   domainOfInfluence: DomainOfInfluence;
   dataConfiguration: VotingCardLayoutDataConfiguration;
+  contestColor: VotingCardColor;
+  domainOfInfluenceColor?: VotingCardColor;
+  overriddenColor?: VotingCardColor;
+  effectiveColor: VotingCardColor;
 }
 
 export interface DomainOfInfluenceVotingCardLayouts {
