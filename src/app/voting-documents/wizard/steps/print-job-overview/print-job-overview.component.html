@@ -13,7 +13,7 @@
         </div>
         <app-voting-card-generator-job-table [jobs]="jobs"></app-voting-card-generator-job-table>
         <div class="buttons">
-          @if (hasFailedJobs && canEdit) {
+          @if (hasFailedJobs && canRetry) {
             <bc-button
               variant="tertiary"
               [disabled]="retrying"

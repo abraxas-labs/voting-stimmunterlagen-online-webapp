@@ -31,7 +31,7 @@ export class VotingJournalComponent extends StepBaseComponent {
   private readonly voterListService = inject(VoterListService);
   private readonly exportService = inject(VotingExportService);
 
-  public readonly defaultGenerateVotingCardsTriggered = new Date();
+  public readonly defaultLastUpdate = new Date();
 
   // using an uncached domain of influence (because the domain of influence on the step info is cached)
   public domainOfInfluence?: DomainOfInfluence;

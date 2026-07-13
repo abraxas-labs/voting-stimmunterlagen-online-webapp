@@ -11,10 +11,11 @@ export { VoterListImportWithElectoralRegisterResponseProto };
 
 export interface VoterListImportWithElectoralRegisterResponse extends Omit<
   Required<VoterListImportWithElectoralRegisterResponseProto.AsObject>,
-  'voterLists' | 'error'
+  'voterLists' | 'error' | 'lastUpdate'
 > {
   voterLists: VoterListImportVoterListResponse[];
   error?: VoterListImportError;
+  lastUpdate: Date;
 }
 
 export function mapVoterListImportWithElectoralRegisterResponse(
@@ -22,5 +23,6 @@ export function mapVoterListImportWithElectoralRegisterResponse(
 ): VoterListImportWithElectoralRegisterResponse {
   return {
     ...proto.toObject(),
+    lastUpdate: proto.lastUpdate!.toDate(),
   } as VoterListImportWithElectoralRegisterResponse;
 }

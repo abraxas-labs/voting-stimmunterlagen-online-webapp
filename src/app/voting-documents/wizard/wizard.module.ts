@@ -10,7 +10,6 @@ import {
   CardModule,
   ExpansionPanelModule,
   FileInputModule,
-  IconModule,
   LabelModule,
   MaskedModule,
   TextareaModule,
@@ -66,6 +65,7 @@ import { EVotingDomainOfInfluenceTableComponent } from './components/e-voting-do
 import { VoterListEditFormComponent } from './components/voter-list-edit-form/voter-list-edit-form.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { VoterListEmptyVotingCardsEditDialogComponent } from './dialogs/voter-list-empty-voting-cards-edit-dialog/voter-list-empty-voting-cards-edit-dialog.component';
+import { VoterListSendVotingCardsToDoiReturnAddressChipComponent } from './components/voter-list-table/voter-list-send-voting-cards-to-doi-return-address-chip/voter-list-send-voting-cards-to-doi-return-address-chip.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +84,7 @@ import { VoterListEmptyVotingCardsEditDialogComponent } from './dialogs/voter-li
     AttachmentTableComponent,
     VoterListsComponent,
     VoterListTableComponent,
+    VoterListSendVotingCardsToDoiReturnAddressChipComponent,
     VoterListUploadEditDialogComponent,
     WizardSidebarWarnComponent,
     AttachmentCountDialogComponent,
@@ -124,7 +125,6 @@ import { VoterListEmptyVotingCardsEditDialogComponent } from './dialogs/voter-li
     TextareaModule,
     MaskedModule,
     BigStepperModule,
-    IconModule,
     LabelModule,
     CardModule,
     ExpansionPanelModule,

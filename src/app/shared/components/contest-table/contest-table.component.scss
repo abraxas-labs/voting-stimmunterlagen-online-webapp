@@ -3,3 +3,10 @@
 ::ng-deep [class*='bc-column-'] {
   @include table.truncate-long-sortable-table-header();
 }
+
+bc-paginator {
+  // unset width so that it does not overlap the scroll bar
+  ::ng-deep .bc-paginator-container {
+    width: unset;
+  }
+}

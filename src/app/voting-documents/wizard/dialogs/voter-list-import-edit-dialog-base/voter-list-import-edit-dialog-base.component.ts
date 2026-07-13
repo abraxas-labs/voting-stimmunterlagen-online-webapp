@@ -27,6 +27,7 @@ export abstract class VoterListImportEditDialogBaseComponent<TDialogComponent> {
   public readonly voterListImport: VoterListImport;
   public readonly politicalBusinesses: PoliticalBusiness[];
   public readonly isPoliticalAssembly: boolean = false;
+  public readonly contestDate: Date;
   public voterListImportError?: VoterListImportError;
   public deleting = false;
   public persistedVoterLists?: VoterList[];
@@ -38,6 +39,7 @@ export abstract class VoterListImportEditDialogBaseComponent<TDialogComponent> {
     this.voterListImport = this.data.voterListImport;
     this.politicalBusinesses = this.data.politicalBusinesses;
     this.isPoliticalAssembly = this.data.isPoliticalAssembly;
+    this.contestDate = this.data.contestDate;
   }
 
   public abstract saveFirstStep(): Promise<void>;
@@ -107,6 +109,7 @@ export interface VoterListImportEditDialogData {
   domainOfInfluence: DomainOfInfluence;
   politicalBusinesses: PoliticalBusiness[];
   isPoliticalAssembly: boolean;
+  contestDate: Date;
 }
 
 export interface VoterListImportEditDialogResult {

@@ -41,11 +41,11 @@
       'STEP_VOTING_JOURNAL.HINT'
         | translate
           : {
-              generateVotingCardsTriggered:
-                ((domainOfInfluence && domainOfInfluence.generateVotingCardsTriggered
-                  ? domainOfInfluence.generateVotingCardsTriggered
-                  : defaultGenerateVotingCardsTriggered
-                ) | date: 'dd.MM.yyyy HH:mm'),
+              lastUpdate:
+                ((domainOfInfluence && domainOfInfluence.latestVoterListImportsLastUpdate
+                  ? domainOfInfluence.latestVoterListImportsLastUpdate
+                  : defaultLastUpdate
+                ) | date: 'dd.MM.yyyy'),
               contestDate: (stepInfo.contest.date | date: 'dd.MM.yyyy'),
             }
     "

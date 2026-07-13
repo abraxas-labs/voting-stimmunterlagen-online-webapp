@@ -47,7 +47,7 @@ export class VoterListElectoralRegisterEditDialogComponent
   public filterVersions?: ElectoralRegisterFilterVersion[];
   public createNewVersion: boolean = false;
   public newFilterVersionName: string = '';
-  public newFilterVersionDeadline: string = toBcDate(new Date());
+  public newFilterVersionDeadline: string = '';
   public newFilterVersionMetadata?: ElectoralRegisterFilterMetadata;
   public newFilterVersionMetadataLoading = false;
   public loading = true;
@@ -57,6 +57,8 @@ export class VoterListElectoralRegisterEditDialogComponent
   }
 
   public async ngOnInit(): Promise<void> {
+    this.newFilterVersionDeadline = toBcDate(this.contestDate);
+
     try {
       const loadSelectedPromise = !!this.voterListImport.sourceId
         ? this.electoralRegisterService.getFilterVersion(this.voterListImport.sourceId)
@@ -196,7 +198,7 @@ export class VoterListElectoralRegisterEditDialogComponent
     this.voterListImport.id = response.importId;
     this.voterListImport.sourceId = response.filterVersionId;
     this.voterListImport.name = `${this.selectedFilter.name} / ${this.newFilterVersionName}`;
-    this.voterListImport.lastUpdate = new Date();
+    this.voterListImport.lastUpdate = response.lastUpdate;
     this.voterListImport.autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit = true;
     mapVoterListImportResponseToImport(this.voterListImport, response.voterLists, this.politicalBusinesses, this.isNew);
   }

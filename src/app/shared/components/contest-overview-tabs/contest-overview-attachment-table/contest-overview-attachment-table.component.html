@@ -76,6 +76,23 @@
     <td bc-data-cell *dataCellDef="let element">{{ element.deliveryPlannedOn | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
+  <ng-container columnDef="delayedDeliveryDate">
+    <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DELAYED_DELIVERY_DATE' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
+      @if (isAttachment(element)) {
+        @if (element.state === attachmentStates.ATTACHMENT_STATE_DELIVERED) {
+          <span>{{ element.delayedDeliveryDate | date: 'dd.MM.yyyy' }}</span>
+        } @else {
+          <app-set-value-label
+            [value]="element.delayedDeliveryDate"
+            [label]="!!element.delayedDeliveryDate ? (element.delayedDeliveryDate | date: 'dd.MM.yyyy') : undefined"
+            (setValue)="setDelayedDeliveryDate(element)"
+          ></app-set-value-label>
+        }
+      }
+    </td>
+  </ng-container>
+
   <ng-container columnDef="deliveryReceivedOn">
     <th bc-header-cell *headerCellDef>{{ 'ATTACHMENT.DELIVERY_RECEIVED_ON' | translate }}</th>
     <td bc-data-cell *dataCellDef="let element">{{ element.deliveryReceivedOn | date: 'dd.MM.yyyy' }}</td>

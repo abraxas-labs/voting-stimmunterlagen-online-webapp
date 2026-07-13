@@ -35,7 +35,7 @@
           <div class="mb-4">
             <p class="header">{{ 'VOTING_CARD_PRINT_FILE.TITLE' | translate }}</p>
             <app-voting-card-print-file-export-job-table [jobs]="vcPrintFileExportJobs"></app-voting-card-print-file-export-job-table>
-            @if (hasFailedPrintFileExportJobs && editable) {
+            @if (hasFailedPrintFileExportJobs && canRetry) {
               <bc-button
                 variant="tertiary"
                 [disabled]="retrying"

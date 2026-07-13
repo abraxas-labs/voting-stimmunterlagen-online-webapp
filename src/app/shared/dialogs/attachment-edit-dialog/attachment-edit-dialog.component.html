@@ -62,7 +62,13 @@
 
       @if (formatConsultationRequired) {
         <div>
-          <label>{{ 'ATTACHMENT.FORMAT_CONSULTATION_HINT' | translate }}</label>
+          <p>
+            {{ 'ATTACHMENT.FORMAT_CONSULTATION_HINT_1' | translate }}
+            <a [href]="'mailto:' + ('ATTACHMENT.FORMAT_CONSULTATION_EMAIL' | translate)">{{
+              'ATTACHMENT.FORMAT_CONSULTATION_EMAIL' | translate
+            }}</a>
+            {{ 'ATTACHMENT.FORMAT_CONSULTATION_HINT_2' | translate }}
+          </p>
           <bc-checkbox
             class="mt-1 mb-3"
             [(checked)]="formatConsultationChecked"
@@ -151,7 +157,6 @@
         [(checked)]="attachment.sendOnlyToHouseholder"
         [label]="'ATTACHMENT.SEND_ONLY_TO_HOUSEHOLDER' | translate"
         subscriptSizing="dynamic"
-        [hint]="'ATTACHMENT.SEND_ONLY_TO_HOUSEHOLDER_HINT' | translate"
         [disabled]="!canEdit"
       ></bc-checkbox>
     </form>

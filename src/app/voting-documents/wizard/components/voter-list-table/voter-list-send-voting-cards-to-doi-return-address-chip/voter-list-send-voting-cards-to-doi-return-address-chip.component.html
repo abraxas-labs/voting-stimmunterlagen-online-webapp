@@ -1,0 +1,11 @@
+<div
+  class="chip"
+  [class.warning]="!autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit && sendVotingCardsToDomainOfInfluenceReturnAddress"
+  [class.success]="!autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit && !sendVotingCardsToDomainOfInfluenceReturnAddress"
+>
+  {{
+    'VOTER_LIST.SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS_CHOICES.' +
+      (autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit ? 'AUTO' : sendVotingCardsToDomainOfInfluenceReturnAddress ? '1' : '0')
+      | translate
+  }}
+</div>

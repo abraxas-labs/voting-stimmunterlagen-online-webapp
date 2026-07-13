@@ -4,12 +4,13 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, AfterViewInit, OnInit, inject } from '@angular/core';
-import { FilterDirective, Sort, SortDirective, TableDataSource } from '@abraxas/base-components';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { FilterDirective, PageEvent, Sort, SortDirective, TableDataSource } from '@abraxas/base-components';
 import { Contest } from '../../../models/contest.model';
 import { PrintJobState } from '@abraxas/voting-stimmunterlagen-proto';
 import { TranslateService } from '@ngx-translate/core';
 import { EnumItemDescription, EnumUtil } from '../../../services/enum.util';
+import { defaultPageable, Page, Pageable, PageInfo } from '../../../models/page.model';
 
 @Component({
   selector: 'app-contest-table',
@@ -24,6 +25,7 @@ export class ContestTableComponent implements OnChanges, AfterViewInit, OnInit {
   public tableColums = TableColumn;
   public contestType: EnumItemDescription<boolean>[] = [];
   public printJobStateItems: EnumItemDescription<PrintJobState>[] = [];
+  public page?: PageInfo;
   private readonly defaultColumns = [
     this.tableColums.DATE,
     this.tableColums.TYPE,
@@ -36,9 +38,12 @@ export class ContestTableComponent implements OnChanges, AfterViewInit, OnInit {
   public columns = [...this.defaultColumns];
   public dataSource = new TableDataSource<TableRow>();
 
+  protected readonly defaultPage = defaultPageable;
+
   @Input()
-  public set tableData(contests: Contest[]) {
-    this.dataSource.data = contests.map(contest => {
+  public set tableData(page: Page<Contest>) {
+    this.page = page;
+    this.dataSource.data = page.items.map(contest => {
       return this.createTableRow(contest);
     });
   }
@@ -49,6 +54,9 @@ export class ContestTableComponent implements OnChanges, AfterViewInit, OnInit {
   @Input()
   public defaultSorting: Sort[] = [{ id: this.tableColums.DATE, direction: 'desc' }];
 
+  @Input()
+  public pagingEnabled = true;
+
   @ViewChild(SortDirective, { static: true })
   public sort!: SortDirective;
 
@@ -57,6 +65,9 @@ export class ContestTableComponent implements OnChanges, AfterViewInit, OnInit {
 
   @Output()
   public readonly openDetail: EventEmitter<TableRow> = new EventEmitter<TableRow>();
+
+  @Output()
+  public readonly pageChange: EventEmitter<Pageable> = new EventEmitter<Pageable>();
 
   public async ngOnInit(): Promise<void> {
     this.printJobStateItems = this.enumUtil.getArrayWithDescriptions<PrintJobState>(PrintJobState, 'PRINT_JOB.FILTER_STATES.');
@@ -82,6 +93,13 @@ export class ContestTableComponent implements OnChanges, AfterViewInit, OnInit {
       return;
     }
     this.onDisplayDomainOfInfluenceDetailsChange();
+  }
+
+  protected onPageChange(data: PageEvent): void {
+    this.pageChange.emit({
+      page: data.pageIndex + 1,
+      pageSize: data.pageSize,
+    });
   }
 
   private onDisplayDomainOfInfluenceDetailsChange(): void {

@@ -14,10 +14,6 @@
       </th>
       <td bc-data-cell *dataCellDef="let element">{{ element.layouts[vcType]?.effectiveTemplate?.name }}</td>
     </ng-container>
-    <ng-container [columnDef]="vcType + colNameVotingCardColorSuffix">
-      <th bc-header-cell *headerCellDef>{{ 'STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TABLE.VC_COLOR' | translate }}</th>
-      <td bc-data-cell *dataCellDef="let element">{{ 'VOTING_CARD_COLORS.' + element.layouts[vcType]?.effectiveColor | translate }}</td>
-    </ng-container>
     <ng-container [columnDef]="vcType + colNameVotingCardAllowCustomSuffix">
       <th bc-header-cell *headerCellDef>{{ 'STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TABLE.ALLOW_CUSTOM' | translate }}</th>
       <td bc-data-cell *dataCellDef="let element">

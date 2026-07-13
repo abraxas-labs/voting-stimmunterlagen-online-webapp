@@ -31,9 +31,11 @@ export class PrintJobOverviewComponent extends StepBaseComponent {
   public retrying = false;
   public loadingJobs = false;
   public externalPrintingCenter = false;
+  public canRetry = false;
 
   constructor() {
     super(Step.STEP_PRINT_JOB_OVERVIEW);
+    this.canRetry = !this.stepInfo?.contest.locked;
   }
 
   public async retryJobs(): Promise<void> {

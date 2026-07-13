@@ -22,6 +22,7 @@ export interface VoterListImportResponse {
   importId: string;
   voterLists: VoterListImportVoterListResponse[];
   autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit: boolean;
+  lastUpdate: Date;
   error?: VoterListImportError;
 }
 

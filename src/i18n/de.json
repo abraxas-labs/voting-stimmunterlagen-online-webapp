@@ -126,7 +126,6 @@
     "STATION": "Station",
     "SHIPPING_INSTRUCTIONS": "Versandinstruktionen",
     "SEND_ONLY_TO_HOUSEHOLDER": "Versand Beilage an Haushaltsvorstand",
-    "SEND_ONLY_TO_HOUSEHOLDER_HINT": "Für Gemeinden welche VOTING Stimmregister verwenden, steht der Versand an den Haushaltsvorstand aktuell noch nicht zur Verfügung. Bitte nehmen Sie, falls ein Versand an den Haushaltsvorstand gewünscht ist, Kontakt mit voting@abraxas.ch auf. Achtung bei Auswahl dieser Option wird die Beilage nur an die für den jeweiligen Haushalt als Haushaltsvorstand markierte Person versendet.",
     "SET_REQUIRED_COUNT_TITLE": "Beilage benötigte Anzahl festlegen",
     "UPDATE_DOMAIN_OF_INFLUENCE_ENTRIES": {
       "EXCLUDE": "Einflussbereiche ausschliessen",
@@ -156,7 +155,9 @@
       "14": "Kantonale Wahlanleitung",
       "15": "Kommunale Wahlanleitung"
     },
-    "FORMAT_CONSULTATION_HINT": "Bitte zur Vorabklärung mit Abraxas Produktionszentrum Kontakt aufnehmen",
+    "FORMAT_CONSULTATION_HINT_1": "Bitte zur Vorabklärung mit ",
+    "FORMAT_CONSULTATION_HINT_2": " Kontakt aufnehmen. Sofern eine A4-Beilage erfasst wird, erfolgt der gesamte Versand im A4/C4-Format und die Stimmrechtsausweise werden auf 120g Papier gedruckt. Sofern die A4-Beilage auf A5 gefalzt angeliefert wird, muss die Beilage im Format A5 erfasst werden.",
+    "FORMAT_CONSULTATION_EMAIL": "voting@abraxas.ch",
     "FORMAT_CONSULTATION_CHECKED": "Vorabklärung mit Abraxas erledigt",
     "EDIT_FORMATS": {
       "1": "A4",
@@ -175,6 +176,7 @@
     "DELIVERY_PLANNED_ON_HINT": "Entnehmen Sie die vorgegebenen Liefertermine der Jahresplanung. Sollten die Termine nicht eingehalten werden können, nehmen Sie für die alternative Planung und Ermittlung der möglichen Zusatzkosten frühzeitig mit dem Support kontakt auf.",
     "DELIVERY_PLANNED_ON_PAST_DEADLINE": "Die Lieferung muss vor der eingestellten Frist erfolgen.",
     "DELIVERY_RECEIVED_ON": "Lieferung erfolgt",
+    "DELAYED_DELIVERY_DATE": "Lieferdatum (verspätet)",
     "SET_STATION_TITLE": "Beilage Station festlegen",
     "SET_STATE": {
       "TITLE": "Status Beilage ändern",
@@ -185,6 +187,10 @@
         "SET_TO_DELIVERED": "Auf geliefert setzen",
         "RESET_TO_DEFINED": "Auf erfasst zurücksetzen"
       }
+    },
+    "DELAYED_DELIVERY_DATE_DIALOG": {
+      "TITLE": "Lieferdatum (verspätet) ändern",
+      "INVALID_DELAYED_DELIVERY_DATE_ERROR": "Das verspätete Lieferdatum muss nach dem Datum der geplanten Lieferung erfolgen"
     },
     "COMMENT": "Kommentar"
   },
@@ -203,6 +209,7 @@
     "TEMPLATE_NAME": "Layout",
     "LAST_CONFIRMED_STEP": "Letzter bestätigter Arbeitsschritt",
     "SHIPPING_AWAY": "Postversand",
+    "SHIPPING_METHOD": "Versandart",
     "VOTING_CARDS_PRINTED_AND_PACKED_COUNT": "Anzahl gedruckte und verpackte Stimmrechtsausweise",
     "VOTING_CARDS_SHIPMENT_WEIGHT": "Sendungsgewicht in Gramm",
     "COMMENT": "Kommentar für Auszählungskreis",
@@ -316,8 +323,15 @@
     "POLITICAL_BUSINESSES": "Geschäfte {{name}}",
     "SELECT_ALL": "alle",
     "NUMBER_OF_VOTERS": "Anzahl Stimmberechtigte",
-    "COUNT_OF_VOTING_CARDS": "Anzahl zu generierende Stimmrechtsausweise",
+    "COUNT_OF_VOTING_CARDS": "Anzahl SRA abzüglich Duplikate",
+    "COUNT_OF_VOTING_CARDS_HINT": "Personen, die in mehreren Stimmregistern enthalten sind, werden als Duplikate erkannt und erhalten nur einen Stimmrechtsausweis.",
     "COUNT_OF_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS": "davon nicht zustellen",
+    "SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS_CHOICES": {
+      "TITLE": "Zustellen / nicht zustellen",
+      "AUTO": "automatisch",
+      "0": "+ zustellen",
+      "1": "- nicht zustellen"
+    },
     "SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS": "Nicht zustellen",
     "SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS_HINT": "Die Stimmrechtsausweise vom Typ \"Nicht zustellen\" werden an die in VOTING Basis hinterlegte Rücksendeadresse adressiert.",
     "NO_DATA": "Keine Stimmregister erfasst",
@@ -356,11 +370,17 @@
     "5": "GAS B Post",
     "6": "ohne Frankatur"
   },
+  "VOTING_CARD_SHIPPING_METHOD_CODE": {
+    "1": "A",
+    "2": "B",
+    "3": "C"
+  },
   "VOTING_CARD_SHIPPING_METHOD": {
     "1": "Druck / Verpackung und Versand an Bürger",
     "2": "Druck / Verpackung und Versand an Gemeinde",
     "3": "Nur Druck und Versand an Gemeinde"
   },
+  "VOTING_CARD_SHIPPING_METHOD_2_HINT": "Bei der Versandart \"Druck / Verpackung und Versand an Gemeinde\" werden die Couverts verschlossen geliefert.",
   "VOTING_CARD_PRINT_FILE": {
     "TITLE": "Druckdateien"
   },
@@ -408,15 +428,6 @@
     "3": "K - römisch-katholisch",
     "4": "E WR - evangelische Ausländer & Minderjährige",
     "5": "K WR - katholische Ausländer & Minderjährige"
-  },
-  "VOTING_CARD_COLORS": {
-    "0": "Keine Farbe",
-    "1": "Blau",
-    "3": "Gelb",
-    "5": "Grau",
-    "6": "Rosa",
-    "7": "Rot",
-    "8": "Grün"
   },
   "VOTING_CARD_GENERATOR_JOB": {
     "FILE_NAME": "Datei",
@@ -558,7 +569,6 @@
     "HINT": "Bitte definieren Sie die Vorlage für den/die Stimmrechtsausweis/e.",
     "CHECK": "Die Vorlage/n sind eingerichtet",
     "DEFAULT": "Vorlage",
-    "LAYOUT_COLOR": "Farbschema",
     "ALLOW_CUSTOM": "Eigene möglich",
     "OVERWRITE": "Vorgabe übersteuern"
   },
@@ -569,7 +579,6 @@
     "TABLE": {
       "DOI_TITLE": "Bezeichnung",
       "VC_TEMPLATE": "SRA {{vcType}} Vorlage",
-      "VC_COLOR": "SRA Farbschema",
       "ALLOW_CUSTOM": "Eigene möglich"
     },
     "ASSIGN_DIALOG": {
@@ -582,7 +591,7 @@
     "CHECK_1": "Die Stimmrechtsausweise sind definiert",
     "CHECK_2": "Die Textbausteine sind in Ordnung",
     "EDIT_TEMPLATE_DATA": "Textbausteine bearbeiten",
-    "EDIT_TEMPLATE_DATE_E_VOTING_HINT": "Anpassungen an den\n Textbausteinen werden für die\n E-Voting\n Stimmrechtsausweise nicht\n automatisch übernommen.\n Bitte melden Sie allfällige\n Textanpassungen für die\n E-Voting-Stimmrechtsausweise\n an",
+    "EDIT_TEMPLATE_DATE_E_VOTING_HINT": "Anpassungen an den\n Textbausteinen werden für alle\n Stimmrechtsausweise \n automatisch übernommen \n (E-Voting und Nicht-E-Voting).\n Der Text aus dem Freitext-Textbaustein\n wird für E-Voting nicht übernommen,\n weil es für die E-Voting Stimmrechts-\n ausweise kein Freitextfeld gibt.",
     "EDIT_TEMPLATE_DATE_E_VOTING_EMAIL": "voting@abraxas.ch",
     "NO_TEMPLATE_DATA": "Keine Textbausteine vorhanden",
     "EDIT_SINGLE_TEMPLATE_DATA": "Textbaustein {{ name }} bearbeiten",
@@ -658,7 +667,7 @@
   },
   "STEP_VOTING_JOURNAL": {
     "TITLE": "Stimmjournal",
-    "HINT": "Die Stimmausweise für die Abstimmung vom {{contestDate}} werden beim Download live für Sie erstellt. Ihre Mutationen wurden berücksichtigt bis und mit {{generateVotingCardsTriggered}} Uhr."
+    "HINT": "Die Stimmausweise für die Abstimmung vom {{contestDate}} werden beim Download live für Sie erstellt. Ihre Mutationen wurden berücksichtigt bis und mit {{lastUpdate}}."
   },
   "PRINT_JOB_MANAGEMENT": {
     "CONTEST": {

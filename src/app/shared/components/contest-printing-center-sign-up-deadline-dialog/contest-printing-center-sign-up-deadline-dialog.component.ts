@@ -66,6 +66,7 @@ export class ContestPrintingCenterSignUpDeadlineDialogComponent implements OnIni
     this.attachmentDeliveryDeadlineDate = toBcDate(this.contest.attachmentDeliveryDeadlineDate);
     this.generateVotingCardsDeadlineDate = toBcDate(this.contest.generateVotingCardsDeadlineDate);
     this.deliveryToPostDeadlineDate = toBcDate(this.contest.deliveryToPostDeadlineDate);
+    this.updateHintsAndErrors();
   }
 
   public async save(): Promise<void> {
@@ -121,31 +122,22 @@ export class ContestPrintingCenterSignUpDeadlineDialogComponent implements OnIni
 
   public async updatePrintingCenterSignUpDeadline(e: string): Promise<void> {
     this.printingCenterSignUpDeadlineDate = e;
-    const printingCenterSignUpDeadline = fromBcDate(this.printingCenterSignUpDeadlineDate);
-    this.validPrintingCenterSignUpDeadline = !!printingCenterSignUpDeadline && printingCenterSignUpDeadline >= this.dateToday;
-    this.updateShowPrintingCenterSignUpDeadlineHint();
+    this.updateHintsAndErrors();
   }
 
   public updateAttachmentDeliveryDeadline(e: string): void {
     this.attachmentDeliveryDeadlineDate = e;
-    const attachmentDeliveryDeadline = fromBcDate(this.attachmentDeliveryDeadlineDate);
-    this.validAttachmentDeliveryDeadline = !!attachmentDeliveryDeadline && attachmentDeliveryDeadline >= this.dateToday;
-    this.updateShowAttachmentDeliveryDeadlineHint();
+    this.updateHintsAndErrors();
   }
 
   public async updateGenerateVotingCardsDeadline(e: string): Promise<void> {
     this.generateVotingCardsDeadlineDate = e;
-    const generateVotingCardsDeadline = fromBcDate(this.generateVotingCardsDeadlineDate);
-    const printingCenterSignUpDeadline = fromBcDate(this.printingCenterSignUpDeadlineDate);
-    this.validGenerateVotingCardsDeadline =
-      !!printingCenterSignUpDeadline && !!generateVotingCardsDeadline && generateVotingCardsDeadline >= printingCenterSignUpDeadline;
-    this.updateShowGenerateVotingCardsDeadlineHint();
+    this.updateHintsAndErrors();
   }
 
   public updateDeliveryToPostDeadline(e: string): void {
     this.deliveryToPostDeadlineDate = e;
-    const deliveryToPostDeadline = fromBcDate(e);
-    this.validDeliveryToPostDeadline = !!deliveryToPostDeadline && deliveryToPostDeadline < this.contest.date;
+    this.updateHintsAndErrors();
   }
 
   public updateShowPrintingCenterSignUpDeadlineHint(): void {
@@ -181,6 +173,26 @@ export class ContestPrintingCenterSignUpDeadlineDialogComponent implements OnIni
     addDays(datePlusThreeWeeks, daysBeforeTheContestForHint);
 
     return datePlusThreeWeeks >= this.contest.date;
+  }
+
+  private updateHintsAndErrors(): void {
+    const printingCenterSignUpDeadline = fromBcDate(this.printingCenterSignUpDeadlineDate);
+    this.validPrintingCenterSignUpDeadline = !!printingCenterSignUpDeadline && printingCenterSignUpDeadline >= this.dateToday;
+
+    const attachmentDeliveryDeadline = fromBcDate(this.attachmentDeliveryDeadlineDate);
+    this.validAttachmentDeliveryDeadline = !!attachmentDeliveryDeadline && attachmentDeliveryDeadline >= this.dateToday;
+
+    const generateVotingCardsDeadline = fromBcDate(this.generateVotingCardsDeadlineDate);
+    this.validGenerateVotingCardsDeadline =
+      !!printingCenterSignUpDeadline && !!generateVotingCardsDeadline && generateVotingCardsDeadline >= printingCenterSignUpDeadline;
+
+    const deliveryToPostDeadline = fromBcDate(this.deliveryToPostDeadlineDate);
+    this.validDeliveryToPostDeadline =
+      !!deliveryToPostDeadline && deliveryToPostDeadline >= this.dateToday && deliveryToPostDeadline < this.contest.date;
+
+    this.updateShowPrintingCenterSignUpDeadlineHint();
+    this.updateShowAttachmentDeliveryDeadlineHint();
+    this.updateShowGenerateVotingCardsDeadlineHint();
   }
 }
 

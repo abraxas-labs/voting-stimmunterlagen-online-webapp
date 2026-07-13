@@ -4,11 +4,20 @@
   </div>
   <div class="layout-content layout-center overflow-auto">
     @if (!loading) {
-      <app-contest-table [tableData]="contests" [defaultSorting]="sorting" (openDetail)="open($event)"></app-contest-table>
+      <app-contest-table
+        [tableData]="contests"
+        [defaultSorting]="sorting"
+        [pagingEnabled]="false"
+        (openDetail)="open($event)"
+      ></app-contest-table>
       <h2 class="mt-5">{{ 'CONTEST.LIST_TITLE_PAST' | translate }}</h2>
-      <app-contest-table [tableData]="pastContests" (openDetail)="open($event)"></app-contest-table>
+      <app-contest-table [tableData]="pastContests" (openDetail)="open($event)" (pageChange)="loadPastContests($event)"></app-contest-table>
       <h2 class="mt-5">{{ 'CONTEST.LIST_TITLE_ARCHIVED' | translate }}</h2>
-      <app-contest-table [tableData]="archivedContests" (openDetail)="open($event)"></app-contest-table>
+      <app-contest-table
+        [tableData]="archivedContests"
+        (openDetail)="open($event)"
+        (pageChange)="loadArchivedContests($event)"
+      ></app-contest-table>
     } @else {
       <bc-spinner size="large"></bc-spinner>
     }

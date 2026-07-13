@@ -28,6 +28,7 @@ export function mapVoterListImportResponseToImport(
     lastUpdate: voterListImport.lastUpdate,
     name: voterListImport.name,
     source: voterListImport.source,
+    autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit: voterListImport.autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit,
     countOfVotingCards: voterListResponse.numberOfVoters,
     politicalBusinessIds: previousVoterLists.find(vl => vl.votingCardType === voterListResponse.votingCardType)?.politicalBusinessIds ?? [],
     checkablePoliticalBusinesses: {} as CheckableItems<PoliticalBusiness>,

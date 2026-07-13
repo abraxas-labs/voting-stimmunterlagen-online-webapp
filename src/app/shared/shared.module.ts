@@ -9,6 +9,7 @@ import {
   CheckboxModule,
   DateModule,
   DropdownModule,
+  IconModule,
   NumberModule,
   RadioButtonModule,
   SearchModule,
@@ -68,6 +69,8 @@ import { AdditionalInvoicePositionEditDialogComponent } from './components/addit
 import { VotingCardLayoutDataConfigurationEditComponent } from './components/voting-card-layout-data-configuration-edit/voting-card-layout-data-configuration-edit.component';
 import { AttachmentEditDialogComponent } from './dialogs/attachment-edit-dialog/attachment-edit-dialog.component';
 import { VotingLibModule } from '@abraxas/voting-lib';
+import { AttachmentDelayedDeliveryDateDialogComponent } from './components/attachment-delayed-delivery-date-dialog/attachment-delayed-delivery-date-dialog.component';
+import { InfoIconComponent } from './components/info-icon/info-icon.component';
 
 const modules = [
   CommonModule,
@@ -94,6 +97,7 @@ const modules = [
   TruncateWithTooltipModule,
   RadioButtonModule,
   VotingLibModule,
+  IconModule,
 ];
 
 const components = [
@@ -120,6 +124,7 @@ const components = [
   AttachmentEditDialogComponent,
   AttachmentStateDialogComponent,
   AttachmentStationDialogComponent,
+  AttachmentDelayedDeliveryDateDialogComponent,
   ContestPrintingCenterSignUpDeadlineDialogComponent,
   PrintJobDetailComponent,
   PrintJobInfoComponent,
@@ -133,6 +138,7 @@ const components = [
   ContestOverviewAdditionalInvoicePositionTableComponent,
   AdditionalInvoicePositionEditDialogComponent,
   VotingCardLayoutDataConfigurationEditComponent,
+  InfoIconComponent,
 ];
 
 const pipes = [EveryPipe, SafeUrlPipe];

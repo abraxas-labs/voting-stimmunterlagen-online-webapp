@@ -17,9 +17,10 @@ import {
 } from '@abraxas/voting-stimmunterlagen-proto';
 import { Injectable, inject } from '@angular/core';
 import { Timestamp } from '@ngx-grpc/well-known-types';
-import { CommunalContestDeadlinesCalculationResult, Contest, mapContest, mapContests } from '../models/contest.model';
+import { CommunalContestDeadlinesCalculationResult, Contest, mapContest } from '../models/contest.model';
 import { firstValueFrom } from 'rxjs';
 import { newUTCDate } from './utils/date.utils';
+import { mapToPage, Page, Pageable } from '../models/page.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +32,10 @@ export class ContestService {
     return firstValueFrom(this.client.get(new IdValueRequest({ id }))).then(x => mapContest(x));
   }
 
-  public list(...states: ContestState[]): Promise<Contest[]> {
-    return firstValueFrom(this.client.list(new ListContestsRequest({ states }))).then(x => mapContests(x));
+  public list(states: ContestState[], pageable?: Pageable): Promise<Page<Contest>> {
+    return firstValueFrom(this.client.list(new ListContestsRequest({ pageable, states }))).then(x =>
+      mapToPage(x.pageInfo!, x.contests?.map(contest => mapContest(contest)) ?? []),
+    );
   }
 
   public async setDeadlines(

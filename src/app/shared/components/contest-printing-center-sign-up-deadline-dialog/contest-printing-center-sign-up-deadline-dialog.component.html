@@ -80,7 +80,11 @@
   <app-button-bar
     footer
     [saving]="saving"
-    [canSave]="validPrintingCenterSignUpDeadline && validGenerateVotingCardsDeadline"
+    [canSave]="
+      validPrintingCenterSignUpDeadline &&
+      validGenerateVotingCardsDeadline &&
+      (!forPrintJobManagement || (validAttachmentDeliveryDeadline && validDeliveryToPostDeadline))
+    "
     [hasDeleteButton]="false"
     (save)="save()"
     (cancelEvent)="done()"

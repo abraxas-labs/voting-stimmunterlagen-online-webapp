@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Contest as ContestProto, Contests as ContestsProto, ContestState } from '@abraxas/voting-stimmunterlagen-proto';
+import { Contest as ContestProto, ContestState } from '@abraxas/voting-stimmunterlagen-proto';
 import { addDays, newUTCDate, toApiDate } from '../services/utils/date.utils';
 import { DomainOfInfluence } from './domain-of-influence.model';
 
@@ -71,10 +71,6 @@ export function mapContest(contestProto: ContestProto): Contest {
 
   refreshContestDeadlineStates(contest);
   return contest;
-}
-
-export function mapContests(contestsProto: ContestsProto): Contest[] {
-  return (contestsProto.contests ?? []).map(c => mapContest(c));
 }
 
 export function refreshContestDeadlineStates(contest: Contest): void {

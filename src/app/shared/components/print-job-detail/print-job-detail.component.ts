@@ -54,6 +54,7 @@ export class PrintJobDetailComponent implements OnDestroy {
   public retrying = false;
   public hasFailedPrintFileExportJobs = false;
   public forPrintJobManagement = false;
+  public canRetry = false;
 
   private readonly routeSubscription: Subscription;
   public loading = true;
@@ -64,6 +65,7 @@ export class PrintJobDetailComponent implements OnDestroy {
       this.printJob = printJob;
       this.contest = contest;
       this.editable = editable && !this.contest.locked;
+      this.canRetry = !this.contest.locked;
       this.forPrintJobManagement = Array.isArray(roles) && roles.includes(Roles.PrintJobManager);
       await this.loadData();
     });

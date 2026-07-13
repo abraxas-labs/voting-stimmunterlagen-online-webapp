@@ -36,6 +36,13 @@
     </td>
   </ng-container>
 
+  <ng-container columnDef="shippingMethod">
+    <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.SHIPPING_METHOD' | translate }}</th>
+    <td bc-data-cell *dataCellDef="let element">
+      {{ 'VOTING_CARD_SHIPPING_METHOD_CODE.' + element.domainOfInfluence.printData.shippingMethod | translate }}
+    </td>
+  </ng-container>
+
   <ng-container columnDef="lastConfirmedStep">
     <th bc-header-cell *headerCellDef>{{ 'PRINT_JOB.LAST_CONFIRMED_STEP' | translate }}</th>
     <td bc-data-cell *dataCellDef="let element">{{ 'STEPS.' + element.lastConfirmedStep | translate }}</td>

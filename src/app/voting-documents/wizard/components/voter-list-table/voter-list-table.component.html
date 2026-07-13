@@ -34,13 +34,25 @@
     <app-grid-table itemOrientation="vertical">
       <app-grid-table-item>
         <app-grid-table-item-entry>{{ 'VOTER_LIST.NAME' | translate }}</app-grid-table-item-entry>
-        <app-grid-table-item-entry>{{ 'VOTER_LIST.VOTING_CARD_TYPE' | translate }}</app-grid-table-item-entry>
+
+        @if (showVotingCardType) {
+          <app-grid-table-item-entry>{{ 'VOTER_LIST.VOTING_CARD_TYPE' | translate }}</app-grid-table-item-entry>
+        }
+
         <app-grid-table-item-entry>{{ 'VOTER_LIST.LAST_UPDATE' | translate }}</app-grid-table-item-entry>
+        <app-grid-table-item-entry>{{
+          'VOTER_LIST.SEND_VOTING_CARDS_TO_DOMAIN_OF_INFLUENCE_RETURN_ADDRESS_CHOICES.TITLE' | translate
+        }}</app-grid-table-item-entry>
         <app-grid-table-item-entry [borderVariant]="numberOfVotersBorderVariant">{{
           'VOTER_LIST.NUMBER_OF_VOTERS' | translate
         }}</app-grid-table-item-entry>
         @if (showNumberOfVotingCards) {
-          <app-grid-table-item-entry borderVariant="bold">{{ 'VOTER_LIST.COUNT_OF_VOTING_CARDS' | translate }}</app-grid-table-item-entry>
+          <app-grid-table-item-entry borderVariant="bold">
+            <app-info-icon
+              [label]="'VOTER_LIST.COUNT_OF_VOTING_CARDS' | translate"
+              [iconTooltip]="'VOTER_LIST.COUNT_OF_VOTING_CARDS_HINT' | translate"
+            ></app-info-icon>
+          </app-grid-table-item-entry>
         }
         @for (pbCountOfVotingCards of domainOfInfluenceVoterLists.countOfVotingCards; track pbCountOfVotingCards) {
           <app-grid-table-item-entry>
@@ -51,8 +63,20 @@
       @for (voterList of domainOfInfluenceVoterLists.voterLists; track voterList) {
         <app-grid-table-item>
           <app-grid-table-item-entry>{{ voterList.name }}</app-grid-table-item-entry>
-          <app-grid-table-item-entry>{{ 'VOTING_CARD_TYPES.' + voterList.votingCardType | translate }}</app-grid-table-item-entry>
+
+          @if (showVotingCardType) {
+            <app-grid-table-item-entry>{{ 'VOTING_CARD_TYPES.' + voterList.votingCardType | translate }}</app-grid-table-item-entry>
+          }
+
           <app-grid-table-item-entry>{{ voterList.lastUpdate | date: 'dd.MM.yyyy' }}</app-grid-table-item-entry>
+          <app-grid-table-item-entry>
+            <app-voter-list-send-voting-cards-to-doi-return-address-chip
+              [sendVotingCardsToDomainOfInfluenceReturnAddress]="voterList.sendVotingCardsToDomainOfInfluenceReturnAddress"
+              [autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit]="
+                voterList.autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit
+              "
+            ></app-voter-list-send-voting-cards-to-doi-return-address-chip>
+          </app-grid-table-item-entry>
           <app-grid-table-item-entry [borderVariant]="numberOfVotersBorderVariant">{{
             voterList.numberOfVoters | number
           }}</app-grid-table-item-entry>
@@ -75,12 +99,9 @@
         </app-grid-table-item>
       }
       <app-grid-table-item>
-        @for (i of [].constructor(3); track i) {
+        @for (i of [].constructor(countOfEmptyRowsLastCol); track i) {
           <app-grid-table-item-entry borderVariant="none"></app-grid-table-item-entry>
         }
-        <app-grid-table-item-entry [borderVariant]="numberOfVotersBorderVariant">{{
-          domainOfInfluenceVoterLists.totalNumberOfVoters | number
-        }}</app-grid-table-item-entry>
         @if (showNumberOfVotingCards) {
           <app-grid-table-item-entry borderVariant="bold">{{
             domainOfInfluenceVoterLists.totalCountOfVotingCards | number

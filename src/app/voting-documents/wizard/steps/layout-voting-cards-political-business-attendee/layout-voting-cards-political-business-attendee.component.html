@@ -13,7 +13,6 @@
           <div>
             <span class="block">{{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.DEFAULT' | translate }}</span>
             <span class="default-name">{{ layout.layout.domainOfInfluenceTemplate?.name || layout.layout.contestTemplate.name }}</span>
-            <span class="default-name">{{ 'VOTING_CARD_COLORS.' + layout.layout.effectiveColor | translate }}</span>
           </div>
           @if (layout.layout.allowCustom) {
             <div class="mt-2">
@@ -40,22 +39,9 @@
               (ngModelChange)="updateOverriddenTemplate(layout, $event)"
             ></bc-dropdown>
           </div>
-          <div>
-            <bc-dropdown
-              class="w-full mt-1"
-              [items]="votingCardColors"
-              displayExpr="description"
-              valueExpr="value"
-              [value]="layout.layout.effectiveColor ?? 0"
-              [ngModel]="layout.layout.effectiveColor"
-              [required]="true"
-              [disabled]="!canEdit"
-              (ngModelChange)="updateOverriddenColor(layout, $event)"
-            ></bc-dropdown>
-          </div>
         }
         <app-voting-card-layout-data-configuration-edit
-          [disabled]="!canEdit || !layout.layout.allowCustom"
+          [disabled]="!canEdit"
           [configuration]="layout.layout.dataConfiguration"
           [isStistat]="stepInfo.domainOfInfluence.stistatMunicipality"
           [isPoliticalAssembly]="stepInfo.contest.isPoliticalAssembly"
@@ -73,9 +59,6 @@
       @if (stepInfo.domainOfInfluence.eVoting && !stepInfo.contest.isPoliticalAssembly) {
         <div class="e-voting-hint">
           {{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_HINT' | translate }}
-          <a [href]="'mailto:' + ('STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_EMAIL' | translate)">
-            {{ 'STEP_LAYOUT_VOTING_CARDS_POLITICAL_BUSINESS_ATTENDEE.EDIT_TEMPLATE_DATE_E_VOTING_EMAIL' | translate }}
-          </a>
         </div>
       }
     </div>

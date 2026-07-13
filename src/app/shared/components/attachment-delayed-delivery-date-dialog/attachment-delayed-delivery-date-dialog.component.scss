@@ -1,0 +1,5 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+div[content] {
+  min-width: 30rem;
+}

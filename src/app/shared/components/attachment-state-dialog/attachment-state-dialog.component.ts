@@ -29,7 +29,11 @@ export class AttachmentStateDialogComponent {
   public saveButtonData!: AttachmentStateButtonData;
   public isDefinedState = false;
 
+  private originalState: AttachmentState;
+
   constructor() {
+    this.originalState = this.data.attachment.state;
+
     switch (this.data.attachment.state) {
       case AttachmentState.ATTACHMENT_STATE_DEFINED:
         this.deleteButtonData = { label: 'SET_TO_REJECTED', state: AttachmentState.ATTACHMENT_STATE_REJECTED };
@@ -54,6 +58,15 @@ export class AttachmentStateDialogComponent {
     this.saving = true;
     try {
       await this.attachmentService.setState(this.data.attachment.id, state, this.comment);
+
+      if (this.originalState !== AttachmentState.ATTACHMENT_STATE_DELIVERED && state === AttachmentState.ATTACHMENT_STATE_DELIVERED) {
+        this.data.attachment.deliveryReceivedOn = new Date();
+      } else if (
+        this.originalState === AttachmentState.ATTACHMENT_STATE_DELIVERED &&
+        state !== AttachmentState.ATTACHMENT_STATE_DELIVERED
+      ) {
+        this.data.attachment.deliveryReceivedOn = undefined;
+      }
 
       this.data.attachment.state = state;
       this.toast.saved();

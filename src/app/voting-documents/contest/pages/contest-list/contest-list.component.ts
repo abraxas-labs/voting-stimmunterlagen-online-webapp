@@ -15,6 +15,7 @@ import { DomainOfInfluenceService } from '../../../../services/domain-of-influen
 import { SelectDomainOfInfluenceDialogComponent } from '../../dialogs/select-domain-of-influence-dialog/select-domain-of-influence-dialog.component';
 import { TableColumn, TableRow } from 'src/app/shared/components/contest-table/contest-table.component';
 import { Sort } from '@abraxas/base-components';
+import { defaultPageable, emptyPage, Page, Pageable } from '../../../../models/page.model';
 
 @Component({
   selector: 'app-contest-list',
@@ -32,19 +33,17 @@ export class ContestListComponent implements OnInit {
   public loading = true;
   public loadingDetail = false;
 
-  public contests: Contest[] = [];
-  public pastContests: Contest[] = [];
-  public archivedContests: Contest[] = [];
+  public contests: Page<Contest> = emptyPage<Contest>();
+  public pastContests: Page<Contest> = emptyPage<Contest>();
+  public archivedContests: Page<Contest> = emptyPage<Contest>();
   public tableColums = TableColumn;
   public sorting: Sort[] = [{ id: this.tableColums.DATE, direction: 'asc' }];
 
   public async ngOnInit(): Promise<void> {
     try {
-      [this.contests, this.pastContests, this.archivedContests] = await Promise.all([
-        this.contestService.list(ContestState.CONTEST_STATE_ACTIVE, ContestState.CONTEST_STATE_TESTING_PHASE),
-        this.contestService.list(ContestState.CONTEST_STATE_PAST_UNLOCKED, ContestState.CONTEST_STATE_PAST_LOCKED),
-        this.contestService.list(ContestState.CONTEST_STATE_ARCHIVED),
-      ]);
+      this.contests = await this.contestService.list([ContestState.CONTEST_STATE_ACTIVE, ContestState.CONTEST_STATE_TESTING_PHASE]);
+      await this.loadPastContests(defaultPageable);
+      await this.loadArchivedContests(defaultPageable);
     } finally {
       this.loading = false;
     }
@@ -66,6 +65,17 @@ export class ContestListComponent implements OnInit {
     } finally {
       this.loadingDetail = false;
     }
+  }
+
+  protected async loadPastContests(pageable: Pageable): Promise<void> {
+    this.pastContests = await this.contestService.list(
+      [ContestState.CONTEST_STATE_PAST_UNLOCKED, ContestState.CONTEST_STATE_PAST_LOCKED],
+      pageable,
+    );
+  }
+
+  protected async loadArchivedContests(pageable: Pageable): Promise<void> {
+    this.archivedContests = await this.contestService.list([ContestState.CONTEST_STATE_ARCHIVED], pageable);
   }
 
   private async selectDomainOfInfluence(contest: TableRow): Promise<DomainOfInfluence | undefined> {

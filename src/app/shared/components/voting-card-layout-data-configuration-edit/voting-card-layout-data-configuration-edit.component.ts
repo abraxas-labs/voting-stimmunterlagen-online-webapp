@@ -37,8 +37,12 @@ export class VotingCardLayoutDataConfigurationEditComponent {
   public configurationChange: EventEmitter<VotingCardLayoutDataConfiguration> = new EventEmitter<VotingCardLayoutDataConfiguration>();
 
   public emitUpdate(): void {
+    if (this.configuration.includeReligion) {
+      this.configuration.includeDateOfBirth = true;
+    }
     if (this.configuration.includeDomainOfInfluenceChurch) {
       this.configuration.includeReligion = true;
+      this.configuration.includeDateOfBirth = true;
     }
     this.configurationChange.emit(this.configuration);
   }

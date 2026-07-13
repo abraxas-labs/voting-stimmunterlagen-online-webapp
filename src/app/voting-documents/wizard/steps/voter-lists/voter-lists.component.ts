@@ -44,6 +44,8 @@ export class VoterListsComponent extends StepBaseComponent {
     }
 
     this.voterLists = await this.voterListsBuilder.build(this.stepInfo);
+    this.updateLatestVoterListsImportLastUpdate();
+
     this.isElectoralRegistrationEnabled =
       this.stepInfo.domainOfInfluence.electoralRegistrationEnabled && environment.isElectoralRegistrationEnabled;
 
@@ -102,5 +104,15 @@ export class VoterListsComponent extends StepBaseComponent {
       this.voterLists.countOfVotingCards.some(
         n => (this.attachmentMaxAllowedCountByPoliticalBusiness[n.politicalBusiness.id] ?? Number.POSITIVE_INFINITY) < n.countOfVotingCards,
       );
+  }
+
+  private updateLatestVoterListsImportLastUpdate(): void {
+    if (!this.stepInfo) {
+      return;
+    }
+
+    const lists = this.voterLists.voterLists;
+    this.stepInfo.domainOfInfluence.latestVoterListImportsLastUpdate =
+      lists.length === 0 ? undefined : new Date(Math.max(...lists.map(vl => vl.lastUpdate.getTime())));
   }
 }

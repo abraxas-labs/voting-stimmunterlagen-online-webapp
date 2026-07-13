@@ -28,6 +28,7 @@ export class ContestOverviewPrintJobTableComponent {
     'attachmentsDeliveredCount',
     'templateName',
     'shippingAway',
+    'shippingMethod',
     'lastConfirmedStep',
     'generateVotingCardsTriggered',
     'processedOn',

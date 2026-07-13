@@ -37,19 +37,6 @@
             [disabled]="disabled"
           ></bc-dropdown>
         </div>
-        <div>
-          <bc-dropdown
-            class="w-full mt-1"
-            [items]="votingCardColors"
-            displayExpr="description"
-            valueExpr="value"
-            [value]="layout.layout.effectiveColor ?? 0"
-            [ngModel]="layout.layout.effectiveColor"
-            [required]="true"
-            [disabled]="disabled"
-            (ngModelChange)="updateDoiColor(layout, $event)"
-          ></bc-dropdown>
-        </div>
       }
       <div>
         <bc-checkbox

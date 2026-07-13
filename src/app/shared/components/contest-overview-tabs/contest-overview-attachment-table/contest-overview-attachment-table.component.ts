@@ -5,7 +5,7 @@
  */
 
 import { Component, Input, OnChanges, inject } from '@angular/core';
-import { Attachment, AttachmentTableEntry } from '../../../../models/attachment.model';
+import { Attachment, AttachmentState, AttachmentTableEntry } from '../../../../models/attachment.model';
 import { DialogService } from '../../../../services/dialog.service';
 import { isAttachment, showRequiredForVoterListsCount } from '../../../../services/utils/attachment.utils';
 import { AttachmentStateDialogComponent, AttachmentStateDialogData } from '../../attachment-state-dialog/attachment-state-dialog.component';
@@ -16,9 +16,12 @@ import {
 import { Contest } from '../../../../models/contest.model';
 import {
   AttachmentEditDialogComponent,
-  AttachmentEditDialogData,
   buildAttachmentEditDialogData,
 } from '../../../dialogs/attachment-edit-dialog/attachment-edit-dialog.component';
+import {
+  AttachmentDelayedDeliveryDateDialogComponent,
+  AttachmentDelayedDeliveryDateDialogData,
+} from '../../attachment-delayed-delivery-date-dialog/attachment-delayed-delivery-date-dialog.component';
 
 @Component({
   selector: 'app-contest-overview-attachment-table',
@@ -29,6 +32,7 @@ import {
 export class ContestOverviewAttachmentTableComponent implements OnChanges {
   private readonly dialog = inject(DialogService);
 
+  public readonly attachmentStates: typeof AttachmentState = AttachmentState;
   public columns: string[] = [];
 
   @Input()
@@ -52,6 +56,14 @@ export class ContestOverviewAttachmentTableComponent implements OnChanges {
     };
 
     await this.dialog.openForResult(AttachmentStationDialogComponent, data);
+  }
+
+  public async setDelayedDeliveryDate(attachment: Attachment): Promise<void> {
+    const data: AttachmentDelayedDeliveryDateDialogData = {
+      attachment,
+    };
+
+    await this.dialog.openForResult(AttachmentDelayedDeliveryDateDialogComponent, data);
   }
 
   public async setState(attachment: Attachment): Promise<void> {
@@ -89,6 +101,7 @@ export class ContestOverviewAttachmentTableComponent implements OnChanges {
       'color',
       'supplier',
       'deliveryPlannedOn',
+      'delayedDeliveryDate',
       'deliveryReceivedOn',
       'station',
       'state',
@@ -96,6 +109,9 @@ export class ContestOverviewAttachmentTableComponent implements OnChanges {
 
     if (this.forPrintJobManagement) {
       this.columns.splice(this.columns.length, 0, 'stateChange');
+    } else {
+      // hides delayed delivery date
+      this.columns.splice(-4, 1);
     }
   }
 

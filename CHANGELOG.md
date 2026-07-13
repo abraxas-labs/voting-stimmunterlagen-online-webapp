@@ -1,4 +1,4 @@
-# ✨ Changelog (`v3.30.0`)
+# ✨ Changelog (`v3.35.2`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,154 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v3.30.0
-Previous version ---- v3.28.1
+This version -------- v3.35.2
+Previous version ---- v3.30.0
 Initial version ----- v2.1.0
-Total commits ------- 2
+Total commits ------- 21
 ```
+
+## [v3.35.2] - 2026-07-08
+
+### :arrows_counterclockwise: Changed
+
+- EDIT_TEMPLATE_DATE_E_VOTING_HINT text in i18n
+- layout-voting-cards-political-business-attendee component: reapplied hint for e-voter
+
+## [v3.35.1] - 2026-07-07
+
+### 🔄 Changed
+
+- paginator overlap
+
+## [v3.35.0] - 2026-07-07
+
+### 🆕 Added
+
+- add contest list paging
+
+## [v3.34.8] - 2026-07-06
+
+### 🆕 Added
+
+- add voting lib styles
+
+### :arrows_counterclockwise: Changed
+
+- contest-overview-print-job-table component: Added shipping method code (A, B or C)
+
+### :x: Removed
+
+- EDIT_TEMPLATE_DATE_E_VOTING_HINT, EDIT_TEMPLATE_DATE_E_VOTING_EMAIL: hint is no more needed after implementation of VOTING-6598
+
+## [v3.34.7] - 2026-07-01
+
+### 🔄 Changed
+
+- voter list auto send split improvements
+
+## [v3.34.6] - 2026-07-01
+
+### 🔄 Changed
+
+- only update contest deadlines if it has changes
+
+## [v3.34.5] - 2026-06-30
+
+### :arrows_counterclockwise: Changed
+
+- print-job-detail and print-job-overview component: make the retry print always available by failed jobs until contest is not locked.
+
+## [v3.34.4] - 2026-06-26
+
+### :arrows_counterclockwise: Changed
+
+- manual-voting-card-voter-edit component: disable optional fealds when not needed for print. Initialize religion lookup over value mapping.
+- voting-card-layout-data-configuration-edit component: enable birthdate option if religion is selected as option
+
+## [v3.34.3] - 2026-06-24
+
+### 🔄 Changed
+
+- voter list improvements
+
+## [v3.34.2] - 2026-06-23
+
+### 🆕 Added
+
+- add voter list imports last update flag
+
+## [v3.34.1] - 2026-06-16
+
+### 🔄 Changed
+
+- validate contest deadlines together
+
+## [v3.34.0] - 2026-06-15
+
+### :x: Removed
+
+- SEND_ONLY_TO_HOUSEHOLDER_HINT in i18n
+- hint for household checkbox in attachment-edit-dialog component.
+
+## [v3.33.2] - 2026-06-09
+
+### 🔄 Changed
+
+- update attachment A4 consultation hint text
+
+## [v3.33.1] - 2026-06-08
+
+### 🔄 Changed
+
+- set electoral register filter version default deadline to contest date
+
+## [v3.33.0] - 2026-06-05
+
+This reverts commit 6bc2ae7ff7dc5aab9a2868d751e885e6f2cb76af.
+
+### :x: Removed
+
+- voting card color model mapping
+- domain-of-influence-voting-card-layout model: color properties for handling storage of color on different level
+- contest-voting-card-layout service and domain-of-influence-voting-card-layout service: color
+- layout-voting-cards-domain-of-influence-table: column for color information in doi
+- manager-voting-card-layout-dialog, layout-voting-cards-contest-manager, layout-voting-cards-political-business-attendee: lookup and handling to define color information
+- i18n: VOTING_CARD_COLORS, STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.LAYOUT_COLOR, STEP_LAYOUT_VOTING_CARDS_DOMAIN_OF_INFLUENCES.TABLE.VC_COLOR
+
+## [v3.32.0] - 2026-06-02
+
+### 🆕 Added
+
+- add attachment delayed delivery date
+
+## [v3.31.2] - 2026-05-29
+
+### :arrows_counterclockwise: Changed
+
+- layout-voting-cards-political-attendee component: made print options always overwriteable by doi
+
+## [v3.31.1] - 2026-05-29
+
+### :arrows_counterclockwise: Changed
+
+- i18n: changed VOTING_CARD_SHIPPING_METHOD_2_ADDITION to VOTING_CARD_SHIPPING_METHOD_2_HINT
+- generate-voting-card.component: added hint for stepInfo.domainOfInfluence.printData.shippingMethod === 2
+
+## [v3.31.0] - 2026-05-15
+
+### :new: Added
+
+- i18n: VOTING_CARD_SHIPPING_METHOD_2_ADDITION
+
+### :arrows_counterclockwise: Changed
+
+- generate-voting-cards.components.html: show extended hint for shipping mehtod 2 (PrintingPackagingShippingToMunicipality)
+
+## [v3.30.1] - 2026-05-06
+
+### 🔄 Changed
+
+- change sg theme to schalter-e
 
 ## [v3.30.0] - 2026-05-04
 

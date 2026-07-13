@@ -1,0 +1,15 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+.chip {
+  border-radius: 15px;
+  padding: 4px 8px;
+  background-color: $color-surface-bg-neutral-dim;
+
+  &.warning {
+    background-color: $color-signal-error-light;
+  }
+
+  &.success {
+    background-color: $color-signal-success-light;
+  }
+}

@@ -43,14 +43,7 @@ export class ContestVotingCardLayoutService {
 
   public async setLayout(contestId: string, layout: ContestVotingCardLayout): Promise<void> {
     await firstValueFrom(
-      this.client.setLayout(
-        new SetContestVotingCardLayoutRequest({
-          ...layout,
-          contestId,
-          templateId: layout.template!.id,
-          color: layout.color,
-        }),
-      ),
+      this.client.setLayout(new SetContestVotingCardLayoutRequest({ ...layout, templateId: layout.template!.id, contestId })),
     );
   }
 }

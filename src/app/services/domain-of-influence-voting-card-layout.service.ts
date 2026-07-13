@@ -89,7 +89,6 @@ export class DomainOfInfluenceVotingCardLayoutService {
           ...layout,
           domainOfInfluenceId,
           templateId: (layout.domainOfInfluenceTemplate?.id ?? 0 > 0) ? { value: layout.domainOfInfluenceTemplate!.id } : undefined,
-          color: layout.domainOfInfluenceColor,
         }),
       ),
     );
@@ -102,7 +101,6 @@ export class DomainOfInfluenceVotingCardLayoutService {
           ...layout,
           domainOfInfluenceId,
           templateId: (layout.overriddenTemplate?.id ?? 0 > 0) ? { value: layout.overriddenTemplate!.id } : undefined,
-          color: layout.overriddenColor,
         }),
       ),
     );

@@ -1,0 +1,23 @@
+<vo-lib-dialog [header]="'ATTACHMENT.DELAYED_DELIVERY_DATE_DIALOG.TITLE' | translate" (dialogClose)="done()">
+  <div content>
+    <bc-date
+      [label]="'ATTACHMENT.DELAYED_DELIVERY_DATE' | translate"
+      [value]="delayedDeliveryDate"
+      (valueChange)="updateDelayedDeliveryDate($event)"
+      [required]="true"
+      [error]="!validDelayedDeliveryDate"
+      [hint]="validDelayedDeliveryDate ? '' : ('ATTACHMENT.DELAYED_DELIVERY_DATE_DIALOG.INVALID_DELAYED_DELIVERY_DATE_ERROR' | translate)"
+      [subscriptSizing]="'dynamic'"
+    ></bc-date>
+
+    <app-button-bar
+      footer
+      [saving]="saving"
+      [canSave]="validDelayedDeliveryDate"
+      [hasDeleteButton]="canDelete"
+      (save)="save(delayedDeliveryDate)"
+      (delete)="save(undefined)"
+      (cancelEvent)="done()"
+    ></app-button-bar>
+  </div>
+</vo-lib-dialog>

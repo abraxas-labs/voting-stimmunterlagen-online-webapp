@@ -22,20 +22,6 @@
           ></bc-dropdown>
         </div>
         <div>
-          <bc-dropdown
-            [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.LAYOUT_COLOR' | translate"
-            class="w-full mt-1"
-            [items]="votingCardColors"
-            displayExpr="description"
-            valueExpr="value"
-            [value]="layout.layout.color"
-            [ngModel]="layout.layout.color"
-            [required]="true"
-            [disabled]="!canEdit"
-            (ngModelChange)="updateColor(layout, $event)"
-          ></bc-dropdown>
-        </div>
-        <div>
           <bc-checkbox
             [label]="'STEP_LAYOUT_VOTING_CARDS_CONTEST_MANAGER.ALLOW_CUSTOM' | translate"
             [disabled]="stepInfo.state.approved"

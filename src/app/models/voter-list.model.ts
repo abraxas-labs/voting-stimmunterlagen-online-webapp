@@ -57,6 +57,8 @@ export function newVoterListWithEmptyVotingCards(
     lastUpdate: domainOfInfluence.lastCountOfEmptyVotingCardsUpdate!,
     politicalBusinessIds,
     source: VoterListSource.VOTER_LIST_SOURCE_UNSPECIFIED,
+    sendVotingCardsToDomainOfInfluenceReturnAddress: true,
+    autoSendVotingCardsToDomainOfInfluenceReturnAddressSplit: false,
   };
 }
 

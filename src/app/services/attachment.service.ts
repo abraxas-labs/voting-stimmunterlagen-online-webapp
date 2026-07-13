@@ -20,6 +20,7 @@ import {
   ListDomainOfInfluenceAttachmentCountsRequest,
   GetAttachmentsProgressRequest,
   IdValueRequest,
+  UpdateAttachmentDelayedDeliveryDateRequest,
 } from '@abraxas/voting-stimmunterlagen-proto';
 import { Injectable, inject } from '@angular/core';
 import { Timestamp } from '@ngx-grpc/well-known-types';
@@ -173,6 +174,17 @@ export class AttachmentService {
         new SetAttachmentStationRequest({
           id,
           station,
+        }),
+      ),
+    );
+  }
+
+  public updateDelayedDeliveryDate(id: string, delayedDeliveryDate?: Date) {
+    return firstValueFrom(
+      this.client.updateDelayedDeliveryDate(
+        new UpdateAttachmentDelayedDeliveryDateRequest({
+          id,
+          delayedDeliveryDate: delayedDeliveryDate ? Timestamp.fromDate(delayedDeliveryDate) : undefined,
         }),
       ),
     );

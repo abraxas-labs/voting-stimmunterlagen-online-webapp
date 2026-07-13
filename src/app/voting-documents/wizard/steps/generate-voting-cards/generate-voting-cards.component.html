@@ -63,5 +63,8 @@
       label="STEP_GENERATE_VOTING_CARDS.SHIPPING_METHOD"
       [content]="'VOTING_CARD_SHIPPING_METHOD.' + stepInfo.domainOfInfluence.printData.shippingMethod"
     ></app-wizard-sidebar-info>
+    @if (stepInfo.domainOfInfluence.printData.shippingMethod === 2) {
+      <app-wizard-sidebar-hint [hint]="'VOTING_CARD_SHIPPING_METHOD_2_HINT'"></app-wizard-sidebar-hint>
+    }
   }
 </app-wizard-sidebar>

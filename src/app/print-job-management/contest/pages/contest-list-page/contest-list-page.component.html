@@ -8,6 +8,7 @@
         [tableData]="contests"
         [displayDomainOfInfluenceDetails]="true"
         [defaultSorting]="sorting"
+        [pagingEnabled]="false"
         (openDetail)="open($event)"
       ></app-contest-table>
       <h2 class="mt-5">{{ 'CONTEST.LIST_TITLE_PAST' | translate }}</h2>
@@ -15,6 +16,7 @@
         [tableData]="pastContests"
         [displayDomainOfInfluenceDetails]="true"
         (openDetail)="open($event)"
+        (pageChange)="loadPastContests($event)"
       ></app-contest-table>
     } @else {
       <bc-spinner size="large"></bc-spinner>

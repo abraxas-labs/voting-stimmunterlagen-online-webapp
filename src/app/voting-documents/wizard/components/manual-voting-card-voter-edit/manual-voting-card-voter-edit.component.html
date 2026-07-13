@@ -6,7 +6,7 @@
       [required]="options.includePersonId"
       name="personId"
       [(ngModel)]="voterValue.personId"
-      [disabled]="disabled"
+      [disabled]="disabled || !options.includePersonId"
     ></bc-masked>
 
     <bc-dropdown
@@ -56,18 +56,19 @@
       [required]="options.includeDateOfBirth"
       [error]="!dateOfBirthIsValid"
       [subscriptSizing]="'dynamic'"
-      [disabled]="disabled"
+      [disabled]="disabled || !options.includeDateOfBirth"
     ></bc-date>
     <bc-dropdown
       [label]="'VOTER.RELIGION' | translate"
       [error]="!religionIsValid"
+      [(value)]="voterValue.religion"
       valueExpr="value"
       displayExpr="description"
       [clearable]="true"
       [items]="religions"
       (valueChange)="updateReligionCode($event)"
       [subscriptSizing]="'dynamic'"
-      [disabled]="disabled"
+      [disabled]="disabled || !options.includeReligion"
     ></bc-dropdown>
   </div>
 
@@ -79,7 +80,7 @@
       name="domainOfInfluencesChurch"
       [(ngModel)]="voterValue.domainOfInfluenceIdentificationChurch"
       [subscriptSizing]="'dynamic'"
-      [disabled]="disabled"
+      [disabled]="disabled || !options.includeDomainOfInfluenceChurch"
     ></bc-text>
     <bc-text
       [label]="'VOTER.DOMAIN_OF_INFLUENCES_SCHOOL' | translate"
@@ -88,7 +89,7 @@
       name="domainOfInfluencesSchool"
       [(ngModel)]="voterValue.domainOfInfluenceIdentificationSchool"
       [subscriptSizing]="'dynamic'"
-      [disabled]="disabled"
+      [disabled]="disabled || !options.includeDomainOfInfluenceSchool"
     ></bc-text>
   </div>
 
@@ -155,7 +156,7 @@
         name="isHouseholder"
         [(ngModel)]="voterValue.isHouseholder"
         subscriptSizing="dynamic"
-        [disabled]="disabled"
+        [disabled]="disabled || !options.includeIsHouseholder"
       ></bc-checkbox>
     }
   </div>

@@ -27,6 +27,7 @@ export interface Attachment extends Omit<
   | 'domainOfInfluence'
   | 'deliveryPlannedOn'
   | 'deliveryReceivedOn'
+  | 'delayedDeliveryDate'
   | 'domainOfInfluenceAttachmentRequiredCount'
   | 'domainOfInfluenceAttachmentRequiredForVoterListsCount'
   | 'station'
@@ -34,6 +35,7 @@ export interface Attachment extends Omit<
   domainOfInfluence: DomainOfInfluence;
   deliveryPlannedOn?: Date;
   deliveryReceivedOn?: Date;
+  delayedDeliveryDate?: Date;
   checkablePoliticalBusinesses: CheckableItems<PoliticalBusiness>;
   domainOfInfluenceAttachmentRequiredCount?: number;
   domainOfInfluenceAttachmentRequiredForVoterListsCount?: number;
@@ -98,6 +100,7 @@ export function mapAttachment(attachmentProto: AttachmentProto): Attachment {
     station: attachmentProto.station?.value,
     deliveryPlannedOn: attachmentProto.deliveryPlannedOn?.toDate(),
     deliveryReceivedOn: attachmentProto.deliveryReceivedOn?.toDate(),
+    delayedDeliveryDate: attachmentProto.delayedDeliveryDate?.toDate(),
     domainOfInfluence: attachmentProto.domainOfInfluence?.toObject() as DomainOfInfluence,
     // will be assigned per doi attachments builder
     checkablePoliticalBusinesses: {} as CheckableItems<PoliticalBusiness>,

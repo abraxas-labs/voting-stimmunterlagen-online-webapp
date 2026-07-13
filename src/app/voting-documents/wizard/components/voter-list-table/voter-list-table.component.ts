@@ -9,7 +9,7 @@ import { CheckableItem } from '../../../../models/checkable-item.model';
 import { PoliticalBusiness } from '../../../../models/political-business.model';
 import { DomainOfInfluenceVoterLists, VoterList } from '../../../../models/voter-list.model';
 import { DialogService } from '../../../../services/dialog.service';
-import { flatten, groupBy, groupBySingle, sum } from '../../../../services/utils/array.utils';
+import { distinct, flatten, groupBy, groupBySingle, sum } from '../../../../services/utils/array.utils';
 import { VoterListService } from '../../../../services/voter-list.service';
 import { VoterListUploadEditDialogComponent } from '../../dialogs/voter-list-upload-edit-dialog/voter-list-upload-edit-dialog.component';
 import { VoterListSource } from '@abraxas/voting-stimmunterlagen-proto';
@@ -49,6 +49,8 @@ export class VoterListTableComponent {
 
   public isElectoralRegistrationEnabled = false;
   public showNumberOfVotingCards = false;
+  public showVotingCardType = false;
+  public countOfEmptyRowsLastCol = 0;
   public numberOfVotersBorderVariant = '';
 
   @Input()
@@ -72,6 +74,8 @@ export class VoterListTableComponent {
     this.domainOfInfluenceVoterListsValue = v;
     this.isElectoralRegistrationEnabled = v.domainOfInfluence.electoralRegistrationEnabled && environment.isElectoralRegistrationEnabled;
     this.showNumberOfVotingCards = v.domainOfInfluence.electoralRegisterMultipleEnabled;
+    this.showVotingCardType = distinct(v.voterLists.map(vl => vl.votingCardType)).length > 1;
+    this.countOfEmptyRowsLastCol = this.showVotingCardType ? 5 : 4;
     this.numberOfVotersBorderVariant = this.showNumberOfVotingCards ? 'default' : 'bold';
     this.recalculateNumberOfVotersAndGridStyle();
   }
@@ -146,7 +150,7 @@ export class VoterListTableComponent {
     }
 
     voterList.checkablePoliticalBusinesses.updateChecked(checkablePoliticalBusiness, checked);
-    this.recalculateNumberOfVotersAndGridStyle();
+    this.voterListsChange.emit();
   }
 
   private async createOrEdit(voterListImport: VoterListImport): Promise<void> {
@@ -159,6 +163,7 @@ export class VoterListTableComponent {
       domainOfInfluence: this.domainOfInfluenceVoterLists.domainOfInfluence,
       politicalBusinesses: this.domainOfInfluenceVoterLists.countOfVotingCards.map(n => n.politicalBusiness),
       isPoliticalAssembly: this.stepInfo.contest.isPoliticalAssembly,
+      contestDate: this.stepInfo.contest.date,
     };
 
     const dialogType: ComponentType<VoterListUploadEditDialogComponent | VoterListElectoralRegisterEditDialogComponent> =
@@ -176,24 +181,6 @@ export class VoterListTableComponent {
 
   private recalculateNumberOfVotersAndGridStyle(): void {
     this.gridTemplateItemsDirectionStyle = `repeat(${this.domainOfInfluenceVoterLists.voterLists.length + 1}, 1fr) minmax(5rem, auto)`;
-
-    const numberOfVotersListByPbId = groupBy(
-      flatten(
-        this.domainOfInfluenceVoterLists.voterLists.map(x =>
-          x.checkablePoliticalBusinesses.items.map(cpb => ({
-            countOfVotingCards: cpb.checked ? x.countOfVotingCards : 0,
-            pbId: cpb.item.id,
-          })),
-        ),
-      ),
-      x => x.pbId,
-    );
-
-    for (const [pbId, numberOfVotersList] of Object.entries(numberOfVotersListByPbId)) {
-      const pbCountOfVotingCards = this.domainOfInfluenceVoterLists.countOfVotingCards.find(n => n.politicalBusiness.id === pbId)!;
-      pbCountOfVotingCards.countOfVotingCards = sum(numberOfVotersList, x => x.countOfVotingCards);
-    }
-
     this.domainOfInfluenceVoterLists.totalNumberOfVoters = sum(this.domainOfInfluenceVoterLists.voterLists, x => x.numberOfVoters);
     // explicit cd trigger, since cd does not work for single objects in arrays.
     this.domainOfInfluenceVoterLists.countOfVotingCards = [...this.domainOfInfluenceVoterLists.countOfVotingCards];
