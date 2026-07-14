@@ -1,4 +1,4 @@
-# ✨ Changelog (`v3.35.2`)
+# ✨ Changelog (`v3.35.3`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v3.35.2
-Previous version ---- v3.30.0
+This version -------- v3.35.3
+Previous version ---- v3.35.2
 Initial version ----- v2.1.0
-Total commits ------- 21
+Total commits ------- 1
 ```
+
+## [v3.35.3] - 2026-07-14
+
+### 🔄 Changed
+
+- update voting lib and base components
 
 ## [v3.35.2] - 2026-07-08
 
