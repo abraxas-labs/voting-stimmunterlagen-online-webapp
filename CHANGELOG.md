@@ -1,4 +1,4 @@
-# ✨ Changelog (`v3.35.3`)
+# ✨ Changelog (`v3.36.1`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v3.35.3
-Previous version ---- v3.35.2
+This version -------- v3.36.1
+Previous version ---- v3.35.3
 Initial version ----- v2.1.0
-Total commits ------- 1
+Total commits ------- 3
 ```
+
+## [v3.36.1] - 2026-07-23
+
+### 🔄 Changed
+
+- fix manual voting card print page
+
+## [v3.36.0] - 2026-07-22
+
+### 🆕 Added
+
+- support custom header color
+
+## [v3.35.4] - 2026-07-22
+
+### 🔄 Changed
+
+- increase default page size to 50
 
 ## [v3.35.3] - 2026-07-14
 

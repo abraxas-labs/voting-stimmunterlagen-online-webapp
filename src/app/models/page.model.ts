@@ -23,7 +23,7 @@ export interface Pageable {
 
 export const defaultPageable: Pageable = {
   page: 1,
-  pageSize: 10,
+  pageSize: 50,
 };
 
 export function emptyPage<T>(): Page<T> {

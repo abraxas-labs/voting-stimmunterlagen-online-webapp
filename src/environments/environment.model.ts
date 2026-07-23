@@ -18,6 +18,7 @@ export interface Environment extends TenantConfig, UserConfig, AuthorizationConf
   dmDocBaseUrl: string;
   isElectoralRegistrationEnabled: boolean;
   includeDelegations: boolean;
+  customHeaderColor?: string;
 }
 
 export function buildScope(...clientIds: string[]): string {

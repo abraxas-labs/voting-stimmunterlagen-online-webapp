@@ -20,6 +20,7 @@ import 'moment/locale/de';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { filter } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public theme?: string;
   public customLogo?: string;
   public appTitle: string = '';
+  public customHeaderColor?: string;
 
   @ViewChild('snackbar')
   public snackbarComponent?: SnackbarComponent;
@@ -55,6 +57,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // enable automatic silent refresh
     this.oauthService.setupAutomaticSilentRefresh({}, 'access_token');
+
+    this.customHeaderColor = environment.customHeaderColor;
 
     const snackbarSubscription = snackbarService.message$.subscribe(m => {
       if (!this.snackbarComponent) {

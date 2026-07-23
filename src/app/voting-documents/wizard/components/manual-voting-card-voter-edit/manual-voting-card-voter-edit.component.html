@@ -3,10 +3,10 @@
   <div class="form-group">
     <bc-masked
       [label]="'VOTER.PERSON_ID' | translate"
-      [required]="options.includePersonId"
+      [required]="configuration.includePersonId"
       name="personId"
       [(ngModel)]="voterValue.personId"
-      [disabled]="disabled || !options.includePersonId"
+      [disabled]="disabled || !configuration.includePersonId"
     ></bc-masked>
 
     <bc-dropdown
@@ -53,10 +53,10 @@
       [label]="'VOTER.DATE_OF_BIRTH' | translate"
       [value]="dateOfBirth"
       (valueChange)="updateDateOfBirth($event)"
-      [required]="options.includeDateOfBirth"
+      [required]="configuration.includeDateOfBirth"
       [error]="!dateOfBirthIsValid"
       [subscriptSizing]="'dynamic'"
-      [disabled]="disabled || !options.includeDateOfBirth"
+      [disabled]="disabled || !configuration.includeDateOfBirth"
     ></bc-date>
     <bc-dropdown
       [label]="'VOTER.RELIGION' | translate"
@@ -68,7 +68,7 @@
       [items]="religions"
       (valueChange)="updateReligionCode($event)"
       [subscriptSizing]="'dynamic'"
-      [disabled]="disabled || !options.includeReligion"
+      [disabled]="disabled || !configuration.includeReligion"
     ></bc-dropdown>
   </div>
 
@@ -76,20 +76,20 @@
     <bc-text
       [label]="'VOTER.DOMAIN_OF_INFLUENCES_CHURCH' | translate"
       [maxlength]="100"
-      [required]="options.includeDomainOfInfluenceChurch"
+      [required]="configuration.includeDomainOfInfluenceChurch"
       name="domainOfInfluencesChurch"
       [(ngModel)]="voterValue.domainOfInfluenceIdentificationChurch"
       [subscriptSizing]="'dynamic'"
-      [disabled]="disabled || !options.includeDomainOfInfluenceChurch"
+      [disabled]="disabled || !configuration.includeDomainOfInfluenceChurch"
     ></bc-text>
     <bc-text
       [label]="'VOTER.DOMAIN_OF_INFLUENCES_SCHOOL' | translate"
       [maxlength]="100"
-      [required]="options.includeDomainOfInfluenceSchool"
+      [required]="configuration.includeDomainOfInfluenceSchool"
       name="domainOfInfluencesSchool"
       [(ngModel)]="voterValue.domainOfInfluenceIdentificationSchool"
       [subscriptSizing]="'dynamic'"
-      [disabled]="disabled || !options.includeDomainOfInfluenceSchool"
+      [disabled]="disabled || !configuration.includeDomainOfInfluenceSchool"
     ></bc-text>
   </div>
 
@@ -147,16 +147,16 @@
       subscriptSizing="dynamic"
       [disabled]="disabled"
     ></bc-checkbox>
-    @if (options.includeIsHouseholder) {
+    @if (configuration.includeIsHouseholder) {
       <bc-checkbox
         class="mb-2"
         [label]="'VOTER.HOUSEHOLD' | translate"
-        [required]="options.includeIsHouseholder"
+        [required]="configuration.includeIsHouseholder"
         [checked]="voterValue.isHouseholder"
         name="isHouseholder"
         [(ngModel)]="voterValue.isHouseholder"
         subscriptSizing="dynamic"
-        [disabled]="disabled || !options.includeIsHouseholder"
+        [disabled]="disabled || !configuration.includeIsHouseholder"
       ></bc-checkbox>
     }
   </div>
@@ -192,7 +192,8 @@
         [label]="'VOTER.ZIP_FOREIGNER' | translate"
         [required]="true"
         name="zipForeigner"
-        [(ngModel)]="voterValue.foreignZipCode"
+        [ngModel]="voterValue.foreignZipCode"
+        (ngModelChange)="updateForeignZipCode($event)"
         [subscriptSizing]="'dynamic'"
         [disabled]="disabled"
       ></bc-text>

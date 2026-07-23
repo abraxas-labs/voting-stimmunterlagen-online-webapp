@@ -6,6 +6,7 @@
   window['config'].ENV = '${ENV}';
   window['config'].ISSUER = '${ISSUER}';
   window['config'].DMDOC_BASE = '${DMDOC_BASE}';
+  window['config'].CUSTOM_HEADER_COLOR = '${CUSTOM_HEADER_COLOR}';
   window['config'].IS_ELECTORAL_REGISTRATION_ENABLED = '${IS_ELECTORAL_REGISTRATION_ENABLED}';
 
   let AUDIENCE_CLIENT_IDS = ['${SC_SERVICE_NAME}', '${SC_SERVICE_NAME_IDENTITY}', '${SC_SERVICE_NAME_PERMISSION}'];
